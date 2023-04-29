@@ -2,10 +2,12 @@
 //Don't change the class name
 public class Container{
 	private Point data;//Don't delete or change this field;
-	private YNode yNode;
+	private Node xNode;
+	private Node yNode;
 
-	public Container(Point p, YNode yNode){
+	public Container(Point p, Node xNode, Node yNode){
 		this.data = p;
+		this.xNode = xNode;
 		this.yNode = yNode;
 	}
 	
@@ -15,7 +17,11 @@ public class Container{
 		return data;
 	}
 
-	public YNode getYNode(){
+	public Node getXNode(){
+		return xNode;
+	}
+	
+	public Node getYNode(){
 		return yNode;
 	}
 }

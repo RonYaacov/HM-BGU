@@ -2,15 +2,15 @@ import java.util.LinkedList;
 
 public class DataStructure implements DT {
 	
-	private LinkedList<XNode> xList;
-	private LinkedList<YNode> yList;
+	private LinkedList<Node> xList;
+	private LinkedList<Node> yList;
 	private int pointsCounter;
 
 	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public DataStructure()
 	{
-		this.xList = new LinkedList<XNode>();
-		this.yList = new LinkedList<YNode>();
+		this.xList = new LinkedList<Node>();
+		this.yList = new LinkedList<Node>();
 		this.pointsCounter = 0;
 	}
 
@@ -44,7 +44,7 @@ public class DataStructure implements DT {
 
 	@Override
 	public void narrowRange(int min, int max, Boolean axis) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

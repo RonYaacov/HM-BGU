@@ -1,14 +1,14 @@
 import java.util.HashMap;
 
-public class XNode {
-    private int x;
+public class Node {
+    private int data;
     private HashMap<Integer, Container> map;
-    private XNode next;
-    private XNode prev;
+    private Node next;
+    private Node prev;
     
-    public XNode(int x, Container container, XNode next, XNode prev){
+    public Node(int data, Container container, Node next, Node prev){
         this.map = new HashMap<Integer, Container>();
-        this.x = x;
+        this.data = data;
         this.next = next;
         this.prev = prev;
         int y =container.getData().getY(); 
@@ -20,12 +20,12 @@ public class XNode {
     }
 
     public int getData(){
-        return x;
+        return data;
     }
-    public XNode getNext(){
+    public Node getNext(){
         return next;
     }
-    public XNode getPrev(){
+    public Node getPrev(){
         return prev;
     }
 }
