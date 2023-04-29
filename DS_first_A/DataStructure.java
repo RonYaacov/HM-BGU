@@ -1,6 +1,9 @@
+import java.util.LinkedList;
 
 public class DataStructure implements DT {
-
+	
+	private LinkedList<XNode> xList;
+	private LinkedList<YNode> yList;
 
 	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public DataStructure()
