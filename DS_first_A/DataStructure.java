@@ -1,5 +1,6 @@
 import java.security.KeyStore.Entry;
 import java.util.AbstractMap;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -106,8 +107,23 @@ public class DataStructure implements DT {
 
 	@Override
 	public Container getMedian(Boolean axis) {
-		// TODO Auto-generated method stub
-		return null;
+
+		LinkedList<Node> list;
+		if(axis)list = xList;
+		else list=yList;
+		Node fast = list.getFirst(); 
+		Node slow = list.getFirst();
+		while(slow.getNext() != null && fast.getNext()!= null &&  fast.getNext().getNext() != null){
+			slow = slow.getNext();
+			fast = fast.getNext().getNext();
+		}
+		if(fast.getNext() != null) slow = slow.getNext();
+		Collection<Map.Entry<Integer, Container>> set =  slow.getContainers().entrySet();
+		for(Map.Entry<Integer,Container> c : set){
+			return c.getValue();//gets a random container in the midian set of containers
+			
+		}
+		return null;//if the hashmap is of size 0 it will return null but it never happens do to our implementation
 	}
 
 	@Override
