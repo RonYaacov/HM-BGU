@@ -1,4 +1,7 @@
+import java.security.KeyStore.Entry;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class DataStructure implements DT {
 	
@@ -44,8 +47,60 @@ public class DataStructure implements DT {
 
 	@Override
 	public void narrowRange(int min, int max, Boolean axis) {
+		Node current;
+		LinkedList<Node> list;
+		if(axis){
+			list = xList;
+		}
+		else{
+			list = yList;
+		}
+		//from max to -inf
+		current = list.getLast();
+		while(current.getData()> max && current != null){
+			clearMapForNerrowRange(current, axis);
+			current = current.getPrev();
+			list.removeLast();	
+		}
+		//from -inf to min
+		current = list.getFirst();
+		while(current.getData()< min && current != null){
+			clearMapForNerrowRange(current, axis);
+			current = current.getNext();
+			list.removeFirst();
+		}
+
+			
+	}
+	
 		
-		
+	
+	private void clearMapForNerrowRange(Node current, Boolean axis){
+		HashMap<Integer, Container> containers = current.getContainers(); 
+		pointsCounter -= containers.size();
+		for (Map.Entry<Integer,Container> e : containers.entrySet()) {
+			Container c = e.getValue();
+			Node other;
+			if(axis){
+				other = c.getYNode();
+			}
+			else{
+				other = c.getXNode();
+			}
+			Node otherNext = other.getNext();
+			Node otherPrev = other.getPrev();
+			if(otherNext != null && otherPrev != null){
+				otherNext.setPrev(otherPrev);
+				otherPrev.setNext(otherNext);
+			}
+			else if(otherNext != null){
+				otherNext.setPrev(null);
+			}
+			else{
+				otherPrev.setNext(null);
+			}
+		}
+				
 	}
 
 	@Override

@@ -19,6 +19,10 @@ public class Node {
         map.put(y,c);
     }
 
+    public HashMap<Integer, Container> getContainers(){
+        return map;
+    }
+
     public int getData(){
         return data;
     }
@@ -27,5 +31,12 @@ public class Node {
     }
     public Node getPrev(){
         return prev;
+    }
+
+    public void setPrev(Node prev){
+        this.prev = prev;
+    }
+    public void setNext(Node next){
+        this.next = next;
     }
 }
