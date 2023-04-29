@@ -4,11 +4,14 @@ public class DataStructure implements DT {
 	
 	private LinkedList<XNode> xList;
 	private LinkedList<YNode> yList;
+	private int pointsCounter;
 
 	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public DataStructure()
 	{
-		//TODO
+		this.xList = new LinkedList<XNode>();
+		this.yList = new LinkedList<YNode>();
+		this.pointsCounter = 0;
 	}
 
 	@Override
@@ -31,7 +34,9 @@ public class DataStructure implements DT {
 
 	@Override
 	public double getDensity() {
-		// TODO Auto-generated method stub
+		int numberOfPoints = Math.max(xList.size(),yList.size());
+
+
 		return 0;
 	}
 
