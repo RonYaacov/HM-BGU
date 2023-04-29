@@ -34,10 +34,12 @@ public class DataStructure implements DT {
 
 	@Override
 	public double getDensity() {
-		int numberOfPoints = Math.max(xList.size(),yList.size());
+		int xMin = xList.getFirst().getData();
+		int yMin = yList.getFirst().getData();
+		int xMax = xList.getLast().getData();
+		int yMax = xList.getLast().getData();
+		return pointsCounter/((xMax-xMin)*(yMax-yMin));
 
-
-		return 0;
 	}
 
 	@Override
