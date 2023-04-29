@@ -1,7 +1,9 @@
 import java.security.KeyStore.Entry;
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
 
 public class DataStructure implements DT {
 	
@@ -37,11 +39,8 @@ public class DataStructure implements DT {
 
 	@Override
 	public double getDensity() {
-		int xMin = xList.getFirst().getData();
-		int yMin = yList.getFirst().getData();
-		int xMax = xList.getLast().getData();
-		int yMax = xList.getLast().getData();
-		return pointsCounter/((xMax-xMin)*(yMax-yMin));
+		SimpleEntry<Integer, Integer> sizes = getAxisSizes();
+		return pointsCounter/((sizes.getKey())*(sizes.getValue()));
 
 	}
 
@@ -68,12 +67,8 @@ public class DataStructure implements DT {
 			clearMapForNerrowRange(current, axis);
 			current = current.getNext();
 			list.removeFirst();
-		}
-
-			
+		}	
 	}
-	
-		
 	
 	private void clearMapForNerrowRange(Node current, Boolean axis){
 		HashMap<Integer, Container> containers = current.getContainers(); 
@@ -105,8 +100,8 @@ public class DataStructure implements DT {
 
 	@Override
 	public Boolean getLargestAxis() {
-		// TODO Auto-generated method stub
-		return null;
+		SimpleEntry<Integer, Integer> sizes = getAxisSizes();
+		return (sizes.getKey())>(sizes.getValue());
 	}
 
 	@Override
@@ -126,7 +121,14 @@ public class DataStructure implements DT {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	private SimpleEntry<Integer,Integer> getAxisSizes(){
+		int xMin = xList.getFirst().getData();
+		int yMin = yList.getFirst().getData();
+		int xMax = xList.getLast().getData();
+		int yMax = xList.getLast().getData();
+		return new SimpleEntry<Integer,Integer>((xMax-xMin),(yMax-yMin));
 
+	}
 	
 	//TODO: add members, methods, etc.
 	
