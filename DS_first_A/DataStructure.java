@@ -67,6 +67,7 @@ public class DataStructure implements DT {
 		if(axis)list = xList;
 		else list = yList;
 		Node current = list.getFirst();
+		if(current == null) return new Point[0];
 		while(current.getData() < min && current != null)
 			current = current.getNext();
 		if(current == null){
@@ -85,8 +86,23 @@ public class DataStructure implements DT {
 
 	@Override
 	public Point[] getPointsInRangeOppAxis(int min, int max, Boolean axis) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Container> arrList = new ArrayList<Container>();
+		LinkedList<Node> list;
+		if(!axis)list = xList;
+		else list = yList;
+		Node current = list.getFirst();
+		if(current == null) return new Point[0];
+		while(current != null){
+			arrList.addAll(current.getContainersMap().values());//constent time for HashMap.values()
+			current = current.getNext();
+		}
+		List<Point> fillter = new ArrayList<Point>();
+		for(Container c : arrList){
+			if(c.getXNode().getData() <= max && c.getXNode().getData() >= min){
+				fillter.add(c.getData());
+			}
+		}
+		return (Point[])fillter.toArray();
 	}
 
 	@Override
@@ -123,7 +139,7 @@ public class DataStructure implements DT {
 	}
 	
 	private void clearMapForNerrowRange(Node current, Boolean axis){
-		HashMap<Integer, Container> containers = current.getContainersMap(); 
+		Map<Integer, Container> containers = current.getContainersMap(); 
 		pointsCounter -= containers.size();
 		for (Map.Entry<Integer,Container> e : containers.entrySet()) {
 			Container c = e.getValue();

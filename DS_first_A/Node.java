@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class Node {
     private int data;
@@ -19,7 +20,7 @@ public class Node {
         map.put(y,c);
     }
 
-    public HashMap<Integer, Container> getContainersMap(){
+    public Map<Integer, Container> getContainersMap(){
         return map;
     }
 
