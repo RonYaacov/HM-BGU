@@ -22,8 +22,42 @@ public class DataStructure implements DT {
 
 	@Override
 	public void addPoint(Point point) {
-		// TODO Auto-generated method stub
-		
+		Container c = new Container(point, null, null);
+		Node xNode = new Node(point.getX(), c, null, null);
+		Node yNode = new Node(point.getY(), c, null, null);
+		c.setXNode(xNode);
+		c.setYNode(yNode);
+		xNode.addContainer(c);
+		yNode.addContainer(c);
+		addNodeToList(xList, xNode);
+		addNodeToList(yList, yNode);
+		pointsCounter++;	
+	}
+	
+	private void addNodeToList(LinkedList<Node> list, Node n){
+		Node current = list.getFirst();
+		if(current == null){
+			list.add(n);
+			return;
+		}
+		while((n.getData() > current.getData()) && (current.getNext() != null)){
+			current = current.getNext();
+		}
+		if(n.getData() < current.getData()){
+			if(current.getPrev() == null){
+				current.setPrev(n);
+				n.setNext(current);
+				return;
+			}
+			Node prev = current.getPrev();
+			prev.setNext(n);
+			current.setPrev(n);
+			n.setNext(current);
+			n.setPrev(prev);
+			return;
+		}
+		current.setNext(n);
+		n.setPrev(current);
 	}
 
 	@Override

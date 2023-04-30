@@ -20,7 +20,12 @@ public class Container{
 	public Node getXNode(){
 		return xNode;
 	}
-	
+	public void setXNode(Node xNode){
+		this.xNode = xNode;
+	}
+	public void setYNode(Node yNode){
+		this.yNode = yNode;
+	}
 	public Node getYNode(){
 		return yNode;
 	}
