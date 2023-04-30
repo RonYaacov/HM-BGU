@@ -1,8 +1,8 @@
-import java.security.KeyStore.Entry;
-import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 
@@ -33,7 +33,7 @@ public class DataStructure implements DT {
 		addNodeToList(yList, yNode);
 		pointsCounter++;	
 	}
-	
+
 	private void addNodeToList(LinkedList<Node> list, Node n){
 		Node current = list.getFirst();
 		if(current == null){
@@ -62,8 +62,25 @@ public class DataStructure implements DT {
 
 	@Override
 	public Point[] getPointsInRangeRegAxis(int min, int max, Boolean axis) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Container> arrList = new ArrayList<Container>();
+		LinkedList<Node> list;
+		if(axis)list = xList;
+		else list = yList;
+		Node current = list.getFirst();
+		while(current.getData() < min && current != null)
+			current = current.getNext();
+		if(current == null){
+			return new Point[0];
+		}
+		while(current.getData() >= min && current.getData() <= max && current != null){
+			arrList.addAll(current.getContainersMap().values());
+			current = current.getNext();
+		}
+		Point[] result = new Point[arrList.size()];
+		for(int i=0;i<result.length; i++){
+			result[i] = arrList.get(i).getData();
+		}
+		return result;
 	}
 
 	@Override
