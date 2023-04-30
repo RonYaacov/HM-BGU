@@ -19,7 +19,7 @@ public class Node {
         map.put(y,c);
     }
 
-    public HashMap<Integer, Container> getContainers(){
+    public HashMap<Integer, Container> getContainersMap(){
         return map;
     }
 

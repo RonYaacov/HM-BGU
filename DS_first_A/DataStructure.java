@@ -72,7 +72,7 @@ public class DataStructure implements DT {
 	}
 	
 	private void clearMapForNerrowRange(Node current, Boolean axis){
-		HashMap<Integer, Container> containers = current.getContainers(); 
+		HashMap<Integer, Container> containers = current.getContainersMap(); 
 		pointsCounter -= containers.size();
 		for (Map.Entry<Integer,Container> e : containers.entrySet()) {
 			Container c = e.getValue();
@@ -118,7 +118,7 @@ public class DataStructure implements DT {
 			fast = fast.getNext().getNext();
 		}
 		if(fast.getNext() != null) slow = slow.getNext();
-		Collection<Map.Entry<Integer, Container>> set =  slow.getContainers().entrySet();
+		Collection<Map.Entry<Integer, Container>> set =  slow.getContainersMap().entrySet();
 		for(Map.Entry<Integer,Container> c : set){
 			return c.getValue();//gets a random container in the midian set of containers
 			
@@ -127,9 +127,37 @@ public class DataStructure implements DT {
 	}
 
 	@Override
-	public Point[] nearestPairInStrip(Container container, double width, Boolean axis) { // i changed the signachure of this method do to an error (int vs double) need to check in the forum if its ok !!!!!!!!!!
-		// TODO Auto-generated method stub
+	public Point[] nearestPairInStrip(Container container, double width, Boolean axis) {
+		// Point[] result = new Point[2];
+		// Node node;
+		// int selfPos;
+		// if(axis){
+		// 	node = container.getXNode();
+		// 	selfPos = container.getData().getX();
+		// }
+		// else{
+		// 	node = container.getYNode();
+		// 	selfPos = container.getData().getY();
+		// }	
+		// double sideWidth = width/2;
+		// Node next = node.getNext();
+		// Node prev = node.getPrev();
+		// if(next == null || prev == null)
+		// 	return result;
+		// if(!((next.getData() - selfPos <= sideWidth) || (selfPos - prev.getData()) < sideWidth))
+		// 	return result;
+		
+		// Point selfPoint = container.getData();
+		// int closestDis = Integer.MAX_VALUE;
+		// Container currentColser = null;
+		// Collection<Map.Entry<Integer, Container>> nextSet =  next.getContainersMap().entrySet();
+		// for(Map.Entry<Integer, Container> e : nextSet){
+		// 	Container c = e.getValue();
+			
+		// 	// i will return to it later... this method uses method thet need to be done before
+		// }
 		return null;
+		
 	}
 
 	@Override
@@ -143,6 +171,12 @@ public class DataStructure implements DT {
 		int xMax = xList.getLast().getData();
 		int yMax = xList.getLast().getData();
 		return new SimpleEntry<Integer,Integer>((xMax-xMin),(yMax-yMin));
+
+	}
+	private double getDis(Point point1, Point point2){
+		double xDis = Math.pow(point1.getX()-point2.getX(),2);
+		double yDis = Math.pow(point1.getY()-point2.getY(), 2);
+		return Math.sqrt(xDis+yDis);
 
 	}
 	
