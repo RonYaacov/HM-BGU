@@ -35,11 +35,11 @@ public class DataStructure implements DT {
 	
 
 	private Node addNodeToList(LinkedList<Node> list, Node n){
-		Node current = list.getFirst();
-		if(current == null){
+		if (list.size() == 0){
 			list.add(n);
 			return n;
 		}
+		Node current = list.getFirst();
 		while((n.getData() > current.getData()) && (current.getNext() != null)){
 			current = current.getNext();
 		}
