@@ -109,7 +109,11 @@ public class DataStructure implements DT {
 				fillter.add(c.getData());
 			}
 		}
-		return (Point[])fillter.toArray();
+		Point[] result = new Point[fillter.size()];
+		for(int i=0;i<result.length; i++){
+			result[i] = fillter.get(i);
+		}
+		return result;
 	}
 
 	@Override
