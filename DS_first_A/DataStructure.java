@@ -246,8 +246,10 @@ public class DataStructure implements DT {
 			
 		// 	// i will return to it later... this method uses method thet need to be done before
 		// }
-
-		return new Point[2];
+		Point[] result = new Point[2];
+		result[0] = container.getData();
+		result[1] = container.getData();
+		return result;
 		
 	}
 
