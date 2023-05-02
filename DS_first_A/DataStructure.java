@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,39 +24,43 @@ public class DataStructure implements DT {
 		Container c = new Container(point, null, null);
 		Node xNode = new Node(point.getX(), c, null, null);
 		Node yNode = new Node(point.getY(), c, null, null);
-		c.setXNode(xNode);
-		c.setYNode(yNode);
+		xNode = addNodeToList(xList, xNode);
+		yNode = addNodeToList(yList, yNode);
 		xNode.addContainer(c);
 		yNode.addContainer(c);
-		addNodeToList(xList, xNode);
-		addNodeToList(yList, yNode);
+		c.setXNode(xNode);
+		c.setYNode(yNode);
 		pointsCounter++;	
 	}
+	
 
-	private void addNodeToList(LinkedList<Node> list, Node n){
+	private Node addNodeToList(LinkedList<Node> list, Node n){
 		Node current = list.getFirst();
 		if(current == null){
 			list.add(n);
-			return;
+			return n;
 		}
 		while((n.getData() > current.getData()) && (current.getNext() != null)){
 			current = current.getNext();
 		}
+		if(n.getData() == current.getData())
+			return current;
 		if(n.getData() < current.getData()){
 			if(current.getPrev() == null){
 				current.setPrev(n);
 				n.setNext(current);
-				return;
+				return n;
 			}
 			Node prev = current.getPrev();
 			prev.setNext(n);
 			current.setPrev(n);
 			n.setNext(current);
 			n.setPrev(prev);
-			return;
+			return n;
 		}
 		current.setNext(n);
 		n.setPrev(current);
+		return n;
 	}
 
 	@Override
