@@ -203,7 +203,7 @@ public class DataStructure implements DT {
 		else list=yList;
 		Node fast = list.getFirst(); 
 		Node slow = list.getFirst();
-		while(slow.getNext() != null && fast.getNext()!= null &&  fast.getNext().getNext() != null){
+		while(slow.getNext() != null && fast.getNext()!= null &&  fast.getNext().getNext().getNext() != null){
 			slow = slow.getNext();
 			fast = fast.getNext().getNext();
 		}
