@@ -246,7 +246,8 @@ public class DataStructure implements DT {
 			
 		// 	// i will return to it later... this method uses method thet need to be done before
 		// }
-		return null;
+
+		return new Point[2];
 		
 	}
 
