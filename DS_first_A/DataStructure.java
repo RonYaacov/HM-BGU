@@ -40,8 +40,10 @@ public class DataStructure implements DT {
 			return n;
 		}
 		Node current = list.getFirst();
+		int i =0;
 		while((n.getData() > current.getData()) && (current.getNext() != null)){
 			current = current.getNext();
+			i++;
 		}
 		if(n.getData() == current.getData())
 			return current;
@@ -49,6 +51,7 @@ public class DataStructure implements DT {
 			if(current.getPrev() == null){
 				current.setPrev(n);
 				n.setNext(current);
+				list.addFirst(n);
 				return n;
 			}
 			Node prev = current.getPrev();
@@ -56,10 +59,12 @@ public class DataStructure implements DT {
 			current.setPrev(n);
 			n.setNext(current);
 			n.setPrev(prev);
+			list.add(i, n);
 			return n;
 		}
 		current.setNext(n);
 		n.setPrev(current);
+		list.addLast(n);
 		return n;
 	}
 
