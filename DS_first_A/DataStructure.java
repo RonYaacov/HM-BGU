@@ -69,14 +69,16 @@ public class DataStructure implements DT {
 		LinkedList<Node> list;
 		if(axis)list = xList;
 		else list = yList;
+		if(list.size() == 0){
+			return new Point[0];
+		}
 		Node current = list.getFirst();
-		if(current == null) return new Point[0];
-		while(current.getData() < min && current != null)
+		while(current != null  && current.getData() < min )
 			current = current.getNext();
 		if(current == null){
 			return new Point[0];
 		}
-		while(current.getData() >= min && current.getData() <= max && current != null){
+		while(current != null && current.getData() >= min && current.getData() <= max){
 			arrList.addAll(current.getContainersMap().values());
 			current = current.getNext();
 		}
@@ -93,8 +95,10 @@ public class DataStructure implements DT {
 		LinkedList<Node> list;
 		if(!axis)list = xList;
 		else list = yList;
+		if(list.size() == 0){
+			return new Point[0];
+		}
 		Node current = list.getFirst();
-		if(current == null) return new Point[0];
 		while(current != null){
 			arrList.addAll(current.getContainersMap().values());//constent time for HashMap.values()
 			current = current.getNext();
@@ -126,6 +130,9 @@ public class DataStructure implements DT {
 			list = yList;
 		}
 		//from max to -inf
+		if(list.size() == 0){
+			return;
+		}
 		current = list.getLast();
 		while(current.getData()> max && current != null){
 			clearMapForNerrowRange(current, axis);
@@ -133,6 +140,9 @@ public class DataStructure implements DT {
 			list.removeLast();	
 		}
 		//from -inf to min
+		if(list.size() == 0){
+			return;
+		}
 		current = list.getFirst();
 		while(current.getData()< min && current != null){
 			clearMapForNerrowRange(current, axis);
@@ -236,6 +246,9 @@ public class DataStructure implements DT {
 		return null;
 	}
 	private SimpleEntry<Integer,Integer> getAxisSizes(){
+		if(xList.size() == 0 || yList.size() == 0){
+			return new SimpleEntry<Integer,Integer>((0),(0));
+		}
 		int xMin = xList.getFirst().getData();
 		int yMin = yList.getFirst().getData();
 		int xMax = xList.getLast().getData();
