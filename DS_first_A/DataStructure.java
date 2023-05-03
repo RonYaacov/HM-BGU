@@ -89,7 +89,7 @@ public class DataStructure implements DT {
 		}
 		Point[] result = new Point[arrList.size()];
 		for(int i=0;i<result.length; i++){
-			result[i- result.length -1] = arrList.get(i).getData();
+			result[i] = arrList.get(i).getData();
 		}
 		return result;
 	}
