@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 public class DataStructure implements DT {
 	
 	private LinkedList<Node> xList;
@@ -31,6 +33,7 @@ public class DataStructure implements DT {
 		c.setXNode(xNode);
 		c.setYNode(yNode);
 		pointsCounter++;	
+		
 	}
 	
 
@@ -92,6 +95,7 @@ public class DataStructure implements DT {
 			result[i] = arrList.get(i).getData();
 		}
 		return result;
+
 	}
 
 	@Override
@@ -217,37 +221,41 @@ public class DataStructure implements DT {
 
 	@Override
 	public Point[] nearestPairInStrip(Container container, double width, Boolean axis) {
-		// Point[] result = new Point[2];
-		// Node node;
-		// int selfPos;
-		// if(axis){
-		// 	node = container.getXNode();
-		// 	selfPos = container.getData().getX();
-		// }
-		// else{
-		// 	node = container.getYNode();
-		// 	selfPos = container.getData().getY();
-		// }	
-		// double sideWidth = width/2;
-		// Node next = node.getNext();
-		// Node prev = node.getPrev();
-		// if(next == null || prev == null)
-		// 	return result;
-		// if(!((next.getData() - selfPos <= sideWidth) || (selfPos - prev.getData()) < sideWidth))
-		// 	return result;
-		
-		// Point selfPoint = container.getData();
-		// int closestDis = Integer.MAX_VALUE;
-		// Container currentColser = null;
-		// Collection<Map.Entry<Integer, Container>> nextSet =  next.getContainersMap().entrySet();
-		// for(Map.Entry<Integer, Container> e : nextSet){
-		// 	Container c = e.getValue();
-			
-		// 	// i will return to it later... this method uses method thet need to be done before
-		// }
-		Point[] result = new Point[2];
-		result[0] = container.getData();
-		result[1] = container.getData();
+		double min;
+		double max;
+		double currentDis;
+		double minDis = Double.MAX_VALUE;
+		Point firstPoint = null;
+		Point secondPoint = null;
+		Point[] result;
+		if(axis){
+			min = container.getData().getX()- width;
+			max = container.getData().getX() + width;
+		}
+		else{
+			min = container.getData().getY()- width;
+			max = container.getData().getY() + width;
+
+		}
+		Point[] inStrip = getPointsInRangeRegAxis((int)min, (int)max, axis);
+		for(int i = 0; i<inStrip.length; i++){
+			for(int x = i+1; x<Math.min(i+7, inStrip.length); x++){
+				currentDis = this.getDis(inStrip[i], inStrip[x]);
+				if(currentDis < minDis){
+					firstPoint = inStrip[i];
+					secondPoint = inStrip[x];
+					minDis = currentDis;
+				}
+			}
+		}
+		if(firstPoint != null && secondPoint != null){
+			result = new Point[2];
+			result[0] = firstPoint;
+			result[1] = secondPoint;
+		}
+		else{
+			result = new Point[0];
+		}
 		return result;
 		
 	}
@@ -275,7 +283,6 @@ public class DataStructure implements DT {
 
 	}
 	
-	//TODO: add members, methods, etc.
 	
 }
 
