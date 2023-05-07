@@ -162,13 +162,9 @@ public class DataStructure implements DT {
 	private void clearForNerrowRange(Node current, Boolean axis){
 		pointsCounter --;
 		Container c = current.getContainer();
-		Node other;
-		if(axis){
-			other = c.getYNode();
-		}
-		else{
-			other = c.getXNode();
-		}
+		Node other = axis? c.getYNode(): c.getXNode();
+		MyList otherList = axis? yList: xList;
+		otherList.removeNode();
 		Node otherNext = other.getNext();
 		Node otherPrev = other.getPrev();
 		if(otherNext != null && otherPrev != null){
@@ -182,8 +178,6 @@ public class DataStructure implements DT {
 			otherPrev.setNext(null);
 		}
 	}
-			
-	
 
 	@Override
 	public Boolean getLargestAxis() {
