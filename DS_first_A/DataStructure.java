@@ -142,7 +142,7 @@ public class DataStructure implements DT {
 			return;
 		}
 		current = list.getLast();
-		while(current.getData()> max && current != null){
+		while(current != null && current.getData()> max ){
 			clearForNerrowRange(current, axis);
 			current = current.getPrev();
 			list.removeLast();	
@@ -152,7 +152,7 @@ public class DataStructure implements DT {
 			return;
 		}
 		current = list.getFirst();
-		while(current.getData()< min && current != null){
+		while(current != null && current.getData()< min){
 			clearForNerrowRange(current, axis);
 			current = current.getNext();
 			list.removeFirst();
@@ -177,6 +177,8 @@ public class DataStructure implements DT {
 		else{
 			otherPrev.setNext(null);
 		}
+		other.setNext(null);
+		other.setPrev(null);
 	}
 
 	@Override
