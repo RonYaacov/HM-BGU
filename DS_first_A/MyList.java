@@ -18,17 +18,14 @@ public class MyList{
     } 
     public void add(Node n){
         size++;
-        if(size%2 ==0){
+        if(size % 2 == 0){
             if(mediaNode.getNext()!= null)
                 this.mediaNode = mediaNode.getNext();
         }
     }
     public void addLast(Node n){
         size++;
-        if(size%2 ==0){
-            if(mediaNode.getNext()!= null)
-                this.mediaNode = mediaNode.getNext();
-        }
+        
         if(head == null && tail == null){
             head = n;
             tail = n;
@@ -39,13 +36,14 @@ public class MyList{
         old.setNext(n);
         n.setPrev(old);
         tail = n;
-    }
-    public void addFirst(Node n){
-        size++;
         if(size%2 ==0){
             if(mediaNode.getNext()!= null)
                 this.mediaNode = mediaNode.getNext();
         }
+    }
+    public void addFirst(Node n){
+        size++;
+        
         if(head == null && tail == null){
             head = n;
             tail = n;
@@ -56,6 +54,10 @@ public class MyList{
         old.setPrev(n);
         n.setNext(old);
         head = n;
+        if(size % 2 == 0){
+            if(mediaNode.getNext()!= null)
+                this.mediaNode = mediaNode.getNext();
+        }
     }
 
     

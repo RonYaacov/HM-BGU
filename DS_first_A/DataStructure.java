@@ -146,6 +146,7 @@ public class DataStructure implements DT {
 			clearForNerrowRange(current, axis);
 			current = current.getPrev();
 			list.removeLast();	
+			pointsCounter --;
 		}
 		//from -inf to min
 		if(list.getSize() == 0){
@@ -156,11 +157,11 @@ public class DataStructure implements DT {
 			clearForNerrowRange(current, axis);
 			current = current.getNext();
 			list.removeFirst();
+			pointsCounter --;
 		}	
 	}
 	
 	private void clearForNerrowRange(Node current, Boolean axis){
-		pointsCounter --;
 		Container c = current.getContainer();
 		Node other = axis? c.getYNode(): c.getXNode();
 		MyList otherList = axis? yList: xList;
@@ -190,8 +191,7 @@ public class DataStructure implements DT {
 	@Override
 	public Container getMedian(Boolean axis) {
 		MyList list;
-		if(axis)list = xList;
-		else list=yList;
+		list = axis? xList: yList;
 		return list.getMedian().getContainer();
 	}
 
