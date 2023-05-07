@@ -113,10 +113,20 @@ public class DataStructure implements DT {
 			current = current.getNext();
 		}
 		List<Point> fillter = new ArrayList<Point>();
-		for(Container c : arrList){
-			if(c.getXNode().getData() <= max && c.getXNode().getData() >= min){
-				fillter.add(c.getData());
+		if(axis){
+			for(Container c : arrList){
+				if(c.getXNode().getData() <= max && c.getXNode().getData() >= min){
+					fillter.add(c.getData());
+				}
 			}
+		}
+		else{
+			for(Container c : arrList){
+				if(c.getYNode().getData() <= max && c.getYNode().getData() >= min){
+					fillter.add(c.getData());
+				}
+		}
+	
 		}
 		Point[] result = new Point[fillter.size()];
 		for(int i=0;i<result.length; i++){
@@ -261,11 +271,12 @@ public class DataStructure implements DT {
 		
 	}
 	private Point[] nearestPair(int min, int max, boolean axis){
+		Point[] allPoints = getPointsInRangeRegAxis(min, max, axis);
 		Point[] result;
-		if(pointsCounter < 2){
+		if(allPoints.length < 2){
 			return new Point[0];
 		}
-		if(pointsCounter == 2){
+		if(allPoints.length == 2){
 			result = new Point[2];
 			int count = 0;
 			
@@ -280,7 +291,6 @@ public class DataStructure implements DT {
 			}
 			return result;
 		}
-		Point[] allPoints = getPointsInRangeRegAxis(min, max, axis);
 		Point median = allPoints[allPoints.length/2];
 		Container cMedian = new Container(median);
 		int medianValue = axis? median.getX(): median.getY();  
