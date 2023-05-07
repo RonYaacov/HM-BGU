@@ -261,11 +261,12 @@ public class DataStructure implements DT {
 		
 	}
 	private Point[] nearestPair(int min, int max, boolean axis){
+		Point[] allPoints = getPointsInRangeRegAxis(min, max, axis);
 		Point[] result;
-		if(pointsCounter < 2){
+		if(allPoints.length < 2){
 			return new Point[0];
 		}
-		if(pointsCounter == 2){
+		if(allPoints.length == 2){
 			result = new Point[2];
 			int count = 0;
 			
@@ -280,7 +281,6 @@ public class DataStructure implements DT {
 			}
 			return result;
 		}
-		Point[] allPoints = getPointsInRangeRegAxis(min, max, axis);
 		Point median = allPoints[allPoints.length/2];
 		Container cMedian = new Container(median);
 		int medianValue = axis? median.getX(): median.getY();  
