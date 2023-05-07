@@ -141,7 +141,7 @@ public class DataStructure implements DT {
 		if(list.getSize() == 0){
 			return;
 		}
-		current = list.getFirst();
+		current = list.getLast();
 		while(current.getData()> max && current != null){
 			clearForNerrowRange(current, axis);
 			current = current.getPrev();
