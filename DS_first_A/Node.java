@@ -1,27 +1,22 @@
-import java.util.HashMap;
-import java.util.Map;
 
 public class Node {
     private int data;
-    private HashMap<Integer, Container> map;
+    private Container container;
     private Node next;
     private Node prev;
     
     public Node(int data, Container container, Node next, Node prev){
-        this.map = new HashMap<Integer, Container>();
+        this.container = container;
         this.data = data;
         this.next = next;
         this.prev = prev;
         int y =container.getData().getY(); 
-        map.put(y, container);
     }    
-    public void addContainer(Container c){
-        int y = c.getData().getY(); 
-        map.put(y,c);
+    public void setContainer(Container c){
+        this.container = c; 
     }
-
-    public Map<Integer, Container> getContainersMap(){
-        return map;
+    public Container getContainer(){
+        return this.container; 
     }
 
     public int getData(){

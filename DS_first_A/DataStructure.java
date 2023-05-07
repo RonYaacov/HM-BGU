@@ -1,23 +1,18 @@
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
-
-import javax.naming.spi.DirStateFactory.Result;
 
 public class DataStructure implements DT {
 	
-	private List<Node> xList;
-	private List<Node> yList;
+	private MyList xList;
+	private MyList yList;
 	private int pointsCounter;
 
 	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public DataStructure()
 	{
-		this.xList = new ArrayList<Node>();
-		this.yList = new ArrayList<Node>();
+		this.xList = new MyList();
+		this.yList = new MyList();
 		this.pointsCounter = 0;
 	}
 
@@ -28,33 +23,30 @@ public class DataStructure implements DT {
 		Node yNode = new Node(point.getY(), c, null, null);
 		xNode = addNodeToList(xList, xNode);
 		yNode = addNodeToList(yList, yNode);
-		xNode.addContainer(c);
-		yNode.addContainer(c);
+		xNode.setContainer(c);
+		yNode.setContainer(c);
 		c.setXNode(xNode);
 		c.setYNode(yNode);
-		pointsCounter++;	
-		
+		pointsCounter++;
 	}
 	
 
-	private Node addNodeToList(List<Node> list, Node n){
-		if (list.size() == 0){
+	private Node addNodeToList(MyList list, Node n){
+		if (list.getSize() == 0){
 			list.add(n);
 			return n;
 		}
-		Node current = list.get(0);
+		Node current = list.getFirst();
 		int i =0;
 		while((n.getData() > current.getData()) && (current.getNext() != null)){
 			current = current.getNext();
 			i++;
 		}
-		if(n.getData() == current.getData())
-			return current;
-		if(n.getData() < current.getData()){
+		if(n.getData() <= current.getData()){
 			if(current.getPrev() == null){
 				current.setPrev(n);
 				n.setNext(current);
-				list.add(0, n);
+				list.add(n, 0);
 				return n;
 			}
 			Node prev = current.getPrev();
@@ -62,7 +54,7 @@ public class DataStructure implements DT {
 			current.setPrev(n);
 			n.setNext(current);
 			n.setPrev(prev);
-			list.add(i, n);
+			list.add(n, i);
 			return n;
 		}
 		current.setNext(n);
@@ -74,20 +66,20 @@ public class DataStructure implements DT {
 	@Override
 	public Point[] getPointsInRangeRegAxis(int min, int max, Boolean axis) {
 		List<Container> arrList = new ArrayList<Container>();
-		List<Node> list;
+		MyList list;
 		if(axis)list = xList;
 		else list = yList;
-		if(list.size() == 0){
+		if(list.getSize() == 0){
 			return new Point[0];
 		}
-		Node current = list.get(0);
+		Node current = list.getFirst();
 		while(current != null  && current.getData() < min )
 			current = current.getNext();
 		if(current == null){
 			return new Point[0];
 		}
 		while(current != null && current.getData() >= min && current.getData() <= max){
-			arrList.addAll(current.getContainersMap().values());
+			arrList.add(current.getContainer());
 			current = current.getNext();
 		}
 		Point[] result = new Point[arrList.size()];
@@ -101,15 +93,15 @@ public class DataStructure implements DT {
 	@Override
 	public Point[] getPointsInRangeOppAxis(int min, int max, Boolean axis) {
 		List<Container> arrList = new ArrayList<Container>();
-		List<Node> list;
+		MyList list;
 		if(!axis)list = xList;
 		else list = yList;
-		if(list.size() == 0){
+		if(list.getSize() == 0){
 			return new Point[0];
 		}
-		Node current = list.get(0);
+		Node current = list.getFirst();
 		while(current != null){
-			arrList.addAll(current.getContainersMap().values());//constent time for HashMap.values()
+			arrList.add(current.getContainer());//constent time for HashMap.values()
 			current = current.getNext();
 		}
 		List<Point> fillter = new ArrayList<Point>();
@@ -131,75 +123,67 @@ public class DataStructure implements DT {
 		for(int i=0;i<result.length; i++){
 			result[i] = fillter.get(i);
 		}
-		
 		return result;
 	}
 
 	@Override
 	public double getDensity() {
 		SimpleEntry<Integer, Integer> sizes = getAxisSizes();
-		return pointsCounter/((sizes.getKey())*(sizes.getValue()));
+		return pointsCounter/(double)((sizes.getKey())*(sizes.getValue()));
 	}
 
 	@Override
 	public void narrowRange(int min, int max, Boolean axis) {
 		Node current;
-		List<Node> list;
-		if(axis){
-			list = xList;
-		}
-		else{
-			list = yList;
-		}
+		MyList list;
+		list = axis? xList: yList;
 		//from max to -inf
-		if(list.size() == 0){
+		if(list.getSize() == 0){
 			return;
 		}
-		current = list.get(0);
+		current = list.getFirst();
 		while(current.getData()> max && current != null){
-			clearMapForNerrowRange(current, axis);
+			clearForNerrowRange(current, axis);
 			current = current.getPrev();
-			list.remove(list.size()-1);	
+			list.removeLast();	
 		}
 		//from -inf to min
-		if(list.size() == 0){
+		if(list.getSize() == 0){
 			return;
 		}
-		current = list.get(0);
+		current = list.getFirst();
 		while(current.getData()< min && current != null){
-			clearMapForNerrowRange(current, axis);
+			clearForNerrowRange(current, axis);
 			current = current.getNext();
-			list.remove(0);
+			list.removeFirst();
 		}	
 	}
 	
-	private void clearMapForNerrowRange(Node current, Boolean axis){
-		Map<Integer, Container> containers = current.getContainersMap(); 
-		pointsCounter -= containers.size();
-		for (Map.Entry<Integer,Container> e : containers.entrySet()) {
-			Container c = e.getValue();
-			Node other;
-			if(axis){
-				other = c.getYNode();
-			}
-			else{
-				other = c.getXNode();
-			}
-			Node otherNext = other.getNext();
-			Node otherPrev = other.getPrev();
-			if(otherNext != null && otherPrev != null){
-				otherNext.setPrev(otherPrev);
-				otherPrev.setNext(otherNext);
-			}
-			else if(otherNext != null){
-				otherNext.setPrev(null);
-			}
-			else{
-				otherPrev.setNext(null);
-			}
+	private void clearForNerrowRange(Node current, Boolean axis){
+		pointsCounter --;
+		Container c = current.getContainer();
+		Node other;
+		if(axis){
+			other = c.getYNode();
 		}
-				
+		else{
+			other = c.getXNode();
+		}
+		Node otherNext = other.getNext();
+		Node otherPrev = other.getPrev();
+		if(otherNext != null && otherPrev != null){
+			otherNext.setPrev(otherPrev);
+			otherPrev.setNext(otherNext);
+		}
+		else if(otherNext != null){
+			otherNext.setPrev(null);
+		}
+		else{
+			otherPrev.setNext(null);
+		}
 	}
+			
+	
 
 	@Override
 	public Boolean getLargestAxis() {
@@ -209,10 +193,10 @@ public class DataStructure implements DT {
 
 	@Override
 	public Container getMedian(Boolean axis) {
-		List<Node> list;
+		MyList list;
 		if(axis)list = xList;
 		else list=yList;
-		return list.get((list.size()/2)).getContainersMap().values().iterator().next();
+		return list.getMedian().getContainer();
 	}
 
 	@Override
@@ -264,17 +248,16 @@ public class DataStructure implements DT {
 		if(allPoints.length == 2){
 			result = new Point[2];
 			int count = 0;
-			
-			for (Node node : xList) {
-				for(Container c : node.getContainersMap().values()){
-					result[count] = c.getData();
-					count++;
-					if(count == 2){
-						return result;
-					}
+			MyList list = axis? xList: yList;
+			Node node = list.getFirst();
+			while(node != null){
+				Container c = node.getContainer();
+				result[count] = c.getData();
+				count++;
+				if(count == 2){
+					return result;
 				}
 			}
-			return result;
 		}
 		Point median = allPoints[allPoints.length/2];
 		Container cMedian = new Container(median);
@@ -300,17 +283,17 @@ public class DataStructure implements DT {
 	@Override
 	public Point[] nearestPair() {
 		boolean largestAxix = getLargestAxis();
-		List<Node> list =  largestAxix? xList: yList;
-		return nearestPair(list.get(0).getData(), list.get(list.size()-1).getData(), largestAxix);
+		MyList list =  largestAxix? xList: yList;
+		return nearestPair(list.getFirst().getData(), list.getLast().getData(), largestAxix);
 	}
 	private SimpleEntry<Integer,Integer> getAxisSizes(){
-		if(xList.size() == 0 || yList.size() == 0){
+		if(xList.getSize() == 0 || yList.getSize() == 0){
 			return new SimpleEntry<Integer,Integer>((0),(0));
 		}
-		int xMin = xList.get(0).getData();
-		int yMin = yList.get(0).getData();
-		int xMax = xList.get(xList.size()-1).getData();
-		int yMax = yList.get(yList.size()-1).getData();
+		int xMin = xList.getFirst().getData();
+		int yMin = yList.getFirst().getData();
+		int xMax = xList.getLast().getData();
+		int yMax = yList.getLast().getData();
 		return new SimpleEntry<Integer,Integer>((xMax-xMin),(yMax-yMin));
 
 	}
