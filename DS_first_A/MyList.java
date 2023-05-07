@@ -17,33 +17,48 @@ public class MyList{
         this.tail = tail;
     } 
     public void add(Node n){
-        add(n, size);
-
-    }
-    public void add(Node n, int i){
         size++;
         if(size%2 ==0){
             if(mediaNode.getNext()!= null)
                 this.mediaNode = mediaNode.getNext();
         }
-        if(head == null && i == 0){
+    }
+    public void addLast(Node n){
+        size++;
+        if(size%2 ==0){
+            if(mediaNode.getNext()!= null)
+                this.mediaNode = mediaNode.getNext();
+        }
+        if(head == null && tail == null){
             head = n;
             tail = n;
             mediaNode = n;
             return;
         }
-        if(i == 0){
-            n.setNext(head);
-            head.setPrev(n);
+        Node old = tail;
+        old.setNext(n);
+        n.setPrev(old);
+        tail = n;
+    }
+    public void addFirst(Node n){
+        size++;
+        if(size%2 ==0){
+            if(mediaNode.getNext()!= null)
+                this.mediaNode = mediaNode.getNext();
+        }
+        if(head == null && tail == null){
+            head = n;
+            tail = n;
+            mediaNode = n;
             return;
         }
-        if(i == size-1){
-            tail.setNext(n);
-            n.setPrev(tail);
-            tail = n;
-            return;
-        }   
+        Node old = head;
+        old.setPrev(n);
+        n.setNext(old);
+        head = n;
     }
+
+    
     public void removeNode(){
         size--;
     }
