@@ -43,7 +43,6 @@ public class MyList{
     }
     public void addFirst(Node n){
         size++;
-        
         if(head == null && tail == null){
             head = n;
             tail = n;
@@ -54,9 +53,9 @@ public class MyList{
         old.setPrev(n);
         n.setNext(old);
         head = n;
-        if(size % 2 == 0){
-            if(mediaNode.getNext()!= null)
-                this.mediaNode = mediaNode.getNext();
+        if(size % 2 != 0){
+            if(mediaNode.getPrev()!= null)
+                this.mediaNode = mediaNode.getPrev();
         }
     }
 
@@ -86,6 +85,10 @@ public class MyList{
             tail = null;
             return;
         }
+        if(size % 2 != 0){
+            if(mediaNode.getPrev()!= null)
+                this.mediaNode = mediaNode.getPrev();
+        }
     }
     public void removeFirst(){
         size--;
@@ -98,6 +101,10 @@ public class MyList{
         if(head != null){
             head = null;
             return;
+        }
+        if(size % 2 == 0){
+            if(mediaNode.getNext()!= null)
+                this.mediaNode = mediaNode.getNext();
         }
     }
     public Node getMedian(){

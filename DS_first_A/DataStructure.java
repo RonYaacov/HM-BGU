@@ -128,8 +128,8 @@ public class DataStructure implements DT {
 
 	@Override
 	public double getDensity() {
-		SimpleEntry<Integer, Integer> sizes = getAxisSizes();
-		return pointsCounter/(double)((sizes.getKey())*(sizes.getValue()));
+		int[] sizes = getAxisSizes();
+		return pointsCounter/(double)((sizes[0])*(sizes[1]));
 	}
 
 	@Override
@@ -184,8 +184,8 @@ public class DataStructure implements DT {
 
 	@Override
 	public Boolean getLargestAxis() {
-		SimpleEntry<Integer, Integer> sizes = getAxisSizes();
-		return (sizes.getKey())>(sizes.getValue());
+		int[] sizes = getAxisSizes();
+		return (sizes[0])>(sizes[1]);
 	}
 
 	@Override
@@ -282,15 +282,20 @@ public class DataStructure implements DT {
 		MyList list =  largestAxix? xList: yList;
 		return nearestPair(list.getFirst().getData(), list.getLast().getData(), largestAxix);
 	}
-	private SimpleEntry<Integer,Integer> getAxisSizes(){
+	private  int[] getAxisSizes(){
+		int[] result = new int[2];
 		if(xList.getSize() == 0 || yList.getSize() == 0){
-			return new SimpleEntry<Integer,Integer>((0),(0));
-		}
+			result[0] = 0;
+			result[1] = 0;
+			return result;
+			}
 		int xMin = xList.getFirst().getData();
 		int yMin = yList.getFirst().getData();
 		int xMax = xList.getLast().getData();
 		int yMax = yList.getLast().getData();
-		return new SimpleEntry<Integer,Integer>((xMax-xMin),(yMax-yMin));
+		result[0] = xMax-xMin;
+		result[1] = yMax-yMin;
+		return result;
 
 	}
 	private double getDis(Point point1, Point point2){
