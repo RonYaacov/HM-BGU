@@ -113,9 +113,18 @@ public class DataStructure implements DT {
 			current = current.getNext();
 		}
 		List<Point> fillter = new ArrayList<Point>();
-		for(Container c : arrList){
-			if(c.getXNode().getData() <= max && c.getXNode().getData() >= min){
-				fillter.add(c.getData());
+		if(axis){
+			for(Container c : arrList){
+				if(c.getXNode().getData() <= max && c.getXNode().getData() >= min){
+					fillter.add(c.getData());
+				}
+			}
+		}
+		else{
+			for(Container c : arrList){
+				if(c.getYNode().getData() <= max && c.getYNode().getData() >= min){
+					fillter.add(c.getData());
+				}
 			}
 		}
 		Point[] result = new Point[fillter.size()];
@@ -204,20 +213,6 @@ public class DataStructure implements DT {
 		if(axis)list = xList;
 		else list=yList;
 		return list.get((list.size()/2)).getContainersMap().values().iterator().next();
-	// 	Node fast = list.get(0); 
-	// 	Node slow = list.get(0);
-	// 	while(slow.getNext() != null && fast.getNext()!= null &&  fast.getNext().getNext() != null){
-	// 		slow = slow.getNext();
-	// 		fast = fast.getNext().getNext();
-	// 	}
-	// 	if(fast.getNext() != null) slow = slow.getNext();
-	// 	Collection<Map.Entry<Integer, Container>> set =  slow.getContainersMap().entrySet();
-	// 	for(Map.Entry<Integer,Container> c : set){
-	// 		return c.getValue();//gets a random container in the midian set of containers
-			
-	// 	}
-	// 	return null;//if the hashmap is of size 0 it will return null but it never happens do to our implementation
-	// }
 	}
 
 	@Override
