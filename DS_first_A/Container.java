@@ -10,7 +10,12 @@ public class Container{
 		this.xNode = xNode;
 		this.yNode = yNode;
 	}
-	
+	public Container(Point p){
+		this.data = p;
+		this.xNode = null;
+		this.yNode = null;
+	}
+
 	//Don't delete or change this function
 	public Point getData()
 	{

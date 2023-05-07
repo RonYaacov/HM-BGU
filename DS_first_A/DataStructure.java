@@ -9,15 +9,15 @@ import javax.naming.spi.DirStateFactory.Result;
 
 public class DataStructure implements DT {
 	
-	private LinkedList<Node> xList;
-	private LinkedList<Node> yList;
+	private List<Node> xList;
+	private List<Node> yList;
 	private int pointsCounter;
 
 	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public DataStructure()
 	{
-		this.xList = new LinkedList<Node>();
-		this.yList = new LinkedList<Node>();
+		this.xList = new ArrayList<Node>();
+		this.yList = new ArrayList<Node>();
 		this.pointsCounter = 0;
 	}
 
@@ -37,12 +37,12 @@ public class DataStructure implements DT {
 	}
 	
 
-	private Node addNodeToList(LinkedList<Node> list, Node n){
+	private Node addNodeToList(List<Node> list, Node n){
 		if (list.size() == 0){
 			list.add(n);
 			return n;
 		}
-		Node current = list.getFirst();
+		Node current = list.get(0);
 		int i =0;
 		while((n.getData() > current.getData()) && (current.getNext() != null)){
 			current = current.getNext();
@@ -54,7 +54,7 @@ public class DataStructure implements DT {
 			if(current.getPrev() == null){
 				current.setPrev(n);
 				n.setNext(current);
-				list.addFirst(n);
+				list.add(0, n);
 				return n;
 			}
 			Node prev = current.getPrev();
@@ -67,20 +67,20 @@ public class DataStructure implements DT {
 		}
 		current.setNext(n);
 		n.setPrev(current);
-		list.addLast(n);
+		list.add(n);
 		return n;
 	}
 
 	@Override
 	public Point[] getPointsInRangeRegAxis(int min, int max, Boolean axis) {
 		List<Container> arrList = new ArrayList<Container>();
-		LinkedList<Node> list;
+		List<Node> list;
 		if(axis)list = xList;
 		else list = yList;
 		if(list.size() == 0){
 			return new Point[0];
 		}
-		Node current = list.getFirst();
+		Node current = list.get(0);
 		while(current != null  && current.getData() < min )
 			current = current.getNext();
 		if(current == null){
@@ -101,13 +101,13 @@ public class DataStructure implements DT {
 	@Override
 	public Point[] getPointsInRangeOppAxis(int min, int max, Boolean axis) {
 		List<Container> arrList = new ArrayList<Container>();
-		LinkedList<Node> list;
+		List<Node> list;
 		if(!axis)list = xList;
 		else list = yList;
 		if(list.size() == 0){
 			return new Point[0];
 		}
-		Node current = list.getFirst();
+		Node current = list.get(0);
 		while(current != null){
 			arrList.addAll(current.getContainersMap().values());//constent time for HashMap.values()
 			current = current.getNext();
@@ -135,7 +135,7 @@ public class DataStructure implements DT {
 	@Override
 	public void narrowRange(int min, int max, Boolean axis) {
 		Node current;
-		LinkedList<Node> list;
+		List<Node> list;
 		if(axis){
 			list = xList;
 		}
@@ -146,21 +146,21 @@ public class DataStructure implements DT {
 		if(list.size() == 0){
 			return;
 		}
-		current = list.getLast();
+		current = list.get(0);
 		while(current.getData()> max && current != null){
 			clearMapForNerrowRange(current, axis);
 			current = current.getPrev();
-			list.removeLast();	
+			list.remove(list.size()-1);	
 		}
 		//from -inf to min
 		if(list.size() == 0){
 			return;
 		}
-		current = list.getFirst();
+		current = list.get(0);
 		while(current.getData()< min && current != null){
 			clearMapForNerrowRange(current, axis);
 			current = current.getNext();
-			list.removeFirst();
+			list.remove(0);
 		}	
 	}
 	
@@ -200,23 +200,24 @@ public class DataStructure implements DT {
 
 	@Override
 	public Container getMedian(Boolean axis) {
-
-		LinkedList<Node> list;
+		List<Node> list;
 		if(axis)list = xList;
 		else list=yList;
-		Node fast = list.getFirst(); 
-		Node slow = list.getFirst();
-		while(slow.getNext() != null && fast.getNext()!= null &&  fast.getNext().getNext() != null){
-			slow = slow.getNext();
-			fast = fast.getNext().getNext();
-		}
-		if(fast.getNext() != null) slow = slow.getNext();
-		Collection<Map.Entry<Integer, Container>> set =  slow.getContainersMap().entrySet();
-		for(Map.Entry<Integer,Container> c : set){
-			return c.getValue();//gets a random container in the midian set of containers
+		return list.get((list.size()/2)).getContainersMap().values().iterator().next();
+	// 	Node fast = list.get(0); 
+	// 	Node slow = list.get(0);
+	// 	while(slow.getNext() != null && fast.getNext()!= null &&  fast.getNext().getNext() != null){
+	// 		slow = slow.getNext();
+	// 		fast = fast.getNext().getNext();
+	// 	}
+	// 	if(fast.getNext() != null) slow = slow.getNext();
+	// 	Collection<Map.Entry<Integer, Container>> set =  slow.getContainersMap().entrySet();
+	// 	for(Map.Entry<Integer,Container> c : set){
+	// 		return c.getValue();//gets a random container in the midian set of containers
 			
-		}
-		return null;//if the hashmap is of size 0 it will return null but it never happens do to our implementation
+	// 	}
+	// 	return null;//if the hashmap is of size 0 it will return null but it never happens do to our implementation
+	// }
 	}
 
 	@Override
@@ -229,15 +230,15 @@ public class DataStructure implements DT {
 		Point secondPoint = null;
 		Point[] result;
 		if(axis){
-			min = container.getData().getX()- width;
-			max = container.getData().getX() + width;
+			min = container.getData().getX()- width/2;
+			max = container.getData().getX() + width/2;
 		}
 		else{
-			min = container.getData().getY()- width;
-			max = container.getData().getY() + width;
+			min = container.getData().getY()- width/2;
+			max = container.getData().getY() + width/2;
 
 		}
-		Point[] inStrip = getPointsInRangeRegAxis((int)min, (int)max, axis);
+		Point[] inStrip = getPointsInRangeRegAxis((int)min, (int)max+1, axis);
 		for(int i = 0; i<inStrip.length; i++){
 			for(int x = i+1; x<Math.min(i+7, inStrip.length); x++){
 				currentDis = this.getDis(inStrip[i], inStrip[x]);
@@ -259,20 +260,62 @@ public class DataStructure implements DT {
 		return result;
 		
 	}
+	private Point[] nearestPair(int min, int max, boolean axis){
+		Point[] result;
+		if(pointsCounter < 2){
+			return new Point[0];
+		}
+		if(pointsCounter == 2){
+			result = new Point[2];
+			int count = 0;
+			
+			for (Node node : xList) {
+				for(Container c : node.getContainersMap().values()){
+					result[count] = c.getData();
+					count++;
+					if(count == 2){
+						return result;
+					}
+				}
+			}
+			return result;
+		}
+		Point[] allPoints = getPointsInRangeRegAxis(min, max, axis);
+		Point median = allPoints[allPoints.length/2];
+		Container cMedian = new Container(median);
+		int medianValue = axis? median.getX(): median.getY();  
+		Point[] leftPoints = nearestPair(min, medianValue, axis);
+		Point[] rightPoints = nearestPair(medianValue, max, axis);
+		if(leftPoints.length == 0){
+			return rightPoints;
+		}
+		if(rightPoints.length == 0){
+			return leftPoints;
+		}
+		double leftDis = getDis(leftPoints[0], leftPoints[1]);
+		double rightDis = getDis(rightPoints[0], rightPoints[1]);
+		Point[] closestPoints = Math.min(leftDis,rightDis ) == leftDis? leftPoints: rightPoints;
+		Point[] closestPointsInStrip = nearestPairInStrip(cMedian, getDis(closestPoints[0], closestPoints[1])*2, axis);
+		double preDis = getDis(closestPoints[0],closestPoints[1]);
+		double newDis = getDis(closestPointsInStrip[0], closestPointsInStrip[1]);
+		return Math.min(preDis, newDis) == preDis? closestPoints: closestPointsInStrip;
+	}
+	
 
 	@Override
 	public Point[] nearestPair() {
-		// TODO Auto-generated method stub
-		return null;
+		boolean largestAxix = getLargestAxis();
+		List<Node> list =  largestAxix? xList: yList;
+		return nearestPair(list.get(0).getData(), list.get(list.size()-1).getData(), largestAxix);
 	}
 	private SimpleEntry<Integer,Integer> getAxisSizes(){
 		if(xList.size() == 0 || yList.size() == 0){
 			return new SimpleEntry<Integer,Integer>((0),(0));
 		}
-		int xMin = xList.getFirst().getData();
-		int yMin = yList.getFirst().getData();
-		int xMax = xList.getLast().getData();
-		int yMax = xList.getLast().getData();
+		int xMin = xList.get(0).getData();
+		int yMin = yList.get(0).getData();
+		int xMax = xList.get(xList.size()-1).getData();
+		int yMax = yList.get(yList.size()-1).getData();
 		return new SimpleEntry<Integer,Integer>((xMax-xMin),(yMax-yMin));
 
 	}
