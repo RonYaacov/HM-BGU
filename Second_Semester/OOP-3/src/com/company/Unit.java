@@ -18,15 +18,7 @@ public class Unit extends Tile {
     public void accept(Unit unit){
         //TODO: implement me
     }
-    public int compareTo(Unit unit){
-        if(this.attackPoints > unit.defencePoints){
-            return 1;
-        }
-        if(this.attackPoints == unit.defencePoints){
-            return 0;
-        }
-        return -1;
-    }
+   
 
 
     
