@@ -47,7 +47,7 @@ public class StringHash implements HashFactory<String> {
             int sum = 0;
             char[] arr = key.toCharArray();
             for(int i=1; i<=arr.length;i++){
-                long cPow = HashingUtils.fastModularPower((long)c, (long)(arr.length-i), (long)q);
+                int cPow = HashingUtils.mod((int)Math.pow(c, arr.length-i),q); 
                 long innerMod = HashingUtils.mod(arr[i-1]*cPow,q);
                 sum += HashingUtils.mod(innerMod, q);
             }

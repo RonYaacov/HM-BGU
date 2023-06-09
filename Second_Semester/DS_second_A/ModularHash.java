@@ -9,29 +9,30 @@ public class ModularHash implements HashFactory<Integer> {
 
     public ModularHash() {
         utils = new HashingUtils();
-        assignRandFields();
     }
 
     private void assignRandFields(){
-        Integer[] intOptions = utils.genUniqueIntegers(Integer.MAX_VALUE);
         Random rand = new Random();
-        a = intOptions[rand.nextInt(intOptions.length)];
+        a = rand.nextInt(Integer.MAX_VALUE);
         b = a;
         while (b == a || b == 0) {
-            b = intOptions[rand.nextInt(intOptions.length)];
+            b = rand.nextInt(Integer.MAX_VALUE);
         }
         boolean isPrime = false;
         while(!isPrime){
             p = utils.genLong(Integer.MAX_VALUE, Long.MAX_VALUE);
-            isPrime = utils.runMillerRabinTest(p, 30);
+            if(HashingUtils.mod(p, 2) == 0){
+                continue;
+            }
+            isPrime = utils.runMillerRabinTest(p, 10);          
         }
     }
 
     @Override
     public HashFunctor<Integer> pickHash(int k) {
 
-        Functor result = new Functor(a, b, p,(int)HashingUtils.mod((int)Math.pow(2, k), Integer.MAX_VALUE));// in the descrption k is always valid 
         assignRandFields();
+        Functor result = new Functor(a, b, p,(int)HashingUtils.mod((int)Math.pow(2, k), Integer.MAX_VALUE));// in the descrption k is always valid 
         return result;
     }
 

@@ -10,3 +10,24 @@
     transform any object recived to Byte-Array then transform each byte to a charcter 
     then use the Carter-Wegman hashing for strings as shown in section 3.1.1.3 and apply 
     any Carter-Wegman hashing function on the result 
+
+3.8 and 3.10 times:
+the avg time for probing with load factor of 0.5 is Inserting -- 270.73333333333335 Searching 7.551400719251927E13
+the avg time for probing with load factor of 0.75 is Inserting -- 287.93333333333334 Searching 7.551578344134167E13
+the avg time for probing with load factor of 0.878 is Inserting -- 257.76666666666665 Searching 7.5517257093034E13
+the avg time for probing with load factor of 0.9375 is Inserting -- 246.43333333333334 Searching 7.55185968489495E13
+the avg time for chaining with load factor of 0.5 is Inserting -- 79.46666666666667 Searching 7.551872479270317E13
+the avg time for chaining with load factor of 0.75 is Inserting -- 80.66666666666667 Searching 7.552046932609517E13
+the avg time for chaining with load factor of 1.0 is Inserting -- 118.4 Searching 7.552180945684906E13
+the avg time for chaining with load factor of 1.5 is Inserting -- 116.36666666666666 Searching 7.552325699572653E13
+the avg time for chaining with load factor of 2.0 is Inserting -- 105.0 Searching 7.552483357559847E13
+
+3.9:
+    it seams that the measurmented time is getting lower as the load factor is getting closer to 1
+
+3.11:
+    it seams that the measurmented time is getting lower as the load factor is getting closer to 1 
+    but when the load factor is moving away from 1 the time slowly decend (but it is still higher then with 1) 
+
+
+
