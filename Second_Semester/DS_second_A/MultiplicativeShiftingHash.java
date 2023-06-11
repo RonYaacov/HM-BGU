@@ -10,14 +10,7 @@ public class MultiplicativeShiftingHash implements HashFactory<Long> {
     }
 
     private void assignRandFields(){
-        Long[] options = utils.genUniqueLong(Integer.MAX_VALUE);
-        Random rand = new Random();
-        a = 1;
-        while(a<=1){
-            a = options[rand.nextInt(options.length)];
-        }
-
-    
+        a = utils.genLong(1,Integer.MAX_VALUE);
     }
     @Override
     public HashFunctor<Long> pickHash(int k) {

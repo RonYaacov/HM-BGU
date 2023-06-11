@@ -24,7 +24,7 @@ public class ModularHash implements HashFactory<Integer> {
             if(HashingUtils.mod(p, 2) == 0){
                 continue;
             }
-            isPrime = utils.runMillerRabinTest(p, 10);          
+            isPrime = utils.runMillerRabinTest(p, 50);          
         }
     }
 

@@ -16,7 +16,7 @@ public class StringHash implements HashFactory<String> {
         boolean isPrime = false;
         while(!isPrime){
             q = (int)utils.genLong(Integer.MAX_VALUE/2+1, Integer.MAX_VALUE+1);
-            isPrime = utils.runMillerRabinTest(q, 30);
+            isPrime = utils.runMillerRabinTest(q, 50);
         }
         c = rand.nextInt(q-2)+2;
     }

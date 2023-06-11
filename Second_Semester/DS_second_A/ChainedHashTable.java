@@ -104,6 +104,7 @@ public class ChainedHashTable<K, V> implements HashTable<K, V> {
     public boolean delete(K key) {
         int index = this.hashFunc.hash(key);
         LinkedList<Node> list = this.table[index];
+        
         if(list.getFirst().getData().first() == key){
             list.removeFirst();
             return true;

@@ -12,16 +12,22 @@
     any Carter-Wegman hashing function on the result 
 
 3.8 and 3.10 times:
-the avg time for probing with load factor of 0.5 is Inserting -- 270.73333333333335 Searching 7.551400719251927E13
-the avg time for probing with load factor of 0.75 is Inserting -- 287.93333333333334 Searching 7.551578344134167E13
-the avg time for probing with load factor of 0.878 is Inserting -- 257.76666666666665 Searching 7.5517257093034E13
-the avg time for probing with load factor of 0.9375 is Inserting -- 246.43333333333334 Searching 7.55185968489495E13
-the avg time for chaining with load factor of 0.5 is Inserting -- 79.46666666666667 Searching 7.551872479270317E13
-the avg time for chaining with load factor of 0.75 is Inserting -- 80.66666666666667 Searching 7.552046932609517E13
-the avg time for chaining with load factor of 1.0 is Inserting -- 118.4 Searching 7.552180945684906E13
-the avg time for chaining with load factor of 1.5 is Inserting -- 116.36666666666666 Searching 7.552325699572653E13
-the avg time for chaining with load factor of 2.0 is Inserting -- 105.0 Searching 7.552483357559847E13
-
+the avg time for probing with load factor of 0.5 is Inserting -- 119.66666666666667 Searching 3.071825579404981E14
+the avg time for probing with load factor of 0.75 is Inserting -- 68.26666666666667 Searching 3.071869329343067E14
+the avg time for probing with load factor of 0.878 is Inserting -- 126.9 Searching 3.0718906109932375E14
+the avg time for probing with load factor of 0.9375 is Inserting -- 103.4 Searching 3.0719071337808106E14
+the avg time for chaining with load factor of 0.5 is Inserting -- 68.3 Searching 3.07187738764986E14
+the avg time for probing with load factor of 0.5 is Inserting -- 71.56666666666666 Searching 3.072760486845183E14
+the avg time for probing with load factor of 0.75 is Inserting -- 44.36666666666667 Searching 3.072800850320551E14
+the avg time for probing with load factor of 0.878 is Inserting -- 58.06666666666667 Searching 3.072819531349408E14
+the avg time for probing with load factor of 0.9375 is Inserting -- 72.73333333333333 Searching 3.072832993099001E14
+the avg time for chaining with load factor of 0.5 is Inserting -- 67.0 Searching 3.072799736156821E14
+the avg time for chaining with load factor of 0.75 is Inserting -- 59.4 Searching 3.072840559007588E14
+the avg time for chaining with load factor of 1.0 is Inserting -- 112.06666666666666 Searching 3.072865695874086E14
+the avg time for chaining with load factor of 1.5 is Inserting -- 77.13333333333334 Searching 3.072892827863702E14
+the avg time for chaining with load factor of 2.0 is Inserting -- 115.56666666666666 Searching 3.072915514502661E14
+the avg time for Dietzfelbinger with load factor of 1 is Inserting -- 61.5 Searching 3.0729057648018456E14
+the avg time for Carter-Wegman for Strings with load factor of 1 is Inserting -- 72.23333333333333 Searching 3.0729162829014125E14
 3.9:
     it seams that the measurmented time is getting lower as the load factor is getting closer to 1
 
@@ -31,3 +37,64 @@ the avg time for chaining with load factor of 2.0 is Inserting -- 105.0 Searchin
 
 
 
+3.13:
+    //search for val then return the node in the field next of the node that holds val
+    Successor(val){
+        int index <- hashFunc.hash(val);
+        LinkedList<Node> list <- table[index];
+        for(Node node: list){
+            Pair<K,V> pair <- node.getData();
+            if(pair.first() == val){
+                return node.getNext().getData().second();
+            }
+        }
+    }
+    the time complexity is the same as search and it is Θ(1) expected
+3.14:
+    //add aditional field to the DS called Min which holds the minimum at any given time, and updates on insert (this does not change the insert time complexity)
+    
+    insert(K key, V value){
+        Pair<K,V> pairToInsert = new Pair<K,V>(key, value); // create a new Pair = Θ(1)
+        if(key < this.Min.first() && value < this.Min.second()){ // simple compare = Θ(1)
+            this.Min <- pairToInsert; // Θ(1)
+        }
+        // the insert as described in the ChainedHashTable insert Method // the insert is Θ(1)
+    }
+    
+    Minimum(){
+        return this.Min; // return a value = Θ(1)
+    } 
+    in conclusion the algorithm has Θ(1) time complexity
+
+3.15:
+    // search for the val is it non-exist return 0 else return the size of the LinkedList that holds it
+    Rank(val){
+        int index <- hashFunc.hash(val); // the hash is a math calculation = Θ(1)
+        LinkedList<Node> list <- table[index]; //Θ(1)
+        for(Node node: list){// Θ(list.size)
+            Pair<K,V> pair <- node.getData();
+            if(pair.first() == val){
+                return list.size();
+            }
+        }
+    }
+        in conclusion the algorithm has a worst case of Θ(n (the size of the worst case list)) time complexity
+        and expected time complexity of Θ(1)
+3.16:
+    // create a counter and loop over the array of LinkedList while adding to the counter the size of each list, if after the addition the counter > index , move list.size - (counter - i) steps in the list and return the value there
+    Select(i){
+        if(i > capacity){ // is the index i is out of the range of the DS there is on need to loop over the all DS 
+            return null;
+        }
+        int counter <- 0;
+        for(int x=0; x < table.length; x++){ // worst case Θ(capacity) 
+            List current <- table[x];
+            counter += current.size;
+            if(counter > i){
+                int index = list.size - (counter - i);
+                return list.get(index); // Θ(list.size)
+            }
+        }
+        return null;
+    }
+    in conclusion the algorithm has a worst case of Θ(n)(the size of the table) time complexity
