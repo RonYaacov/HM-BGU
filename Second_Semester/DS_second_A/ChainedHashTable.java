@@ -107,6 +107,7 @@ public class ChainedHashTable<K, V> implements HashTable<K, V> {
     }
 
     public boolean delete(K key) {
+        size--;
         int index = this.hashFunc.hash(key);
         LinkedList<Node> list = this.table[index];
         
@@ -123,6 +124,7 @@ public class ChainedHashTable<K, V> implements HashTable<K, V> {
                 return true;
             }
         }
+        size++;
         return false;
     }
 

@@ -17,7 +17,7 @@ public class MyDataStructure {
      * @param N The maximal number of items expected in the DS.
      */
     public MyDataStructure(int N) {
-        int k = N >> 1;
+        int k = (int)(Math.log(N))*2;
         HashFactory<Integer> hashFactory = new  ModularHash();
         this.hashTable = new ProbingHashTable<Integer,Integer>(hashFactory, k, 0.75);
         this.skipList = new IndexableSkipList(0.5);
@@ -40,14 +40,15 @@ public class MyDataStructure {
     }
 
     public boolean delete(int value) {
-        boolean result = hashTable.delete(value);
+
         AbstractSkipList.Node nodeToDelete = new AbstractSkipList.Node(hashTable.search(value));
+        boolean result = hashTable.delete(value);
         result =  skipList.delete(nodeToDelete);
         return result;
     }
 
     public boolean contains(int value) {
-        return hashTable.search(value) == null;
+        return hashTable.search(value) != null;
     }
 
     public int rank(int value) {

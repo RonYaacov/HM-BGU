@@ -45,7 +45,7 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
 
     }
     private boolean isOccupied(int i){ 
-        return table[i] != null;
+        return !(table[i] == null || !table[i].second());
     }
 
     private void reHash(){

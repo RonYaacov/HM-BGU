@@ -100,6 +100,7 @@ public class HashingExperimentUtils {
     }
 
     public static void main(String[] args) {
+     
 
         double[] loadFactors = new double[]{0.5, 0.75, 0.878, 0.9375};
         for(double loadFactor: loadFactors){
