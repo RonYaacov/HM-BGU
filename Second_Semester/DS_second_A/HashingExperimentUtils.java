@@ -38,6 +38,7 @@ public class HashingExperimentUtils {
         for(int i = 0; i<itemsToInsert; i++){
             pTable.insert(randomIntegers[i],randomIntegers[i]);
         } 
+        pTable.delete(0);
         long end = System.nanoTime();
         double insertTime = (end-start)/itemsToInsert;
         start = System.nanoTime();

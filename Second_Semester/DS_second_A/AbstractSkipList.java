@@ -18,14 +18,10 @@ abstract public class AbstractSkipList {
         tail.addLevel(null, head);
     }
 
-    public Node find(int key){
-        throw new UnsupportedOperationException("Replace this by your implementation");
-    }
+    public abstract Node find(int key);
 
-    public int generateHeight(){
-        throw new UnsupportedOperationException("Replace this by your implementation");
-    }
-
+    public abstract int generateHeight();
+        
     public Node search(int key) {
         Node curr = find(key);
 
