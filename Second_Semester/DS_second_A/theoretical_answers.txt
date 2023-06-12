@@ -1,3 +1,285 @@
+2.2 output:
+p: 0.33, x: 10
+l1: 2.6
+l2: 2.6
+l3: 3.1
+l4: 2.7
+l5: 2.4
+Exepted Level: 1.492537313432836
+Average Delta: 1.1874626865671642
+
+p: 0.33, x: 100
+l1: 2.37
+l2: 2.37
+l3: 2.4299999999999997
+l4: 2.52
+l5: 2.5
+Exepted Level: 1.492537313432836
+Average Delta: 0.945462686567164
+
+p: 0.33, x: 1000
+l1: 2.447
+l2: 2.497
+l3: 2.473
+l4: 2.5389999999999997
+l5: 2.524
+Exepted Level: 1.492537313432836
+Average Delta: 1.003462686567164
+
+p: 0.33, x: 10000
+l1: 2.5004999999999997
+l2: 2.4733
+l3: 2.4905999999999997
+l4: 2.4885
+l5: 2.5045
+Exepted Level: 1.492537313432836
+Average Delta: 0.9989426865671641
+
+p: 0.5, x: 10
+l1: 2.9
+l2: 2.4
+l3: 2.7
+l4: 3.0
+l5: 3.2
+Exepted Level: 2.0
+Average Delta: 0.8400000000000001
+
+p: 0.5, x: 100
+l1: 2.81
+l2: 2.8600000000000003
+l3: 3.13
+l4: 3.01
+l5: 3.16
+Exepted Level: 2.0
+Average Delta: 0.9940000000000002
+
+p: 0.5, x: 1000
+l1: 2.9699999999999998
+l2: 2.995
+l3: 2.955
+l4: 2.98
+l5: 3.062
+Exepted Level: 2.0
+Average Delta: 0.9924
+
+p: 0.5, x: 10000
+l1: 2.9865
+l2: 2.9814
+l3: 2.9987
+l4: 2.9770000000000003
+l5: 2.9881
+Exepted Level: 2.0
+Average Delta: 0.9863400000000001
+
+p: 0.75, x: 10
+l1: 4.3
+l2: 4.8
+l3: 5.1
+l4: 4.7
+l5: 5.5
+Exepted Level: 4.0
+Average Delta: 0.8799999999999999
+
+p: 0.75, x: 100
+l1: 4.37
+l2: 4.83
+l3: 4.8100000000000005
+l4: 4.96
+l5: 5.18
+Exepted Level: 4.0
+Average Delta: 0.8300000000000001
+
+p: 0.75, x: 1000
+l1: 4.974
+l2: 5.128
+l3: 5.272
+l4: 5.135
+l5: 4.896
+Exepted Level: 4.0
+Average Delta: 1.0810000000000002
+
+p: 0.75, x: 10000
+l1: 5.0295
+l2: 4.9384999999999994
+l3: 4.9948
+l4: 4.9916
+l5: 4.941
+Exepted Level: 4.0
+Average Delta: 0.9790799999999997
+
+p: 0.9, x: 10
+l1: 9.2
+l2: 5.6
+l3: 13.3
+l4: 13.3
+l5: 10.1
+Exepted Level: 10.000000000000002
+Average Delta: 2.3800000000000003
+
+p: 0.9, x: 100
+l1: 10.71
+l2: 9.58
+l3: 10.52
+l4: 11.04
+l5: 10.25
+Exepted Level: 10.000000000000002
+Average Delta: 0.5879999999999989
+
+p: 0.9, x: 1000
+l1: 11.077
+l2: 11.387
+l3: 11.161
+l4: 10.987
+l5: 10.867
+Exepted Level: 10.000000000000002
+Average Delta: 1.0957999999999986
+
+p: 0.9, x: 10000
+l1: 10.8873
+l2: 10.9519
+l3: 11.0464
+l4: 11.0129
+l5: 11.0832
+Exepted Level: 10.000000000000002
+Average Delta: 0.9963399999999982
+
+2.3
+as long as the p is higher the average number of levels is higher.
+
+2.4
+the x value does not effects the average delta generated in each experiment. we can deduce from that the hight does not have an effect on the average difference (delta) between the results of each run and the expected height.
+
+2.6 output:
+p: 0.33  x :1000
+Average Insertion: 1000.2497502497499
+Average Search Time: 7236.11111111111
+Average Deletion Time: 587.842157842158
+
+p: 0.33  x :2500
+Average Insertion: 1548.7663436124049
+Average Search Time: 12390.833333333334
+Average Deletion Time: 983.8877396094512
+
+p: 0.33  x :5000
+Average Insertion: 2023.9039827512436
+Average Search Time: 20151.833333333336
+Average Deletion Time: 1417.8642776351794
+
+p: 0.33  x :10000
+Average Insertion: 2576.221750974421
+Average Search Time: 29344.888888888894
+Average Deletion Time: 2001.994864576485
+
+p: 0.33  x :15000
+Average Insertion: 3102.370229964712
+Average Search Time: 33793.96825396826
+Average Deletion Time: 2423.236559574596
+
+p: 0.33  x :20000
+Average Insertion: 3585.549404339327
+Average Search Time: 38281.07936507938
+Average Deletion Time: 2887.3025229430946
+
+p: 0.33  x :50000
+Average Insertion: 4250.488305561302
+Average Search Time: 44742.19047619049
+Average Deletion Time: 3577.75084730994
+
+p: 0.5  x :1000
+Average Insertion: 4537.521272594269
+Average Search Time: 46589.19047619049
+Average Deletion Time: 3805.343254902348
+
+p: 0.5  x :2500
+Average Insertion: 4885.164881817249
+Average Search Time: 48777.68253968255
+Average Deletion Time: 4076.6374039094126
+
+p: 0.5  x :5000
+Average Insertion: 5245.096228881172
+Average Search Time: 49865.34920634921
+Average Deletion Time: 4407.053987259408
+
+p: 0.5  x :10000
+Average Insertion: 5666.962375599835
+Average Search Time: 51182.46031746032
+Average Deletion Time: 4771.861506507483
+
+p: 0.5  x :15000
+Average Insertion: 6133.607265940477
+Average Search Time: 52824.904761904756
+Average Deletion Time: 5199.293233281257
+
+p: 0.5  x :20000
+Average Insertion: 6683.004462747302
+Average Search Time: 54995.626984126975
+Average Deletion Time: 5671.364129736437
+
+p: 0.5  x :50000
+Average Insertion: 7333.785113800948
+Average Search Time: 57662.40476190475
+Average Deletion Time: 6330.832273706893
+
+
+p: 0.75  x :1000
+Average Insertion: 7368.115527418501
+Average Search Time: 54573.675925925905
+Average Deletion Time: 6518.2066346886895
+
+p: 0.75  x :2500
+Average Insertion: 7799.373690819808
+Average Search Time: 55516.564814814796
+Average Deletion Time: 6848.586482749467
+
+p: 0.75  x :5000
+Average Insertion: 8242.377756673304
+Average Search Time: 56345.29497354496
+Average Deletion Time: 7190.6973939005675
+
+p: 0.75  x :10000
+Average Insertion: 8728.83411103787
+Average Search Time: 57593.69973544972
+Average Deletion Time: 7577.576372669357
+
+p: 0.75  x :15000
+Average Insertion: 9247.806179566634
+Average Search Time: 58825.477513227495
+Average Deletion Time: 7982.164066823079
+
+p: 0.75  x :20000
+
+p: 0.9  x :2500
+Average Insertion: 12011.21431358173
+Average Search Time: 64368.287037037
+Average Deletion Time: 10142.124473440916
+
+p: 0.9  x :5000
+Average Insertion: 12842.112800551004
+Average Search Time: 65501.42592592589
+Average Deletion Time: 10714.637304208092
+
+p: 0.9  x :10000
+Average Insertion: 13812.662412256503
+Average Search Time: 67528.33068783066
+Average Deletion Time: 11416.557778827297
+
+p: 0.9  x :15000
+Average Insertion: 14731.507600355077
+Average Search Time: 69298.88624338621
+Average Deletion Time: 12150.73238940881
+
+p: 0.9  x :20000
+Average Insertion: 15699.003892207149
+Average Search Time: 71728.8862433862
+Average Deletion Time: 12946.525766406627
+
+p: 0.9  x :50000
+Average Insertion: 17036.401677584774
+Average Search Time: 74338.36243386236
+Average Deletion Time: 14099.341643422416
+
+
+
 3.1 :
     in modern-day 64 bit computers w = 64
     as difined "In this task we limit the values to the long data-type of Java"
