@@ -7,8 +7,13 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
     final static double DEFAULT_MAX_LOAD_FACTOR = 0.75;
     final private HashFactory<K> hashFactory;
     final private double maxLoadFactor;
+    private HashFunctor<K> hashFanc;
     private int capacity;
     private HashFunctor<K> hashFunc;
+    private int k;
+    private int size;
+    private Pair<Pair<K,V>,Boolean>[] table;
+    
 
 
     /*
@@ -24,18 +29,85 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
         this.maxLoadFactor = maxLoadFactor;
         this.capacity = 1 << k;
         this.hashFunc = hashFactory.pickHash(k);
+        this.k = k;
+        this.table = new Pair[capacity];
+        this.size = 0;
+    }
+    private boolean isAtCapacity(){
+        return size/(double)capacity >= maxLoadFactor;
+
+    }
+    private boolean isOccupied(int i){ 
+        return table[i] != null;
+    }
+
+    private void reHash(){
+        capacity = capacity*2;
+        k++;
+        hashFanc = hashFactory.pickHash(k);
+        Pair<Pair<K,V>,Boolean>[] newTable = new Pair[capacity];
+        Pair<Pair<K,V>,Boolean>[] oldTable = table;
+        this.table = newTable;
+        for(Pair<Pair<K,V>,Boolean> pPair: oldTable){
+            if(pPair == null){
+                continue;
+            }
+            if(pPair.second()){
+                Pair<K,V> pair = pPair.first();
+                insert(pair.first(), pair.second());
+            }
+        }
     }
 
     public V search(K key) {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+        int index = hashFunc.hash(key);
+        int startVal = index;
+        while(isOccupied(index)){
+            if(table[index].second()){
+                if(table[index].first().first() == key)
+                    return table[index].first().second();
+            }
+            index++;
+            index = index%capacity;
+            if(index == startVal)
+                break;
+        }
+        return null;
     }
 
     public void insert(K key, V value) {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+        size++;
+        if(isAtCapacity()){
+            reHash();
+        }
+        int index = hashFunc.hash(key);
+        while(isOccupied(index)){
+            index++;
+            index = HashingUtils.mod(index, this.capacity);
+        }
+        Pair<K,V> pair =  new Pair<K,V>(key, value);
+        table[index] = new Pair<Pair<K,V>,Boolean>(pair,true);
     }
 
     public boolean delete(K key) {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+        int index = hashFanc.hash(key);
+        int startVal = index;
+        while(isOccupied(index)){
+            if(table[index].second()){
+                if(table[index].first().first() == key){
+                    Pair<K,V> pair = table[index].first();
+                    table[index] = new Pair<Pair<K,V>,Boolean>(pair, false);
+                    return true;
+                }
+                    
+            }
+            index++;
+            index = index%capacity;
+            if(index == startVal)
+                break;
+        }
+        return false;
+        
     }
 
     public HashFunctor<K> getHashFunc() {

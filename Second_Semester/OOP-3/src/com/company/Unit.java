@@ -1,11 +1,11 @@
 package com.company;
 
 public class Unit extends Tile {
-    private String name;
-    private int healthPoll;
-    private int healtAmount;
-    private int attackPoints;
-    private int defencePoints;
+    protected String name;
+    protected int healthPoll;
+    protected int healtAmount;
+    protected int attackPoints;
+    protected int defencePoints;
 
     public Unit(char tile, String name, int healthPoll, int attackPoints, int defencePoints) {
         super(tile);
@@ -18,15 +18,7 @@ public class Unit extends Tile {
     public void accept(Unit unit){
         //TODO: implement me
     }
-    public int compareTo(Unit unit){
-        if(this.attackPoints > unit.defencePoints){
-            return 1;
-        }
-        if(this.attackPoints == unit.defencePoints){
-            return 0;
-        }
-        return -1;
-    }
+   
 
 
     
