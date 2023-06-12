@@ -63,9 +63,8 @@ public class MyDataStructure {
         AbstractSkipList.Node currentNode = new AbstractSkipList.Node(hashTable.search(low));
         while(currentNode.key() <= high){
             list.addLast(currentNode.key());
-            currentNode = currentNode.getNext(high);
+            currentNode = currentNode.getNext(0);
         }
-        return list;
-        
+        return list;  
     }
 }
