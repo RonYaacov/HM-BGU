@@ -9,7 +9,7 @@ public class HashingExperimentUtils {
         HashFactory<Integer> hashFactory = new ModularHash();
         ChainedHashTable<Integer,Integer> cTable = new ChainedHashTable<Integer,Integer>(hashFactory, k, maxLoadFactor);
         int capacity = 1 << 16 ;
-        double itemsToInsert = (capacity*maxLoadFactor)-1;
+        double itemsToInsert = (capacity*maxLoadFactor);
         Integer[] randomIntegers = utils.genUniqueIntegers(capacity*2);
         long start = System.nanoTime();
         for(int i = 0; i<itemsToInsert; i++){

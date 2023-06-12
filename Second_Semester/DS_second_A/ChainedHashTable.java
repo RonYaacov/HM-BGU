@@ -83,8 +83,13 @@ public class ChainedHashTable<K, V> implements HashTable<K, V> {
             if(first == null){
                 continue;
             }
-            int index = this.hashFunc.hash(first.getData().first());
-            newTable[index] = list;
+            for(Node node : list){
+                int index = this.hashFunc.hash(node.getData().first());
+                if(newTable[index] == null){
+                    newTable[index] = new LinkedList<Node>();
+                }
+                newTable[index].addFirst(node);
+            }
         }
         this.table = newTable;
     }

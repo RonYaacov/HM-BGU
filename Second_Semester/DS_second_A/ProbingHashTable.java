@@ -7,12 +7,12 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
     final static double DEFAULT_MAX_LOAD_FACTOR = 0.75;
     final private HashFactory<K> hashFactory;
     final private double maxLoadFactor;
-    private HashFunctor<K> hashFanc;
     private int capacity;
     private HashFunctor<K> hashFunc;
     private int k;
     private int size;
     private Pair<Pair<K,V>,Boolean>[] table;
+    private AbstractSkipList.Node node; //for MyDataStructure
     
 
 
@@ -32,6 +32,13 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
         this.k = k;
         this.table = new Pair[capacity];
         this.size = 0;
+        this.node = null;
+    }
+    public void setNode(AbstractSkipList.Node node){
+        this.node = node;
+    }
+    public AbstractSkipList.Node getNode(){
+        return node;
     }
     private boolean isAtCapacity(){
         return size/(double)capacity >= maxLoadFactor;
@@ -44,7 +51,7 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
     private void reHash(){
         capacity = capacity*2;
         k++;
-        hashFanc = hashFactory.pickHash(k);
+        hashFunc = hashFactory.pickHash(k);
         Pair<Pair<K,V>,Boolean>[] newTable = new Pair[capacity];
         Pair<Pair<K,V>,Boolean>[] oldTable = table;
         this.table = newTable;
@@ -90,13 +97,14 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
     }
 
     public boolean delete(K key) {
-        int index = hashFanc.hash(key);
+        int index = hashFunc.hash(key);
         int startVal = index;
         while(isOccupied(index)){
             if(table[index].second()){
                 if(table[index].first().first() == key){
                     Pair<K,V> pair = table[index].first();
                     table[index] = new Pair<Pair<K,V>,Boolean>(pair, false);
+                    size--;
                     return true;
                 }
                     

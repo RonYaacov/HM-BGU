@@ -294,22 +294,17 @@ Average Deletion Time: 14099.341643422416
     any Carter-Wegman hashing function on the result 
 
 3.8 and 3.10 times:
-the avg time for probing with load factor of 0.5 is Inserting -- 119.66666666666667 Searching 3.071825579404981E14
-the avg time for probing with load factor of 0.75 is Inserting -- 68.26666666666667 Searching 3.071869329343067E14
-the avg time for probing with load factor of 0.878 is Inserting -- 126.9 Searching 3.0718906109932375E14
-the avg time for probing with load factor of 0.9375 is Inserting -- 103.4 Searching 3.0719071337808106E14
-the avg time for chaining with load factor of 0.5 is Inserting -- 68.3 Searching 3.07187738764986E14
-the avg time for probing with load factor of 0.5 is Inserting -- 71.56666666666666 Searching 3.072760486845183E14
-the avg time for probing with load factor of 0.75 is Inserting -- 44.36666666666667 Searching 3.072800850320551E14
-the avg time for probing with load factor of 0.878 is Inserting -- 58.06666666666667 Searching 3.072819531349408E14
-the avg time for probing with load factor of 0.9375 is Inserting -- 72.73333333333333 Searching 3.072832993099001E14
-the avg time for chaining with load factor of 0.5 is Inserting -- 67.0 Searching 3.072799736156821E14
-the avg time for chaining with load factor of 0.75 is Inserting -- 59.4 Searching 3.072840559007588E14
-the avg time for chaining with load factor of 1.0 is Inserting -- 112.06666666666666 Searching 3.072865695874086E14
-the avg time for chaining with load factor of 1.5 is Inserting -- 77.13333333333334 Searching 3.072892827863702E14
-the avg time for chaining with load factor of 2.0 is Inserting -- 115.56666666666666 Searching 3.072915514502661E14
-the avg time for Dietzfelbinger with load factor of 1 is Inserting -- 61.5 Searching 3.0729057648018456E14
-the avg time for Carter-Wegman for Strings with load factor of 1 is Inserting -- 72.23333333333333 Searching 3.0729162829014125E14
+the avg time for probing with load factor of 0.5 is Inserting -- 117.03333333333333 Searching 4.312327822103327E14
+the avg time for probing with load factor of 0.75 is Inserting -- 119.26666666666667 Searching 4.312386231433902E14
+the avg time for probing with load factor of 0.878 is Inserting -- 71.1 Searching 4.312412322786824E14
+the avg time for probing with load factor of 0.9375 is Inserting -- 74.36666666666666 Searching 4.312428533999191E14
+the avg time for chaining with load factor of 0.5 is Inserting -- 374.76666666666665 Searching 4.312378405603194E14
+the avg time for chaining with load factor of 0.75 is Inserting -- 301.96666666666664 Searching 4.3124356014714675E14
+the avg time for chaining with load factor of 1.0 is Inserting -- 295.6666666666667 Searching 4.3124709474409744E14
+the avg time for chaining with load factor of 1.5 is Inserting -- 284.9 Searching 4.3125078838640675E14
+the avg time for chaining with load factor of 2.0 is Inserting -- 252.5 Searching 4.312539412082479E14
+the avg time for Dietzfelbinger with load factor of 1 is Inserting -- 64.93333333333334 Searching 4.312524048355794E14
+the avg time for Carter-Wegman for Strings with load factor of 1 is Inserting -- 127.16666666666667 Searching 4.312533382871127E14
 3.9:
     it seams that the measurmented time is getting lower as the load factor is getting closer to 1
 
