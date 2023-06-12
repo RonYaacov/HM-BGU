@@ -21,6 +21,9 @@ abstract public class AbstractSkipList {
     public abstract Node find(int key);
 
     public abstract int generateHeight();
+
+
+    public abstract int generateHeight();
         
     public Node search(int key) {
         Node curr = find(key);
