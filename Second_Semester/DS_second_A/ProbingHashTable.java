@@ -12,6 +12,7 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
     private int k;
     private int size;
     private Pair<Pair<K,V>,Boolean>[] table;
+    private AbstractSkipList.Node node; //for MyDataStructure
     
 
 
@@ -31,6 +32,13 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
         this.k = k;
         this.table = new Pair[capacity];
         this.size = 0;
+        this.node = null;
+    }
+    public void setNode(AbstractSkipList.Node node){
+        this.node = node;
+    }
+    public AbstractSkipList.Node getNode(){
+        return node;
     }
     private boolean isAtCapacity(){
         return size/(double)capacity >= maxLoadFactor;
