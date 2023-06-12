@@ -1,4 +1,5 @@
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +18,13 @@ abstract public class AbstractSkipList {
         tail.addLevel(null, head);
     }
 
-    abstract Node find(int key);
+    public Node find(int key){
+        throw new UnsupportedOperationException("Replace this by your implementation");
+    }
 
-    abstract public int generateHeight();
+    public int generateHeight(){
+        throw new UnsupportedOperationException("Replace this by your implementation");
+    }
 
     public Node search(int key) {
         Node curr = find(key);
