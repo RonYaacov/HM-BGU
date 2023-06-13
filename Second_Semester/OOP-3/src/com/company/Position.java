@@ -31,5 +31,14 @@ public class Position implements Comparable<Position>{
     public int getY(){
         return y;
     }  
+    public void setX(int x){
+        this.x = x;
+    }
+    public void setY(int y){
+        this.y = y;
+    }
+    public double range(Position position){
+        return Math.sqrt(Math.pow(this.x - position.x, 2) + Math.pow(this.y - position.y, 2));
+    }
 
 }
