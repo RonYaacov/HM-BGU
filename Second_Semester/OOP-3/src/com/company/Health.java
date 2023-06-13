@@ -23,6 +23,12 @@ public class Health {
     public void setHealthAmount(int healtAmount){
         this.healtAmount = healtAmount;
     }
+    public void increaseHealth(int health){
+        this.healtAmount += health;
+        if(healtAmount > healthPool){
+            healtAmount = healthPool;
+        }
+    }
 
     public void increaseHealthPoll(int healthPoll){
         this.healthPool += healthPoll;

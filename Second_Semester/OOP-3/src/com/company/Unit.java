@@ -1,7 +1,9 @@
 package com.company;
 import java.util.Random;
+import com.company.Interfaces.Visited;
+import com.company.Interfaces.Visitor;
 
-public class Unit extends Tile {
+public class Unit extends Tile implements Visitor, Visited {
     protected String name;
     protected Health health;
     protected int attackPoints;
@@ -34,19 +36,23 @@ public class Unit extends Tile {
     
     public boolean attack(Unit enemy){
         double currentAttack = this.attackPoints*rand.nextDouble();
-        return enemy.receiveDamage(currentAttack);
+        return enemy.receiveDamage(currentAttack) != -1;
     }
 
-    public boolean receiveDamage(double damage){
+    public int receiveDamage(double damage){
         double currentDefence = this.defencePoints*rand.nextDouble();
         if(currentDefence < damage){
             this.health.setHealthAmount((int)(this.health.getHealthAmount() - (damage - currentDefence)));
-            return true;
+            if(health.getHealthAmount() < 0){
+                onkilled(this);
+            }
+            
         }
-        return false;
+        return -1;
     }
-   
+    public int onkilled(Unit unit){
 
 
+    }
     
 }

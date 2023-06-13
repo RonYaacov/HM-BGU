@@ -4,9 +4,6 @@ package com.company;
 public class Player extends Unit {
     protected int experience;
     protected int level;
-    protected enum playerTypes {Warrior, Mage, Rogue};
-
-
 
     public Player(char tile, String name,Health health, int attackPoints, int defencePoints){
         super(tile, name, health, attackPoints, defencePoints);
@@ -20,11 +17,15 @@ public class Player extends Unit {
     }
     protected void levelUp(){
         this.level++;
-        this.experience = this.experience - (50*this.level);
+        this.setExperience(this.experience - (50*this.level));
         this.health.increaseHealthPoll(10*this.level);
         this.health.setHealthAmount(this.health.getHealthPool());
         this.setAttackPoints(attackPoints + 4*this.level);
         this.setDefencePoints(defencePoints + this.level);
+    }
+    
+    public void setExperience(int experience){
+        this.experience = experience;
     }
     
 
