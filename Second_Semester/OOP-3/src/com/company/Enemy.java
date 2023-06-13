@@ -11,7 +11,6 @@ public abstract class Enemy implements Visitor {
     public int getExperienceReword(){
         return experienceReword;
     }
-     
 
     @Override
     public void visitBattle(Player player){
