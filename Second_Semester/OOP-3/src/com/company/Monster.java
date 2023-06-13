@@ -2,6 +2,7 @@ package com.company;
 
 public class Monster extends Enemy {
     private int visionRange;
+   
 
     public Monster(char tile, String name, Health health, int attackPoints, int defencePoints, int experienceReword, int visionRange) {
         super(tile, name, health, attackPoints, defencePoints, experienceReword);
