@@ -1,6 +1,6 @@
 package com.company.Interfaces;
 
 public interface Visited {
-    int acceptAttack(Visitor visitor);
+    int acceptBattle(Visitor visitor);
     
 }
