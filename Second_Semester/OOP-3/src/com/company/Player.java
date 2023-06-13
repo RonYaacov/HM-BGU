@@ -1,8 +1,9 @@
 package com.company;
 
+
 public class Player extends Unit {
-    private int experience;
-    private int level;
+    protected int experience;
+    protected int level;
     protected enum playerTypes {Warrior, Mage, Rogue};
 
 
@@ -17,6 +18,15 @@ public class Player extends Unit {
         this.experience = experience;
         this.level = level;
     }
+    protected void levelUp(){
+        this.level++;
+        this.experience = this.experience - (50*this.level);
+        this.health.increaseHealthPoll(10*this.level);
+        this.health.setHealthAmount(this.health.getHealthPool());
+        this.setAttackPoints(attackPoints + 4*this.level);
+        this.setDefencePoints(defencePoints + this.level);
+    }
+    
 
 
     
