@@ -3,7 +3,7 @@ import java.util.Random;
 import com.company.Interfaces.Visited;
 import com.company.Interfaces.Visitor;
 
-public class Unit extends Tile implements Visitor, Visited {
+public abstract class Unit extends Tile implements Visitor, Visited {
     protected String name;
     protected Health health;
     protected int attackPoints;
@@ -17,9 +17,6 @@ public class Unit extends Tile implements Visitor, Visited {
         this.attackPoints = attackPoints;
         this.defencePoints = defencePoints;
         this.rand = new Random();
-    }
-    public void accept(Unit unit){
-        //TODO: implement me
     }
     public int attackPoints(){
         return attackPoints;
@@ -50,9 +47,16 @@ public class Unit extends Tile implements Visitor, Visited {
         }
         return -1;
     }
-    public int onkilled(Unit unit){
-
-
+    public void onkilled(Unit unit){
+        unit.acceptBattle(this);
     }
+    
+    public abstract void acceptBattle(Visitor visitor);
+
+    public abstract void visitBattle(Player player);
+
+    public abstract void visitBattle(Enemy enemy);
+  
+    
     
 }

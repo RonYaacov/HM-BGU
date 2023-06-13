@@ -1,9 +1,10 @@
 package com.company.Interfaces;
 
+import com.company.Enemy;
 import com.company.Player;
 
 public interface Visitor {
-    int visitBattle(Player player);
-    int visitBattle(Enemy enemy);
+    void visitBattle(Player player);
+    void visitBattle(Enemy enemy);
     
 }
