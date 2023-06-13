@@ -52,7 +52,7 @@ public class MyDataStructure {
     }
 
     public int rank(int value) {
-        return -1;
+        return -1; 
     }
 
     public int select(int index) {
