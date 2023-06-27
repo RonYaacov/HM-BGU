@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.*;
+
 public class Rogue extends Player{
     private int cost;
     private int currentEnergy; //max 100
@@ -26,10 +28,14 @@ public class Rogue extends Player{
         currentEnergy = Math.min(currentEnergy + 10, 100);
     }
 
-    public void castAbility(Unit enemy){
+    public void castAbility(){
         if(currentEnergy >= cost){
             currentEnergy -= cost;
-            //attacks every enemy in range < 2 with attackPoints
+            List<Enemy> enemies = board.getEnemiesInRange(2);
+            while(!enemies.isEmpty()){
+                Enemy enemy = enemies.remove(0);
+                enemy.receiveDamage(attackPoints);
+            }
         }
         else{
             System.out.println("Ability is not ready yet!");

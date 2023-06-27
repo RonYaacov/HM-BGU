@@ -34,6 +34,7 @@ public class Board implements PosListener {
                     Tile tile;
                     if(symbol == '@'){
                         tile = factory.producePlayer(playerName);
+                        ((Player)tile).setBoard(this);
                     }
                     else{
 
@@ -65,7 +66,7 @@ public class Board implements PosListener {
         for (Tile[] row : board) {
             for (Tile tile : row) {
                 if (tile instanceof Enemy) {
-                    if (range(tile, board[0][0]) <= range) {
+                    if (range(tile, board[0][0]) < range) {
                         enemies.add((Enemy) tile);
                     }
                 }
