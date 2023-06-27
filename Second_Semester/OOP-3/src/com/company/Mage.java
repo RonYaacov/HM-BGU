@@ -5,15 +5,19 @@ public class Mage extends Player{
     private int currentMana;
     private int manaCost;
     private int spellPower;
-    private int hitsCount;
+    private int hitCounter;
+    private int maxHits;
     private int abilityRange;
-    public Mage(char tile, String name, Health health, int attackPoints, int defencePoints, int manaPool, int manaCost, int spellPower, int abilityRange){
+
+
+    public Mage(char tile, String name, Health health, int attackPoints, int defencePoints, int manaPool, int manaCost, int spellPower, int hitCount, int abilityRange){
         super(tile, name, health, attackPoints, defencePoints);
         this.manaPool = manaPool;
         this.currentMana = manaPool/4;
         this.manaCost = manaCost;
         this.spellPower = spellPower;
-        this.hitsCount = 0;
+        this.hitCounter = 0;
+        this.maxHits = hitCount;
         this.abilityRange = abilityRange;
     }
     public Mage(char tile, String name, Health health, int attackPoints, int defencePoints, int experience, int level, int manaPool, int manaCost, int spellPower, int abilityRange){
@@ -22,7 +26,7 @@ public class Mage extends Player{
         this.currentMana = manaPool/4;
         this.manaCost = manaCost;
         this.spellPower = spellPower;
-        this.hitsCount = 0;
+        this.hitCounter = 0;
         this.abilityRange = abilityRange;
     }
 
@@ -41,7 +45,7 @@ public class Mage extends Player{
         if(currentMana >= manaCost){
             currentMana -= manaCost;
             int hits = 0;
-            while(hits < hitsCount /*& enemy exists in range*/){
+            while(hits < hitCounter /*& enemy exists in range*/){
                 //select random enemy in range
                 enemy.receiveDamage(spellPower);
                 hits++;

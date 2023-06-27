@@ -1,19 +1,17 @@
 package com.company;
-
-
 import com.company.Interfaces.TickListener;
 
-public class Trap implements TickListener {
+public class Trap extends Enemy implements TickListener {
+
     private int visibilityTime;
     private int invisibilityTime;
     private int ticksCount;
     private boolean isVisible;
 
-    public Trap(int visibilityTime, int invisibilityTime){
+    public Trap(char tile, String name, Health health, int attackPoints, int defencePoints, int experiencePoints, int visibilityTime, int invisibilityTime){
+        super(tile, name, health, attackPoints, defencePoints, experiencePoints);
         this.visibilityTime = visibilityTime;
         this.invisibilityTime = invisibilityTime;
-        this.ticksCount = 0;
-        this.isVisible = true;
     }
 
     @Override
