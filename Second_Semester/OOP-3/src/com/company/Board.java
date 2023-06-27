@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Board {
+import com.company.Interfaces.PosListener;
+
+public class Board implements PosListener {
     private Tile[][] board;
     private int size;
 
@@ -86,5 +88,13 @@ public class Board {
 
     public Tile[][] getBoard() {
         return board;
+    }
+
+    @Override
+    public void posChanged(Position prevePos, Position newPos){
+        Tile tile = board[prevePos.getX()][prevePos.getY()];
+        Tile newTile = board[newPos.getX()][newPos.getY()];
+        board[prevePos.getX()][prevePos.getY()] = newTile;
+        board[newPos.getX()][newPos.getY()] = tile;
     }
 }
