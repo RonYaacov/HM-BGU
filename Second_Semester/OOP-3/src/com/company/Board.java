@@ -3,88 +3,89 @@ package com.company;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private Tile[][] board;
-    private int size;
+    private String filePath;
+    private TileFactory factory;
 
-    public Board(int size){
-        String filePath = "path/to/your/file.txt";
-
+    public Board(String filePath, String playerName) {
+        this.factory = new TileFactory();
+        this.filePath = filePath;
         try {
-            // Read the text file
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            StringBuilder content = new StringBuilder();
+            StringBuilder tiles = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
+                tiles.append(line).append("\n");
             }
             reader.close();
+            String[] lines = tiles.toString().split("\n");
+            int rows = lines.length;
+            int cols = lines[0].length();
+            board = new Tile[rows][cols];
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    char symbol = lines[i].charAt(j);
+                    Tile tile;
+                    if(symbol == '@'){
+                        tile = factory.producePlayer(playerName);
+                    }
+                    else{
 
-            // Split the content by newline character
-            String[] lines = content.toString().split("\n");
-
-            // Determine the dimensions of the 2D array
-            int numRows = lines.length;
-            int numCols = lines[0].length();
-
-            // Create the 2D array
-            char[][] array2D = new char[numRows][numCols];
-
-            // Fill the 2D array with characters
-            for (int i = 0; i < numRows; i++) {
-                for (int j = 0; j < numCols; j++) {
-                    array2D[i][j] = lines[i].charAt(j);
+                        tile = factory.produceObject(symbol);
+                    }
+                    tile.setPosition(new Position(i, j));
+                    board[i][j] = tile;
                 }
             }
-
-            // Print the 2D array
-            for (int i = 0; i < numRows; i++) {
-                for (int j = 0; j < numCols; j++) {
-                    System.out.print(array2D[i][j]);
-                }
-                System.out.println();
-            }
-
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         }
     }
 
-    public void initialize(){
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
-                board[i][j] = new EmptyTile('.');
-            }
-        }
+    public void setTile(Position position, Tile tile){
+        board[position.getX()][position.getY()] = tile;
     }
 
-    public void print(){
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
-                System.out.print(board[i][j]);
-            }
-            System.out.println();
-        }
-    }
-
-    public void addTile(Tile tile){
-        board[tile.getPosition().getX()][tile.getPosition().getY()] = tile;
-    }
-
-    public void removeTile(Tile tile){
-        board[tile.getPosition().getX()][tile.getPosition().getY()] = new EmptyTile('.');
-    }
-
-    public Tile getTile(Position position){
+    public Tile getTile(Position position){ //should be used with try/catch in case position out of bounds
         return board[position.getX()][position.getY()];
-    }
-
-    public int getSize() {
-        return size;
     }
 
     public Tile[][] getBoard() {
         return board;
+    }
+
+    public List<Enemy> getEnemiesInRange(int range){
+        List<Enemy> enemies = new ArrayList<>();
+        for (Tile[] row : board) {
+            for (Tile tile : row) {
+                if (tile instanceof Enemy) {
+                    if (range(tile, board[0][0]) <= range) {
+                        enemies.add((Enemy) tile);
+                    }
+                }
+            }
+        }
+        if(enemies.isEmpty()){
+            return null;
+        }
+        return enemies;
+    }
+    private int range(Tile a, Tile b){
+        return (int)Math.ceil(Math.sqrt(a.getPosition().getX() - b.getPosition().getX()) + Math.abs(a.getPosition().getY() - b.getPosition().getY()));
+    }
+    @Override
+    public String toString(){
+        StringBuilder boardString = new StringBuilder();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                boardString.append(board[i][j].toString());
+            }
+            boardString.append("\n");
+        }
+        return boardString.toString();
     }
 }

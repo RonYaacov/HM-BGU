@@ -57,6 +57,8 @@ public abstract class Unit extends Tile implements Visitor, Visited {
 
     public abstract void visitBattle(Enemy enemy);
   
-    
+    public String getName(){
+        return name;
+    }
     
 }
