@@ -74,8 +74,8 @@ public class Board {
         }
         return enemies;
     }
-    private int range(Tile a, Tile b){
-        return (int)Math.ceil(Math.sqrt(a.getPosition().getX() - b.getPosition().getX()) + Math.abs(a.getPosition().getY() - b.getPosition().getY()));
+    private double range(Tile a, Tile b){
+        return Math.sqrt(a.getPosition().getX() - b.getPosition().getX()) + Math.abs(a.getPosition().getY() - b.getPosition().getY());
     }
     @Override
     public String toString(){
