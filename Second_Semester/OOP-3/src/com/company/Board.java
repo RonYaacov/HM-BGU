@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+import com.company.Interfaces.PosListener;
+
+public class Board implements PosListener {
     private Tile[][] board;
     private String filePath;
     private TileFactory factory;
@@ -87,5 +89,13 @@ public class Board {
             boardString.append("\n");
         }
         return boardString.toString();
+    }
+
+    @Override
+    public void posChanged(Position prevePos, Position newPos){
+        Tile tile = board[prevePos.getX()][prevePos.getY()];
+        Tile newTile = board[newPos.getX()][newPos.getY()];
+        board[prevePos.getX()][prevePos.getY()] = newTile;
+        board[newPos.getX()][newPos.getY()] = tile;
     }
 }

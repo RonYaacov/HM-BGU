@@ -1,8 +1,8 @@
 package com.company;
+import com.company.Interfaces.TickListener;
 
-import java.beans.Visibility;
+public class Trap extends Enemy implements TickListener {
 
-public class Trap extends Enemy {
     private int visibilityTime;
     private int invisibilityTime;
     private int ticksCount;
@@ -13,7 +13,16 @@ public class Trap extends Enemy {
         this.visibilityTime = visibilityTime;
         this.invisibilityTime = invisibilityTime;
     }
-    
-    
 
+    @Override
+    public void tick() {
+        ticksCount++;
+        if(ticksCount == visibilityTime){
+            isVisible = false;
+        }
+        else if(ticksCount == visibilityTime + invisibilityTime){
+            isVisible = true;
+            ticksCount = 0;
+        }
+    }
 }
