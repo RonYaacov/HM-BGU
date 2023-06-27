@@ -1,18 +1,19 @@
-import Interfaces.TickListener;
+package com.company;
+import com.company.Interfaces.TickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import Interfaces.TickEvent;
+import com.company.Interfaces.TickEvent;
 
 public class GameManeger implements TickEvent{
     private List<TickListener> Ticklisteners;
+    private Board board;
 
-
-    public GameManeger() {
+    public GameManeger(String filePath , String PlayerName) {
+        this.board = new Board(filePath, PlayerName);
         Ticklisteners = new ArrayList<TickListener>();
-    
     }
-
+        
     @Override
     public void Register(TickListener listener) {
         Ticklisteners.add(listener);
