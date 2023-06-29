@@ -6,6 +6,7 @@ public class Player extends Unit {
     protected int experience;
     protected int level;
     protected boolean isAlive;
+    protected Board board;
 
     public Player(char tile, String name,Health health, int attackPoints, int defencePoints){
         super(tile, name, health, attackPoints, defencePoints);
@@ -28,6 +29,9 @@ public class Player extends Unit {
         this.setDefencePoints(defencePoints + this.level);
     }
 
+    public void setBoard(Board board){
+        this.board = board;
+    }
     public void setExperience(int experience){
         this.experience = experience;
     }

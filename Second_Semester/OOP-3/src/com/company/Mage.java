@@ -1,11 +1,13 @@
 package com.company;
 
+import java.util.List;
+import java.util.Random;
+
 public class Mage extends Player{
     private int manaPool;
     private int currentMana;
     private int manaCost;
     private int spellPower;
-    private int hitCounter;
     private int maxHits;
     private int abilityRange;
 
@@ -16,7 +18,6 @@ public class Mage extends Player{
         this.currentMana = manaPool/4;
         this.manaCost = manaCost;
         this.spellPower = spellPower;
-        this.hitCounter = 0;
         this.maxHits = hitCount;
         this.abilityRange = abilityRange;
     }
@@ -26,7 +27,6 @@ public class Mage extends Player{
         this.currentMana = manaPool/4;
         this.manaCost = manaCost;
         this.spellPower = spellPower;
-        this.hitCounter = 0;
         this.abilityRange = abilityRange;
     }
 
@@ -41,16 +41,16 @@ public class Mage extends Player{
         currentMana = Math.min((currentMana + level), manaPool);
     }
 
-    public void castAbility(Unit enemy){
+    public void castAbility(){
         if(currentMana >= manaCost){
             currentMana -= manaCost;
             int hits = 0;
-            while(hits < hitCounter /*& enemy exists in range*/){
-                //select random enemy in range
+            List<Enemy> enemies = board.getEnemiesInRange(abilityRange);
+            while(hits < maxHits & !enemies.isEmpty()){
+                Enemy enemy = enemies.remove(new Random().nextInt(enemies.size()));
                 enemy.receiveDamage(spellPower);
                 hits++;
             }
-
         }
         else{
             System.out.println("Ability is not ready yet!");

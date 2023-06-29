@@ -1,4 +1,5 @@
 package com.company;
+import java.util.*;
 
 public class Warrior extends Player{
 
@@ -28,12 +29,13 @@ public class Warrior extends Player{
             this.remainingCooldown = remainingCooldown;
     }
 
-    public void castAbility(Unit enemy){
+    public void castAbility(){
         if(remainingCooldown == 0){
             remainingCooldown = abilityCooldown;
             this.health.increaseHealth(10 * defencePoints);
-            //TODO: remove enemy input and search for the closest enemy where d(e) < 3, if null, do nothing, else, attack
-            if(enemy != null){
+            List<Enemy> enemies = board.getEnemiesInRange(3);
+            if(!enemies.isEmpty()){
+                Enemy enemy = enemies.get(new Random().nextInt(enemies.size()));
                 enemy.receiveDamage(0.1 * this.health.getHealthPool());
             }
         }
