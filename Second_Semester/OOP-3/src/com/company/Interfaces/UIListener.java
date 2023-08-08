@@ -1,5 +1,5 @@
 package com.company.Interfaces;
 
 public interface UIListener {
-    void onEvent(String event);
+    void onUIEvent(String event);
 }

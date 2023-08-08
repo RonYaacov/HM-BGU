@@ -3,9 +3,13 @@ package com.company;
 public abstract class Tile implements Comparable<Tile> {
     protected char tile;
     protected Position position;
+    protected Board board;
 
     protected Tile(char tile){
         this.tile = tile;
+    }
+    public void setBoard(Board board){
+        this.board = board;
     }
 
     protected void initialize(Position position){

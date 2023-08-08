@@ -11,18 +11,23 @@ public class UI implements UIEvent {
     private Board board;
     private List<UIListener> UIlisteners;
 
-    public UI(Board board){
-        this.board = board;
+    public UI(){
+        
         UIlisteners = new ArrayList<UIListener>();
     }
 
+    public void setBoard(Board board){
+        this.board = board;
+    }
+
     public void getPlayerType(){
+        System.out.print("Enter Player Name: ");
         Scanner scanner = new Scanner(System.in);
         String playerName = scanner.nextLine();
         scanner.close();
         raiseEvent(playerName);
     }
-    
+
     public void printBoard(){
         System.out.println(board.toString());
         
@@ -35,7 +40,7 @@ public class UI implements UIEvent {
     @Override
     public void raiseEvent(String event) {
         for(UIListener listener : UIlisteners)
-            listener.onEvent(event);
+            listener.onUIEvent(event);
         
     }
 
