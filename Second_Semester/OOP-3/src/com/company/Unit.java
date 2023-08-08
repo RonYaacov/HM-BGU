@@ -40,7 +40,7 @@ public abstract class Unit extends Tile implements Visitor, Visited {
         double currentDefence = this.defencePoints*rand.nextDouble();
         if(currentDefence < damage){
             this.health.setHealthAmount((int)(this.health.getHealthAmount() - (damage - currentDefence)));
-            if(health.getHealthAmount() < 0){
+            if(health.getHealthAmount() <= 0){
                 onkilled(this);
             }
             
