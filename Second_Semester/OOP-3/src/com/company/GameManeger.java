@@ -2,7 +2,6 @@ package com.company;
 import com.company.Interfaces.TickListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.company.Interfaces.TickEvent;
 
 public class GameManeger implements TickEvent{
