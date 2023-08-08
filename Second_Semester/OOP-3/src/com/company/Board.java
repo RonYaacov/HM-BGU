@@ -94,9 +94,9 @@ public class Board implements PosListener {
 
     @Override
     public void posChanged(Position prevePos, Position newPos){
-        Tile tile = board[prevePos.getX()][prevePos.getY()];
-        Tile newTile = board[newPos.getX()][newPos.getY()];
-        board[prevePos.getX()][prevePos.getY()] = newTile;
-        board[newPos.getX()][newPos.getY()] = tile;
+        Tile oldTile = new EmptyTile();
+        Tile newTile = board[prevePos.getX()][prevePos.getY()];
+        board[prevePos.getX()][prevePos.getY()] = oldTile;
+        board[newPos.getX()][newPos.getY()] = newTile;
     }
 }
