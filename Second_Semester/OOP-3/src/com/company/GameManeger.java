@@ -11,13 +11,16 @@ public class GameManeger implements TickEvent, UIListener{
     private Board board;
     private boolean isRunning;
     private Tile player;
+    private UI ui;
     private TileFactory factory;
 
-    public GameManeger(String filePath) {
+    public GameManeger(String filePath, UI ui) {
         this.filePath = filePath;
         Ticklisteners = new ArrayList<TickListener>();
         this.factory = new TileFactory();
-        this.isRunning = false;    }
+        this.isRunning = false;    
+        this.ui = ui;
+    }
 
     public boolean isRunning() {
         return isRunning;
@@ -26,6 +29,8 @@ public class GameManeger implements TickEvent, UIListener{
         isRunning = true;
         while(isRunning){
             tick();
+            ui.clearScreen();
+            ui.printBoard(board);
         }
     }
         
@@ -71,12 +76,12 @@ public class GameManeger implements TickEvent, UIListener{
             }
             Tile tile = board.getTile(newPosition);
             if(tile.isPassable()){
-                board.setTile(position, new EmptyTile());
-                board.setTile(newPosition, player);
-                player.setPosition(newPosition);
+                position.setX(newPosition.getX());
+                position.setY(newPosition.getY());
+                player.setPosition(position);
             }
             else{
-                System.out.println("Invalid move");
+                return;
             }
         }
             
