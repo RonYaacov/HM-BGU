@@ -15,7 +15,7 @@ public class Trap extends Enemy implements TickListener {
     }
 
     @Override
-    public void tick() {
+    public void onTick() {
         ticksCount++;
         if(ticksCount == visibilityTime){
             isVisible = false;

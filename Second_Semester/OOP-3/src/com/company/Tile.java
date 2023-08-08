@@ -12,6 +12,10 @@ public abstract class Tile implements Comparable<Tile> {
         this.board = board;
     }
 
+    public boolean isPassable(){
+        return tile != '#';
+    }
+
     protected void initialize(Position position){
         this.position = position;
     }
