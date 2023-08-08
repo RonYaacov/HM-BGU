@@ -13,7 +13,7 @@ public class Board implements PosListener {
     private String filePath;
     private TileFactory factory;
 
-    public Board(String filePath, String playerName) {
+    public Board(String filePath, Tile player) {
         this.factory = new TileFactory();
         this.filePath = filePath;
         try {
@@ -33,8 +33,7 @@ public class Board implements PosListener {
                     char symbol = lines[i].charAt(j);
                     Tile tile;
                     if(symbol == '@'){
-                        tile = factory.producePlayer(playerName);
-                        ((Player)tile).setBoard(this);
+                        tile = player;
                     }
                     else{
 
@@ -42,9 +41,10 @@ public class Board implements PosListener {
                     }
                     tile.setPosition(new Position(i, j));
                     board[i][j] = tile;
+                    tile.position.Register(this);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
     }
