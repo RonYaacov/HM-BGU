@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.enums.TileType;
 import com.company.Interfaces.Visitor;
 
 public abstract class Enemy extends Unit  {
@@ -17,6 +18,12 @@ public abstract class Enemy extends Unit  {
     public void visitBattle(Player player){
         player.kill();
     }
+    
+    @Override
+    public TileType visitPosChanged(Board board){
+        return board.visitMove(this);
+    }
+
 
     @Override
     public void visitBattle(Enemy enemy){

@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.company.enums.TileType;
 import com.company.Interfaces.PosListener;
 
 public class Board implements PosListener {
@@ -91,12 +91,41 @@ public class Board implements PosListener {
         }
         return boardString.toString();
     }
-
+    private TileType move(Tile wanted){
+        return wanted.visitPosChanged(this);
+    }
+    public TileType visitMove(EmptyTile emptyTile){
+        return TileType.EmptyTile;
+        
+    }
+    public TileType visitMove(Player playerTile){
+        return TileType.Player;
+        
+    }
+    public TileType visitMove(Enemy enemyTile){
+        return TileType.Enemy;
+        
+    }
+   
     @Override
     public void posChanged(Position prevePos, Position newPos){
-        Tile oldTile = new EmptyTile();
         Tile newTile = board[prevePos.getX()][prevePos.getY()];
-        board[prevePos.getX()][prevePos.getY()] = oldTile;
-        board[newPos.getX()][newPos.getY()] = newTile;
+        Tile oldTile = new EmptyTile();
+        Tile wanted =  board[newPos.getX()][newPos.getY()];
+        TileType result = move(wanted);
+        switch (result){
+            case EmptyTile:
+                board[prevePos.getX()][prevePos.getY()] = oldTile;
+                board[newPos.getX()][newPos.getY()] = newTile;
+                break;
+            case Player:
+                wanted.acceptBattle(newTile);
+                break;
+            case Enemy:
+                wanted.acceptBattle(newTile);
+                break;
+        }
+        
+        
     }
 }

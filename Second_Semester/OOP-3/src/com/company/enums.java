@@ -13,6 +13,11 @@ public class enums {
         Queen_Cersei,
         Nights_King
     }
+    public static enum TileType{
+        EmptyTile,
+        Player,
+        Enemy,
+    }
 
     
 }

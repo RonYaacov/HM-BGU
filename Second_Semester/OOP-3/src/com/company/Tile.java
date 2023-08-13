@@ -1,6 +1,9 @@
 package com.company;
 
-public abstract class Tile implements Comparable<Tile> {
+import com.company.enums.TileType;
+import com.company.Interfaces.Visitor;
+
+public abstract class Tile implements Comparable<Tile> , Visitor {
     protected char tile;
     protected Position position;
     protected Board board;
@@ -43,6 +46,14 @@ public abstract class Tile implements Comparable<Tile> {
     public String toString() {
         return String.valueOf(tile);
     }
+    public TileType visitPosChanged(Board board){
+        return TileType.EmptyTile;
+    }
+       
+    public abstract void acceptBattle(Visitor visitor);
 
-    
+    public abstract void visitBattle(Player player);
+
+    public abstract void visitBattle(Enemy enemy);
+  
 }

@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Interfaces.Visitor;
+import com.company.enums.TileType;
 
 public class Player extends Unit {
     protected int experience;
@@ -34,12 +35,17 @@ public class Player extends Unit {
 
     @Override
     public void visitBattle(Player player) {
-        throw new UnsupportedOperationException("player should not kill another player");
+        return;
     }
 
     @Override
     public void visitBattle(Enemy enemy) {
         setExperience(experience + enemy.getExperienceReword());
+    }
+
+    @Override
+    public TileType visitPosChanged(Board board){
+        return board.visitMove(this);
     }
 
     @Override
