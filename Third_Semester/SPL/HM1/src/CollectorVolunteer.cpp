@@ -59,13 +59,13 @@ bool CollectorVolunteer::canTakeOrder(const Order &order) const override{
     return true;
 }
 
-bool CollectorVolunteer::acceptOrder(const Order &order) override{
+void CollectorVolunteer::acceptOrder(const Order &order) override{
     if(!this->canTakeOrder(order)){
-        return false;
+        return;
     }
     this->activeOrderId = order.getId();
     this->timeLeft = this->coolDown;
-    return true;
+    return;
 }
 
 void CollectorVolunteer::step() override{
@@ -91,11 +91,11 @@ std::string CollectorVolunteer::toString() const override{
     return "CollectorVolunteer named: "+this->name+" with id: "+this->id;
 }
 
-int getCoolDown() const{
+int CollectorVolunteer::getCoolDown() const{
     return this->coolDown;
 }
 
-int getTimeLeft() const{
+int CollectorVolunteer::getTimeLeft() const{
     return this->timeLeft;
 }
 
