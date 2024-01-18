@@ -48,3 +48,11 @@ int LimitedCollectorVolunteer::getMaxOrders()const{
 int LimitedCollectorVolunteer::getNumOrdersLeft()const{
     return this->ordersLeft;
 }
+
+std::string LimitedCollectorVolunteer::toString() const override{
+    std::string str = "LimitedCollectorVolunteer: " + this->getName() + " (id: " + std::to_string(this->getId()) + "), ";
+    str += "coolDown: " + std::to_string(this->getCoolDown()) + ", ";
+    str += "maxOrders: " + std::to_string(this->getMaxOrders()) + ", ";
+    str += "ordersLeft: " + std::to_string(this->getNumOrdersLeft());
+    return str;
+}

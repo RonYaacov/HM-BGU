@@ -4,9 +4,7 @@
 #include <iostream>
 #include <string>
 
-CollectorVolunteer::CollectorVolunteer(int id, std::string name, int coolDown){
-    this->id = id;
-    this->name = name;
+CollectorVolunteer::CollectorVolunteer(int id, std::string name, int coolDown): Volunteer(id, name){
     this->coolDown = coolDown;
     this->timeLeft = nullptr;
     this->activeOrderId = nullptr; // it should be initialized to NO_ORDER i dont know what is it need to check
@@ -26,37 +24,12 @@ CollectorVolunteer* CollectorVolunteer::clone() const override{
     return new CollectorVolunteer(*this);
 }
 
-int CollectorVolunteer::getId(){
-    return this->id;
-}
-
-std::string& CollectorVolunteer::getName(){
-    return this->name;
-}
-
-int CollectorVolunteer::getActiveOrderId(){
-    return this->activeOrderId;
-}
-
-bool CollectorVolunteer::isBusy(){
-    if(this->activeOrderId == nullptr){ //should be NO_ORDER insted of nullptr
-        return false;
-    }
-    return true;
-}
-
 bool CollectorVolunteer::hasOrdersLeft() const override{
     return true;
 }
 
 bool CollectorVolunteer::canTakeOrder(const Order &order) const override{
-    if(this->isBusy()){
-        return false;
-    } 
-    if(order.getStatus() != OrderStatus::PENDING){
-        return false;
-    }
-    return true;
+    return !(this->isBusy() || order.getStatus() != OrderStatus::PENDING)
 }
 
 void CollectorVolunteer::acceptOrder(const Order &order) override{
