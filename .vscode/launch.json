@@ -1,42 +1,58 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    },
+    {
+      "type": "java",
+      "name": "GUI",
+      "request": "launch",
+      "mainClass": "GUI",
+      "projectName": "HM-BGU_cddd1545"
+    },
+    {
+      "type": "java",
+      "name": "HashingExperimentUtils",
+      "request": "launch",
+      "mainClass": "HashingExperimentUtils",
+      "projectName": "HM-BGU_cddd1545"
+    },
+    {
+      "type": "java",
+      "name": "SkipListExperimentUtils",
+      "request": "launch",
+      "mainClass": "SkipListExperimentUtils",
+      "projectName": "HM-BGU_cddd1545"
+    },
+    {
+      "type": "java",
+      "name": "tester",
+      "request": "launch",
+      "mainClass": "tester",
+      "projectName": "HM-BGU_cddd1545"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/ronya/Programing/BGU/HM-BGU/Third_Semester/HM-BGU/Third_Semester/SPL/HM1/src",
+      "program": "c:/Users/ronya/Programing/BGU/HM-BGU/Third_Semester/HM-BGU/Third_Semester/SPL/HM1/src/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
         {
-            "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "GUI",
-            "request": "launch",
-            "mainClass": "GUI",
-            "projectName": "HM-BGU_cddd1545"
-        },
-        {
-            "type": "java",
-            "name": "HashingExperimentUtils",
-            "request": "launch",
-            "mainClass": "HashingExperimentUtils",
-            "projectName": "HM-BGU_cddd1545"
-        },
-        {
-            "type": "java",
-            "name": "SkipListExperimentUtils",
-            "request": "launch",
-            "mainClass": "SkipListExperimentUtils",
-            "projectName": "HM-BGU_cddd1545"
-        },
-        {
-            "type": "java",
-            "name": "tester",
-            "request": "launch",
-            "mainClass": "tester",
-            "projectName": "HM-BGU_cddd1545"
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
-    ]
+      ]
+    }
+  ]
 }
