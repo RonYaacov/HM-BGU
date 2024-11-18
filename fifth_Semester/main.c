@@ -17,10 +17,7 @@ void program_loop(){
     }
 }
 
-
-int main(int argc, char *argv[]) {    
-    infile = stdin;
-    outfile = stderr;
+void print_command_line(int argc, char *argv[]){
     bool debug = true;
     for(int i=1; i<argc; i++){
         if(strcmp(argv[i], "+D") == 0){
@@ -35,7 +32,13 @@ int main(int argc, char *argv[]) {
             fprintf(outfile, "%s\n",argv[i]);
         }
     }
-    program_loop();
+}
 
+
+int main(int argc, char *argv[]) {    
+    infile = stdin;
+    outfile = stderr;
+    print_command_line(argc, argv);
+    program_loop();
     return 0;
 }
