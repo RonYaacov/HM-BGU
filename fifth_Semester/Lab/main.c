@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include <string.h>
+#include <stdlib.h>
 
 FILE *infile;
 FILE *outfile;
@@ -51,13 +51,16 @@ char *encode(char *input){
         int delta = get_delta(input[j]);
         if(delta == -1){
             encoding_index++;
+            if(encoding_string[encoding_index] == '\0'){
+                encoding_index = 0;
+            }   
             j++;
             continue;
         }
         int encoding = (int)(encoding_string[encoding_index] - '0');
         if(!is_plus){
             encoding = -encoding;
-        }    
+        }
         char new_input = input[j] + encoding;
         input[j] = wrap_around(input[j], new_input, delta);
         encoding_index++;
@@ -72,20 +75,26 @@ char *encode(char *input){
 void program_loop(){
     char c;
     while((c = fgetc(infile)) != EOF){
-        fputs(encode(&c), stdout);
+        fputs(encode(&c), outfile);
     }
 }
 
-void print_command_line(int argc, char *argv[]){
+int handle_command_line_args(int argc, char *argv[]){
     bool debug = true;
     for(int i=1; i<argc; i++){
-        if(argv[i][0] ==  '+' && argv[i][1] == 'D'){
-            debug = true;        
-            continue;
+        if(argv[i][0] == '-' && argv[i][1] == 'i'){
+            infile = fopen(argv[i] + 2, "r");
+            if(infile == NULL){
+                fprintf(stderr, "Error: Could not open file %s\n", argv[i] + 2);
+                exit(1);
+            }
         }
-        if(argv[i][0] ==  '-' && argv[i][1] == 'D'){
-            debug = false;
-            continue;
+        else if(argv[i][0] ==  '-' && argv[i][1] == 'o'){
+            outfile = fopen(argv[i] + 2, "w");
+            if(outfile == NULL){
+                fprintf(stderr, "Error: Could not open file %s\n", argv[i] + 2);
+                exit(1);
+            }
         }
         if(argv[i][0] ==  '-' && argv[i][1] == 'E'){
             encoding_string = argv[i] + 2;
@@ -94,17 +103,32 @@ void print_command_line(int argc, char *argv[]){
         else if(argv[i][0] ==  '+' && argv[i][1] == 'E'){
             encoding_string = argv[i] + 2;
         }
+        if(argv[i][0] ==  '+' && argv[i][1] == 'D'){
+            debug = true;        
+            continue;
+        }
+        else if(argv[i][0] ==  '-' && argv[i][1] == 'D'){
+            debug = false;
+            continue;
+        }
         if(debug){
             fprintf(outfile, "%s\n",argv[i]);
         }
     }
+    return 0;
 }
 
 
 int main(int argc, char *argv[]) {
     infile = stdin;
     outfile = stderr;
-    print_command_line(argc, argv);
+    handle_command_line_args(argc, argv);
     program_loop();
+    if(infile != stdin){
+        fclose(infile);
+    }
+    if(outfile != stderr){
+        fclose(outfile);
+    }
     return 0;
 }
