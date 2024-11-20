@@ -79,7 +79,12 @@ let maybeify nt none_value =
 let nt_var = 
   let nt1 = range_ci 'a' 'z' in
   let nt2 = range '0' '9' in
-  let nt1 =  caten nt1 (star (disj nt1 nt2)) in
+  let nt3 = disj nt1 nt2 in
+  let nt2 = range '_' '_' in
+  let nt3 = disj nt3 nt2 in
+  let nt2 = range '$' '$' in
+  let nt3 = disj nt3 nt2 in
+  let nt1 =  caten nt1 (star nt3) in
   let nt1 = pack nt1 (fun (c1, cs) -> string_of_list (c1 :: cs)) in
   let nt1 = pack nt1 (fun name -> Var name) in
   nt1;; 
@@ -144,8 +149,15 @@ and nt_expr1 str =
     List.fold_left (fun expr2 (binop, expr2') -> BinOp(binop, expr2, expr2')) expr2 binop_exprlst) in
   let nt1 = make_nt_spaced_out nt1 in
   nt1 str
-
 and nt_expr2 str = 
+  let nt1 = pack (char '^') (fun _ -> Pow) in
+  let nt1 = star (caten nt1 nt_expr3) in 
+  let nt1  = pack (caten nt_expr3 nt1) (fun (expr3, binop_exprlst) -> 
+    List.fold_left (fun expr3 (binop, expr3') -> BinOp(binop, expr3, expr3')) expr3 binop_exprlst) in
+  let nt1 = make_nt_spaced_out nt1 in
+  nt1 str
+
+and nt_expr3 str = 
   let nt1 = pack nt_number (fun num -> Num num) in
   let nt1 = disj nt1 nt_var in 
   let nt1  = disj nt1 nt_paren in
