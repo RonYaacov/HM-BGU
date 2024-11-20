@@ -142,6 +142,7 @@ and nt_expr0 str =
 and nt_expr1 str = 
   let nt1 = pack (char '*') (fun _ -> Mul) in
   let nt2 = pack (char '/') (fun _ -> Div) in
+  Printf.printf "The string is: %s\n" str; 
   let nt3 = pack (word "mod") (fun _ -> Mod) in
   let nt1 = disj_list [nt1; nt2; nt3] in
   let nt1 = star (caten nt1 nt_expr2) in 
