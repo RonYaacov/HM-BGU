@@ -49,20 +49,14 @@ char *encode(char *input){
     int j = 0;
     while (input[j] != EOF && input[j] != '\0'){
         int delta = get_delta(input[j]);
-        if(delta == -1){
-            encoding_index++;
-            if(encoding_string[encoding_index] == '\0'){
-                encoding_index = 0;
-            }   
-            j++;
-            continue;
+        if(delta != -1){
+            int encoding = (int)(encoding_string[encoding_index] - '0');
+            if(!is_plus){
+                encoding = -encoding;
+            }
+            char new_input = input[j] + encoding;
+            input[j] = wrap_around(input[j], new_input, delta);
         }
-        int encoding = (int)(encoding_string[encoding_index] - '0');
-        if(!is_plus){
-            encoding = -encoding;
-        }
-        char new_input = input[j] + encoding;
-        input[j] = wrap_around(input[j], new_input, delta);
         encoding_index++;
         if(encoding_string[encoding_index] == '\0'){
             encoding_index = 0;
