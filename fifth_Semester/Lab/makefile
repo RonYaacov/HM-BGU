@@ -1,13 +1,12 @@
-all: target_dirs main
 
-target_dirs:
-	mkdir -p target bin
 
-main: main.o
-	gcc -g -Wall -m32 -o bin/main target/main.o
 
-main.o: main.c
-	gcc -g -Wall -m32 -c -o target/main.o main.c
+encoder: encoder.o
+	gcc -g -Wall -m32 -o encoder encoder.o
+
+encoder.o: encoder.c
+	gcc -g -Wall -m32 -c -o encoder.o encoder.c
 
 clean:
-	rm -rf target bin
+	rm encoder 
+	rm encoder.o
