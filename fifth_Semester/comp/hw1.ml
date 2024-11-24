@@ -164,6 +164,11 @@ let make_nt_paren lparen rparen nt =
   let nt1 = pack nt1 (fun (_, (e, _)) -> e) in
   nt1;;
 
+let rec reverse_list lst =
+  match lst with
+  | [] -> []
+  | hd :: tl -> (reverse_list tl) @ [hd];;
+
 
 let rec nt_expr str = nt_expr0 str
   and nt_expr0 str = 
@@ -190,8 +195,9 @@ let rec nt_expr str = nt_expr0 str
     let nt1 = pack (char '^') (fun _ -> Pow) in
     let nt1 = star (caten nt1 nt_expr3) in 
     let nt1 = pack (caten nt_expr3 nt1) (fun (expr3, binop_exprlst) -> 
+      binop_exprlst = reverse_list binop_exprlst;
       Printf.printf "expr3: %s, binop_exprlst: %s\n" (string_of_expr expr3) (string_of_binop_exprlst binop_exprlst);
-      List.fold_right (fun (binop, expr3') expr3 -> BinOp(binop, expr3, expr3')) binop_exprlst expr3) in
+      List.fold_left (fun expr3 (binop, expr3') -> BinOp(binop, expr3, expr3')) expr3 binop_exprlst) in
     nt1 str
 
   and nt_expr3 str = 
