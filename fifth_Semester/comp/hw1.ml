@@ -114,12 +114,49 @@ let nt1 = pack (plus nt_digit)
 
 let nt_number = pack nt_int (fun num -> num);;
 
-  
+
+let string_of_binop = function
+| Add -> "+"
+| Sub -> "-"
+| Mul -> "*"
+| Div -> "/"
+| Mod -> "mod"
+| Pow -> "^"
+| AddPer -> "+%"
+| SubPer -> "-%"
+| PerOf -> "%of";;
+
+
+let rec string_of_expr = function
+| Num n -> string_of_int n
+| Var v -> v
+| BinOp (op, e1, e2) ->
+  let op_str = match op with
+  | Add -> "+"
+  | Sub -> "-"
+  | Mul -> "*"
+  | Div -> "/"
+  | Mod -> "mod"
+  | Pow -> "^"
+  | AddPer -> "+%"
+  | SubPer -> "-%"
+  | PerOf -> "%of"
+  in
+  "(" ^ string_of_expr e1 ^ " " ^ op_str ^ " " ^ string_of_expr e2 ^ ")"
+  | Deref (e1, e2) -> string_of_expr e1 ^ "[" ^ string_of_expr e2 ^ "]"
+  | Call (e, args) ->
+    string_of_expr e ^ "(" ^ String.concat ", " (List.map string_of_expr args) ^ ")"
+    
+            
+let rec string_of_binop_exprlst = function
+      | [] -> ""
+      | [(binop, expr)] -> string_of_binop binop ^ " " ^ string_of_expr expr
+      | (binop, expr) :: rest -> string_of_binop binop ^ " " ^ string_of_expr expr ^ "; " ^ string_of_binop_exprlst rest;;
 let make_nt_spaced_out nt = 
   let nt1 = star nt_whitespace in
   let nt1 = pack (caten nt1 (caten nt nt1)) (fun (_, (e, _)) -> e) in
   nt1;;
-
+            
 let make_nt_paren lparen rparen nt = 
   let nt1 = make_nt_spaced_out (char lparen) in
   let nt2 = make_nt_spaced_out (char rparen) in
@@ -129,48 +166,47 @@ let make_nt_paren lparen rparen nt =
 
 
 let rec nt_expr str = nt_expr0 str
-and nt_expr0 str = 
-  let nt1 = pack (char '+') (fun _ -> Add) in
-  let nt2 = pack (char '-') (fun _ -> Sub) in
-  let nt1 = disj nt1 nt2 in
-  let nt1 = star (caten nt1 nt_expr1) in
-  let nt1 = pack (caten nt_expr1 nt1) (fun (expr1, binop_exprlst) -> 
-    List.fold_left (fun expr1 (binop, expr1') -> BinOp(binop, expr1, expr1')) expr1 binop_exprlst) in
-  let nt1 = make_nt_spaced_out nt1 in
-  nt1 str
+  and nt_expr0 str = 
+    let nt1 = pack (char '+') (fun _ -> Add) in
+    let nt2 = pack (char '-') (fun _ -> Sub) in
+    let nt1 = disj nt1 nt2 in
+    let nt1 = star (caten nt1 nt_expr1) in
+    let nt1 = pack (caten nt_expr1 nt1) (fun (expr1, binop_exprlst) -> 
+      List.fold_left (fun expr1 (binop, expr1') -> BinOp(binop, expr1, expr1')) expr1 binop_exprlst) in
+    let nt1 = make_nt_spaced_out nt1 in
+    nt1 str
 
-and nt_expr1 str = 
-  let nt1 = pack (char '*') (fun _ -> Mul) in
-  let nt2 = pack (char '/') (fun _ -> Div) in
-  Printf.printf "The string is: %s\n" str; 
-  let nt3 = pack (word "mod") (fun _ -> Mod) in
-  let nt1 = disj_list [nt1; nt2; nt3] in
-  let nt1 = star (caten nt1 nt_expr2) in 
-  let nt1  = pack (caten nt_expr2 nt1) (fun (expr2, binop_exprlst) -> 
-    List.fold_left (fun expr2 (binop, expr2') -> BinOp(binop, expr2, expr2')) expr2 binop_exprlst) in
-  let nt1 = make_nt_spaced_out nt1 in
-  nt1 str
-and nt_expr2 str = 
-  let nt1 = pack (char '^') (fun _ -> Pow) in
-  let nt1 = star (caten nt1 nt_expr3) in 
-  let nt1  = pack (caten nt_expr3 nt1) (fun (expr3, binop_exprlst) -> 
-    List.fold_left (fun expr3 (binop, expr3') -> BinOp(binop, expr3, expr3')) expr3 binop_exprlst) in
-  let nt1 = make_nt_spaced_out nt1 in
-  nt1 str
+  and nt_expr1 str = 
+    let nt1 = pack (char '*') (fun _ -> Mul) in
+    let nt2 = pack (char '/') (fun _ -> Div) in
+    let nt3 = pack (word "mod") (fun _ -> Mod) in
+    let nt1 = disj_list [nt1; nt2; nt3] in
+    let nt1 = star (caten nt1 nt_expr2) in 
+    let nt1  = pack (caten nt_expr2 nt1) (fun (expr2, binop_exprlst) -> 
+      List.fold_left (fun expr2 (binop, expr2') -> BinOp(binop, expr2, expr2')) expr2 binop_exprlst) in
+    let nt1 = make_nt_spaced_out nt1 in
+    nt1 str
+  and nt_expr2 str = 
+    let nt1 = pack (char '^') (fun _ -> Pow) in
+    let nt1 = star (caten nt1 nt_expr3) in 
+    let nt1 = pack (caten nt_expr3 nt1) (fun (expr3, binop_exprlst) -> 
+      Printf.printf "expr3: %s, binop_exprlst: %s\n" (string_of_expr expr3) (string_of_binop_exprlst binop_exprlst);
+      List.fold_right (fun (binop, expr3') expr3 -> BinOp(binop, expr3, expr3')) binop_exprlst expr3) in
+    nt1 str
 
-and nt_expr3 str = 
-  let nt1 = pack nt_number (fun num -> Num num) in
-  let nt1 = disj nt1 nt_var in 
-  let nt1  = disj nt1 nt_paren in
-  let nt1 = make_nt_spaced_out nt1 in
-  nt1 str
+  and nt_expr3 str = 
+    let nt1 = pack nt_number (fun num -> Num num) in
+    let nt1 = disj nt1 nt_var in 
+    let nt1  = disj nt1 nt_paren in
+    let nt1 = make_nt_spaced_out nt1 in
+    nt1 str
 
-and nt_paren str = 
-  disj_list [make_nt_paren '(' ')' nt_expr;
-            make_nt_paren '[' ']' nt_expr;
-            make_nt_paren '{' '}' nt_expr  
-  ] str;;
+  and nt_paren str = 
+    disj_list [make_nt_paren '(' ')' nt_expr;
+              make_nt_paren '[' ']' nt_expr;
+              make_nt_paren '{' '}' nt_expr  
+    ] str;;
 
-end;; (* module InfixParser *)
+  end;; (* module InfixParser *)
 
 open InfixParser;;
