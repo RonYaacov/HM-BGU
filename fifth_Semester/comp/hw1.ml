@@ -167,7 +167,7 @@ let nt_nested =
   let nt3 = caten nt2 (nt_arg) in
   let nt4 = caten nt3 (char ')') in
   pack nt4 (fun (((_), args),_) -> args);;
-let rec nt_call_all str =
+let  nt_call_all str =
   let nt1 = nt_call in
   let nt2 = star (make_nt_spaced_out nt_nested) in
   let nt1 = caten nt1 nt2 in
