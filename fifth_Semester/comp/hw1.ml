@@ -32,52 +32,12 @@ open PC;;
 
 let nt_digit = const (fun ch -> '0' <= ch && ch <= '9');;
 
-let nt_lower_case = const (fun ch -> 'a' <= ch && ch <= 'z');;
-
-let nt_upper_case = const (fun ch -> 'A' <= ch && ch <= 'Z');;
-
-let nt_plus = const (fun ch -> ch = '+');;
-
-let nt_minus = const (fun ch -> ch = '-');;
-
-let nt_times = const (fun ch -> ch = '*');;
-
-let nt_div = const (fun ch -> ch = '/');;
-
-let nt_mod = const (fun ch -> ch = '%');;
-
-let nt_pow = const (fun ch -> ch = '^');;
-
-let nt_lparen = const (fun ch -> ch = '(');;
-
-let nt_rparen = const (fun ch -> ch = ')');;
-
-let nt_lbracket = const (fun ch -> ch = '[');;
-
-let nt_rbracket = const (fun ch -> ch = ']');;
-
-let nt_comma = const (fun ch -> ch = ',');;
-
-let nt_colon = const (fun ch -> ch = ':');;
-
-let nt_semicolon = const (fun ch -> ch = ';');;
-
-let nt_eq = const (fun ch -> ch = '=');;
-
-let nt_per = const (fun ch -> ch = '%');;
-
-let nt_add = caten nt_plus nt_per;;
-
-let nt_sub = caten nt_minus nt_per;;
-
-
 let maybeify nt none_value = 
   pack (maybe nt) (function
   | None -> none_value 
   | Some x -> x);;
 
   
-
   let nt_var = 
     let nt1 = range_ci 'a' 'z' in
     let nt2 = range '0' '9' in
@@ -92,11 +52,6 @@ let maybeify nt none_value =
   nt1;; 
 
 
-let nt_add_per = caten nt_plus nt_per;;
-
-
-let nt_sub_per = caten nt_minus nt_per;;
- 
 let int_of_digit_char = 
   let delta = int_of_char '0' in
   fun c -> int_of_char c - delta;;
@@ -206,8 +161,15 @@ let nt_call =
   let nt3 = caten nt2 (nt_arg) in
   let nt4 = caten nt3 (char ')') in
   pack nt4 (fun (((var, _), args), _) -> Call(var, args));;
-
-
+  
+let nt_call_nested = 
+  let nt2 = nt_call in
+  let nt3 = caten nt2 (char '(') in
+  let nt3 = caten nt3 nt_arg in
+  let nt4 = caten nt3 (char ')') in
+  pack nt4 (fun (((value, _), args),_) -> Call(value, args));;
+   
+  
 let make_nt_paren lparen rparen nt = 
   let nt1 = make_nt_spaced_out (char lparen) in
   let nt2 = make_nt_spaced_out (char rparen) in
@@ -257,7 +219,8 @@ let rec nt_expr str = nt_expr0 str
     let nt1 = pack nt_number (fun num -> Num num) in
     let nt1 = disj_list [
       nt1;
-      nt_call;  
+      nt_call_nested;
+      nt_call;
       nt_dec;
       nt_var;
       nt_invert;
