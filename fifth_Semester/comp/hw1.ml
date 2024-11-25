@@ -161,14 +161,20 @@ let nt_call =
   let nt3 = caten nt2 (nt_arg) in
   let nt4 = caten nt3 (char ')') in
   pack nt4 (fun (((var, _), args), _) -> Call(var, args));;
-  
-let nt_call_nested = 
-  let nt2 = nt_call in
-  let nt3 = caten nt2 (char '(') in
-  let nt3 = caten nt3 nt_arg in
+
+let nt_nested =
+  let nt2 = (char '(') in
+  let nt3 = caten nt2 (nt_arg) in
   let nt4 = caten nt3 (char ')') in
-  pack nt4 (fun (((value, _), args),_) -> Call(value, args));;
-   
+  pack nt4 (fun (((_), args),_) -> args);;
+let rec nt_call_all str =
+  let nt1 = nt_call in
+  let nt2 = star (make_nt_spaced_out nt_nested) in
+  let nt1 = caten nt1 nt2 in
+  let nt1 = pack nt1 (fun (call, nested_args) ->
+    List.fold_left (fun acc args -> Call(acc, args)) call nested_args) in
+  nt1 str;;
+
   
 let make_nt_paren lparen rparen nt = 
   let nt1 = make_nt_spaced_out (char lparen) in
@@ -182,7 +188,6 @@ let rec reverse_list lst =
   | [] -> []
   | hd :: tl -> (reverse_list tl) @ [hd];;
 
-(* ((expr*char)*int)*char *)
 
 
 let rec nt_expr str = nt_expr0 str
@@ -219,8 +224,7 @@ let rec nt_expr str = nt_expr0 str
     let nt1 = pack nt_number (fun num -> Num num) in
     let nt1 = disj_list [
       nt1;
-      nt_call_nested;
-      nt_call;
+      nt_call_all;
       nt_dec;
       nt_var;
       nt_invert;
