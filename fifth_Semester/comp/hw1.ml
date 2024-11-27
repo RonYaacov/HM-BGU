@@ -78,49 +78,6 @@ let nt_int  =
 
 let nt_number = pack nt_int (fun num -> num);;
 
-
-
-let string_of_char c = String.make 1 c;;
-
-let string_of_binop = function
-| Add -> "+"
-| Sub -> "-"
-| Mul -> "*"
-| Div -> "/"
-| Mod -> "mod"
-| Pow -> "^"
-| AddPer -> "+%"
-| SubPer -> "-%"
-| PerOf -> "%of";;
-
-
-let rec string_of_expr = function
-| Num n -> string_of_int n
-| Var v -> v
-| BinOp (op, e1, e2) ->
-  let op_str = match op with
-  | Add -> "+"
-  | Sub -> "-"
-  | Mul -> "*"
-  | Div -> "/"
-  | Mod -> "mod"
-  | Pow -> "^"
-  | AddPer -> "+%"
-  | SubPer -> "-%"
-  | PerOf -> "%of"
-  in
-  "(" ^ string_of_expr e1 ^ " " ^ op_str ^ " " ^ string_of_expr e2 ^ ")"
-  | Deref (e1, e2) -> string_of_expr e1 ^ "[" ^ string_of_expr e2 ^ "]"
-  | Call (e, args) ->
-    string_of_expr e ^ "(" ^ String.concat ", " (List.map string_of_expr args) ^ ")"
-             
-let rec string_of_binop_exprlst = function
-      | [] -> ""
-      | [(binop, expr)] -> string_of_binop binop ^ " " ^ string_of_expr expr
-      | (binop, expr) :: rest -> string_of_binop binop ^ " " ^ string_of_expr expr ^ "; " ^ string_of_binop_exprlst rest;;
-
-
-
   
 let make_nt_paren lparen rparen nt = 
   let nt1 = make_nt_spaced_out (char lparen) in
@@ -160,25 +117,23 @@ let rec nt_expr str = nt_expr_add_sub str
     let nt1 = disj_list [nt1; nt2; nt3] in
     let nt2 = caten nt_expr_pow (char '%') in
     let nt2 = star (caten (make_nt_spaced_out nt1) nt2) in 
-    let nt2  = pack (caten nt_expr_pow nt2)
-     (fun (expr3, binop_exprlst) -> List.fold_left 
-     (fun expr3 (binop, (expr3', _)) -> BinOp(binop, expr3, expr3')) expr3 binop_exprlst) in
-    let nt1 = make_nt_spaced_out nt1 in
-    nt2 str  
+    let nt2  = pack (caten nt_expr_pow nt2) (fun (expr3, binop_exprlst) -> 
+      List.fold_left (fun expr3 (binop, (expr3', _)) -> BinOp(binop, expr3, expr3')) expr3 binop_exprlst) in
+    nt2 str
     
-    and nt_expr_pow str = 
-      let nt_expo = pack (char '^') (fun _ -> Pow) in
-      let nt1 = pack (caten nt_expr_call_der nt_expo) (fun (x, _) -> x) in
-      let nt1 = star nt1 in
-      let nt1 = caten nt1 nt_expr_call_der in
-      let nt1 = pack nt1 (fun (es, e) -> List.fold_right (fun curr acc -> BinOp (Pow, curr,acc))es e)in
-      let nt1 = make_nt_spaced_out nt1 in
-      nt1 str
+  and nt_expr_pow str = 
+    let nt_expo = pack (char '^') (fun _ -> Pow) in
+    let nt1 = pack (caten nt_expr_call_der nt_expo) (fun (x, _) -> x) in
+    let nt1 = star nt1 in
+    let nt1 = caten nt1 nt_expr_call_der in
+    let nt1 = pack nt1 (fun (es, e) -> List.fold_right (fun curr acc -> BinOp (Pow, curr,acc))es e)in
+    let nt1 = make_nt_spaced_out nt1 in
+    nt1 str
   
   and nt_expr_call_der str = 
     let nt1 = disj nt_call nt_deref in
     let nt1 = caten nt_expr_last (star nt1) in
-    let nt1 = pack nt1 (fun (base, op) -> List.fold_left (fun acc op' -> op' acc) base op) in
+    let nt1 = pack nt1 (fun (rand, rator) -> List.fold_left (fun acc op -> op acc) rand rator) in
     let nt1 = make_nt_spaced_out nt1 in
     nt1 str
       
@@ -196,18 +151,18 @@ let rec nt_expr str = nt_expr_add_sub str
     and nt_neg str=
       let nt1 = caten (char '-') nt_expr in
       let nt1 = make_nt_paren '('')' nt1 in
-      let nt1 = pack nt1 (fun (_, expr) -> BinOp(Sub, Num 0, expr)) in
+      let nt1 = pack nt1 (fun (_, var) -> BinOp(Sub, Num 0, var)) in
       nt1 str
 
     and nt_invert str=
       let nt1 = caten (char '/') nt_expr in
       let nt1 = make_nt_paren '('')' nt1 in
-      let nt1 = pack nt1 (fun (_, expr) -> BinOp(Div, Num 1, expr)) in
+      let nt1 = pack nt1 (fun (_, var) -> BinOp(Div, Num 1, var)) in
       nt1 str
 
     and nt_deref str = 
       let nt1 =  make_nt_paren '['']' nt_expr in
-      let nt1 = pack nt1 (fun var base -> Deref(base, var)) in
+      let nt1 = pack nt1 (fun second first -> Deref(first, second)) in
       nt1 str
 
     
