@@ -89,22 +89,7 @@ let nt_dec =
   let nt4 = caten nt3 (char ']')in
   pack nt4 (fun (((var,_), x),_) -> Deref(var, x));;
 
-  (*let nt1 = nt_num_var in
-  let nt2 = star (caten (make_nt_spaced_out (char ',')) nt_num_var) in
-  let nt1 = caten nt1 nt2 in*)
-
-
-let nt_invert = 
-  let nt1  = (char '(')in 
-  let nt1 = caten nt1 (char '/') in
-  let nt1 = caten nt1 (star(char ' ')) in
-  let nt1 = caten nt1 nt_num_var in
-  let nt1 = caten nt1 (char ')') in
-  pack nt1 (fun (((_, _),num), _) -> BinOp(Div, Num 1, num));;
-
 let string_of_char c = String.make 1 c;;
-
-
 
 let string_of_binop = function
 | Add -> "+"
@@ -143,7 +128,6 @@ let rec string_of_binop_exprlst = function
       | [(binop, expr)] -> string_of_binop binop ^ " " ^ string_of_expr expr
       | (binop, expr) :: rest -> string_of_binop binop ^ " " ^ string_of_expr expr ^ "; " ^ string_of_binop_exprlst rest;;
 
-
 let nt_arg =
   let nt1 = nt_num_var in
   let nt2 = star (caten (make_nt_spaced_out (char ',')) nt_num_var) in
@@ -151,8 +135,6 @@ let nt_arg =
   let nt1 = pack nt1 (fun (arg, args) -> arg :: List.map (fun (_, arg) -> arg) args) in
   let nt1 = disj nt1 (pack nt_epsilon (fun _ -> [])) in
   pack nt1 (fun args -> args);;
-
-(*  *)
 
 let nt_call = 
   let nt1 = nt_var in
@@ -187,16 +169,6 @@ let rec reverse_list lst =
   | [] -> []
   | hd :: tl -> (reverse_list tl) @ [hd];;
 
-let nt_neg = 
-  let nt1  = (char '(')in 
-  let nt1 = caten nt1 (char '-') in
-  let nt1 = caten nt1 (star(char ' ')) in
-  let nt1 = caten nt1 nt_num_var in
-  let nt1 = caten nt1 (char ')') in
-  pack nt1 (fun (((_, _),num), _) -> BinOp(Sub, Num 0, num));;
-
-  
-
 let rec nt_expr str = nt_expr0 str
 
   
@@ -228,9 +200,18 @@ let rec nt_expr str = nt_expr0 str
       let nt1 = pack nt1 (fun (es, e) -> List.fold_right (fun curr acc -> BinOp (Pow, curr,acc))es e)in
       let nt1 = make_nt_spaced_out nt1 in
       nt1 str
-  
+(*   
+      and nt_expr3 str = 
+      let nt1 = nt_expr in
+      let nt2 =  make_nt_paren '['']' nt1 in
+        let nt1 = caten nt1 nt2 in
+        let nt1 = pack nt1 (fun (((var,_), x),_) -> Deref(var, x)) in
+        let nt1 = star nt1 in
+        let nt1 = pack (caten nt_expr4 nt1) (fun (expr4, binop_exprlst) -> 
+          List.fold_left (fun expr4 (binop, expr4') -> BinOp(binop, expr4, expr4')) expr4 binop_exprlst) in
+        let nt1 = make_nt_spaced_out nt1 in
+        nt1 str *)
       
-
   and nt_expr3 str = 
     let nt1 = pack nt_number (fun num -> Num num) in
     let nt1 = disj_list [
@@ -243,6 +224,18 @@ let rec nt_expr str = nt_expr0 str
       nt_paren] in
     let nt1 = make_nt_spaced_out nt1 in
     nt1 str
+
+    and nt_neg str=
+      let nt1 = caten (char '-') nt_expr in
+      let nt1 = make_nt_paren '('')' nt1 in
+      let nt1 = pack nt1 (fun (_, expr) -> BinOp(Sub, Num 0, expr)) in
+      nt1 str
+
+      and nt_invert str=
+      let nt1 = caten (char '/') nt_expr in
+      let nt1 = make_nt_paren '('')' nt1 in
+      let nt1 = pack nt1 (fun (_, expr) -> BinOp(Div, Num 1, expr)) in
+      nt1 str
 
   and nt_paren str = 
     disj_list [make_nt_paren '(' ')' nt_expr;
