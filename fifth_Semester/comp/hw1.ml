@@ -147,15 +147,26 @@ let rec nt_expr str = nt_expr_add_sub str
     let nt2 = pack (char '/') (fun _ -> Div) in
     let nt3 = pack (word "mod") (fun _ -> Mod) in
     let nt1 = disj_list [nt1; nt2; nt3] in
-    let nt1 = star (caten nt1 nt_expr_pow) in 
-    let nt1  = pack (caten nt_expr_pow nt1) (fun (expr2, binop_exprlst) -> 
+    let nt1 = star (caten nt1 nt_expr_per) in 
+    let nt1  = pack (caten nt_expr_per nt1) (fun (expr2, binop_exprlst) -> 
       List.fold_left (fun expr2 (binop, expr2') -> BinOp(binop, expr2, expr2')) expr2 binop_exprlst) in
     let nt1 = make_nt_spaced_out nt1 in
     nt1 str
 
-  (* and nt_expr_per str = 
-    let nt1 =  *)
-  and nt_expr_pow str = 
+  and nt_expr_per str = 
+    let nt2 = pack (char '+') (fun _ -> AddPer) in
+    let nt3 = pack (char '-') (fun _ -> SubPer) in
+    let nt1 = pack (char '*') (fun _ -> PerOf) in
+    let nt1 = disj_list [nt1; nt2; nt3] in
+    let nt2 = caten nt_expr_pow (char '%') in
+    let nt2 = star (caten (make_nt_spaced_out nt1) nt2) in 
+    let nt2  = pack (caten nt_expr_pow nt2)
+     (fun (expr3, binop_exprlst) -> List.fold_left 
+     (fun expr3 (binop, (expr3', _)) -> BinOp(binop, expr3, expr3')) expr3 binop_exprlst) in
+    let nt1 = make_nt_spaced_out nt1 in
+    nt2 str  
+    
+    and nt_expr_pow str = 
       let nt_expo = pack (char '^') (fun _ -> Pow) in
       let nt1 = pack (caten nt_expr_call_der nt_expo) (fun (x, _) -> x) in
       let nt1 = star nt1 in
