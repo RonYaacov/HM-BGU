@@ -49,9 +49,14 @@ let maybeify nt none_value =
     let nt1 =  caten nt1 (star nt3) in
   let nt1 = pack nt1 (fun (c1, cs) -> string_of_list (c1 :: cs)) in
   let nt1 = pack nt1 (fun name -> Var name) in
+  let nt1 = diff nt1 (word "mod") in
   nt1;; 
 
-
+  let make_nt_spaced_out nt = 
+    let nt1 = star nt_whitespace in
+    let nt1 = pack (caten nt1 (caten nt nt1)) (fun (_, (e, _)) -> e) in
+    nt1;;
+  
 let int_of_digit_char = 
   let delta = int_of_char '0' in
   fun c -> int_of_char c - delta;;
@@ -84,16 +89,15 @@ let nt_dec =
   let nt4 = caten nt3 (char ']')in
   pack nt4 (fun (((var,_), x),_) -> Deref(var, x));;
 
-let nt_neg = 
-  let nt1  = (char '(')in 
-  let nt1 = caten nt1 (char '-') in
-  let nt1 = caten nt1 nt_num_var in
-  let nt1 = caten nt1 (char ')') in
-  pack nt1 (fun (((_, _),num), _) -> BinOp(Sub, Num 0, num));;
+  (*let nt1 = nt_num_var in
+  let nt2 = star (caten (make_nt_spaced_out (char ',')) nt_num_var) in
+  let nt1 = caten nt1 nt2 in*)
+
 
 let nt_invert = 
   let nt1  = (char '(')in 
   let nt1 = caten nt1 (char '/') in
+  let nt1 = caten nt1 (star(char ' ')) in
   let nt1 = caten nt1 nt_num_var in
   let nt1 = caten nt1 (char ')') in
   pack nt1 (fun (((_, _),num), _) -> BinOp(Div, Num 1, num));;
@@ -133,16 +137,11 @@ let rec string_of_expr = function
   | Deref (e1, e2) -> string_of_expr e1 ^ "[" ^ string_of_expr e2 ^ "]"
   | Call (e, args) ->
     string_of_expr e ^ "(" ^ String.concat ", " (List.map string_of_expr args) ^ ")"
-    
-            
+             
 let rec string_of_binop_exprlst = function
       | [] -> ""
       | [(binop, expr)] -> string_of_binop binop ^ " " ^ string_of_expr expr
       | (binop, expr) :: rest -> string_of_binop binop ^ " " ^ string_of_expr expr ^ "; " ^ string_of_binop_exprlst rest;;
-let make_nt_spaced_out nt = 
-  let nt1 = star nt_whitespace in
-  let nt1 = pack (caten nt1 (caten nt nt1)) (fun (_, (e, _)) -> e) in
-  nt1;;
 
 
 let nt_arg =
@@ -172,7 +171,7 @@ let  nt_call_all str =
   let nt2 = star (make_nt_spaced_out nt_nested) in
   let nt1 = caten nt1 nt2 in
   let nt1 = pack nt1 (fun (call, nested_args) ->
-    List.fold_left (fun acc args -> Call(acc, args)) call nested_args) in
+    List.fold_left (fun acc args -> Call(acc, args))  call nested_args) in
   nt1 str;;
 
   
@@ -188,9 +187,19 @@ let rec reverse_list lst =
   | [] -> []
   | hd :: tl -> (reverse_list tl) @ [hd];;
 
+let nt_neg = 
+  let nt1  = (char '(')in 
+  let nt1 = caten nt1 (char '-') in
+  let nt1 = caten nt1 (star(char ' ')) in
+  let nt1 = caten nt1 nt_num_var in
+  let nt1 = caten nt1 (char ')') in
+  pack nt1 (fun (((_, _),num), _) -> BinOp(Sub, Num 0, num));;
 
+  
 
 let rec nt_expr str = nt_expr0 str
+
+  
   and nt_expr0 str = 
     let nt1 = pack (char '+') (fun _ -> Add) in
     let nt2 = pack (char '-') (fun _ -> Sub) in
@@ -219,7 +228,9 @@ let rec nt_expr str = nt_expr0 str
       let nt1 = pack nt1 (fun (es, e) -> List.fold_right (fun curr acc -> BinOp (Pow, curr,acc))es e)in
       let nt1 = make_nt_spaced_out nt1 in
       nt1 str
+  
       
+
   and nt_expr3 str = 
     let nt1 = pack nt_number (fun num -> Num num) in
     let nt1 = disj_list [
@@ -227,8 +238,8 @@ let rec nt_expr str = nt_expr0 str
       nt_call_all;
       nt_dec;
       nt_var;
-      nt_invert;
       nt_neg;
+      nt_invert;
       nt_paren] in
     let nt1 = make_nt_spaced_out nt1 in
     nt1 str
@@ -239,9 +250,6 @@ let rec nt_expr str = nt_expr0 str
               make_nt_paren '{' '}' nt_expr  
     ] str
 
-  
-
-
-  end;; (* module InfixParser *)
+    end;; (* module InfixParser *)
 
 open InfixParser;;
