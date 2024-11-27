@@ -78,16 +78,7 @@ let nt_int  =
 
 let nt_number = pack nt_int (fun num -> num);;
 
-let nt_num_var = 
-  let nt1 = pack nt_number (fun num -> Num num) in
-  disj nt_var nt1;;
 
-let nt_dec = 
-  let nt1 = nt_var in
-  let nt2 = caten nt1 (char '[')in
-  let nt3 = caten nt2 nt_num_var in
-  let nt4 = caten nt3 (char ']')in
-  pack nt4 (fun (((var,_), x),_) -> Deref(var, x));;
 
 let string_of_char c = String.make 1 c;;
 
@@ -128,33 +119,7 @@ let rec string_of_binop_exprlst = function
       | [(binop, expr)] -> string_of_binop binop ^ " " ^ string_of_expr expr
       | (binop, expr) :: rest -> string_of_binop binop ^ " " ^ string_of_expr expr ^ "; " ^ string_of_binop_exprlst rest;;
 
-let nt_arg =
-  let nt1 = nt_num_var in
-  let nt2 = star (caten (make_nt_spaced_out (char ',')) nt_num_var) in
-  let nt1 = caten nt1 nt2 in
-  let nt1 = pack nt1 (fun (arg, args) -> arg :: List.map (fun (_, arg) -> arg) args) in
-  let nt1 = disj nt1 (pack nt_epsilon (fun _ -> [])) in
-  pack nt1 (fun args -> args);;
 
-let nt_call = 
-  let nt1 = nt_var in
-  let nt2 = caten nt1 (char '(') in
-  let nt3 = caten nt2 (nt_arg) in
-  let nt4 = caten nt3 (char ')') in
-  pack nt4 (fun (((var, _), args), _) -> Call(var, args));;
-
-let nt_nested =
-  let nt2 = (char '(') in
-  let nt3 = caten nt2 (nt_arg) in
-  let nt4 = caten nt3 (char ')') in
-  pack nt4 (fun (((_), args),_) -> args);;
-let  nt_call_all str =
-  let nt1 = nt_call in
-  let nt2 = star (make_nt_spaced_out nt_nested) in
-  let nt1 = caten nt1 nt2 in
-  let nt1 = pack nt1 (fun (call, nested_args) ->
-    List.fold_left (fun acc args -> Call(acc, args))  call nested_args) in
-  nt1 str;;
 
   
 let make_nt_paren lparen rparen nt = 
@@ -200,24 +165,18 @@ let rec nt_expr str = nt_expr0 str
       let nt1 = pack nt1 (fun (es, e) -> List.fold_right (fun curr acc -> BinOp (Pow, curr,acc))es e)in
       let nt1 = make_nt_spaced_out nt1 in
       nt1 str
-(*   
-      and nt_expr3 str = 
-      let nt1 = nt_expr in
-      let nt2 =  make_nt_paren '['']' nt1 in
-        let nt1 = caten nt1 nt2 in
-        let nt1 = pack nt1 (fun (((var,_), x),_) -> Deref(var, x)) in
-        let nt1 = star nt1 in
-        let nt1 = pack (caten nt_expr4 nt1) (fun (expr4, binop_exprlst) -> 
-          List.fold_left (fun expr4 (binop, expr4') -> BinOp(binop, expr4, expr4')) expr4 binop_exprlst) in
-        let nt1 = make_nt_spaced_out nt1 in
-        nt1 str *)
-      
+  
   and nt_expr3 str = 
+    let nt1 = disj nt_call nt_deref in
+    let nt1 = caten nt_expr4 (star nt1) in
+    let nt1 = pack nt1 (fun (base, op) -> List.fold_left (fun acc op' -> op' acc) base op) in
+    let nt1 = make_nt_spaced_out nt1 in
+    nt1 str
+      
+  and nt_expr4 str = 
     let nt1 = pack nt_number (fun num -> Num num) in
     let nt1 = disj_list [
       nt1;
-      nt_call_all;
-      nt_dec;
       nt_var;
       nt_neg;
       nt_invert;
@@ -231,12 +190,31 @@ let rec nt_expr str = nt_expr0 str
       let nt1 = pack nt1 (fun (_, expr) -> BinOp(Sub, Num 0, expr)) in
       nt1 str
 
-      and nt_invert str=
+    and nt_invert str=
       let nt1 = caten (char '/') nt_expr in
       let nt1 = make_nt_paren '('')' nt1 in
       let nt1 = pack nt1 (fun (_, expr) -> BinOp(Div, Num 1, expr)) in
       nt1 str
 
+    and nt_deref str = 
+      let nt1 =  make_nt_paren '['']' nt_expr in
+      let nt1 = pack nt1 (fun var base -> Deref(base, var)) in
+      nt1 str
+
+    
+    and nt_call str = 
+      let nt1 = make_nt_paren '('')' nt_arg in
+      let nt1 = pack nt1 (fun args name -> Call(name, args)) in
+      nt1 str
+
+    and nt_arg str =
+      let nt1 = nt_expr in
+      let nt2 = star (caten (make_nt_spaced_out (char ',')) nt_expr) in
+      let nt1 = caten nt1 nt2 in
+      let nt1 = pack nt1 (fun (arg, args) -> arg :: List.map (fun (_, arg) -> arg) args) in
+      let nt1 = disj nt1 (pack nt_epsilon (fun _ -> [])) in
+      pack nt1 (fun args -> args) str
+    
   and nt_paren str = 
     disj_list [make_nt_paren '(' ')' nt_expr;
               make_nt_paren '[' ']' nt_expr;
