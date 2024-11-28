@@ -49,7 +49,7 @@ let maybeify nt none_value =
     let nt1 =  caten nt1 (star nt3) in
   let nt1 = pack nt1 (fun (c1, cs) -> string_of_list (c1 :: cs)) in
   let nt1 = pack nt1 (fun name -> Var name) in
-  let nt1 = diff nt1 (word "mod") in
+  let nt1 = diff nt1 (word_ci "mod") in
   nt1;; 
 
   let make_nt_spaced_out nt = 
@@ -102,7 +102,7 @@ let rec nt_expr str = nt_expr_add_sub str
   and nt_expr_mul_div_mod str = 
     let nt1 = pack (char '*') (fun _ -> Mul) in
     let nt2 = pack (char '/') (fun _ -> Div) in
-    let nt3 = pack (not_followed_by (word "mod")(nt_letter)) (fun _ -> Mod) in
+    let nt3 = pack (not_followed_by (word_ci "mod")(nt_letter)) (fun _ -> Mod) in
     let nt1 = disj_list [nt1; nt2; nt3] in
     let nt1 = star (caten nt1 nt_expr_per) in 
     let nt1  = pack (caten nt_expr_per nt1) (fun (expr2, binop_exprlst) -> 
