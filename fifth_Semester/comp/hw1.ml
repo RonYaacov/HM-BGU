@@ -37,9 +37,9 @@ let maybeify nt none_value =
   | None -> none_value 
   | Some x -> x);;
 
-  
+  let nt_letter = range_ci 'a' 'z';;
   let nt_var = 
-    let nt1 = range_ci 'a' 'z' in
+    let nt1 = nt_letter in
     let nt2 = range '0' '9' in
     let nt3 = disj nt1 nt2 in
     let nt2 = range '_' '_' in
@@ -102,7 +102,7 @@ let rec nt_expr str = nt_expr_add_sub str
   and nt_expr_mul_div_mod str = 
     let nt1 = pack (char '*') (fun _ -> Mul) in
     let nt2 = pack (char '/') (fun _ -> Div) in
-    let nt3 = pack (word "mod") (fun _ -> Mod) in
+    let nt3 = pack (not_followed_by (word "mod")(nt_letter)) (fun _ -> Mod) in
     let nt1 = disj_list [nt1; nt2; nt3] in
     let nt1 = star (caten nt1 nt_expr_per) in 
     let nt1  = pack (caten nt_expr_per nt1) (fun (expr2, binop_exprlst) -> 
