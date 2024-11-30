@@ -4,9 +4,14 @@
 #include <signal.h>
 #include <string.h>
 
+char logMsg[256];
+void logger(char *msg);
+
 void handler(int sig)
 {
-    printf("\nReceived Signal: %s\n", strsignal(sig));
+	snprintf(logMsg, sizeof(logMsg), "Received Signal: %s", strsignal(sig));
+	logger(logMsg);
+
     if (sig == SIGTSTP) {
         signal(SIGTSTP, SIG_DFL);  
         raise(SIGTSTP);            
@@ -23,15 +28,19 @@ void handler(int sig)
 
 int main(int argc, char **argv)
 {
-    printf("Starting the program\n");
+    logger("Starting the program\n");
+	fflush(stdout);
 
     while (1) {
         sleep(1);
 		signal(SIGINT, handler);
 		signal(SIGTSTP, handler);
 		signal(SIGCONT, handler);
-
     }
 
     return 0;
+}
+void logger(char *msg){
+	printf("%s\n", msg);
+	fflush(stdout);
 }
