@@ -143,7 +143,7 @@ int reDirect(cmdLine *pCmdLine){
     int reDirectionTypes[2] = {O_RDONLY, O_WRONLY | O_CREAT | O_TRUNC};
     for(int i = 0; i<2; i++){
         if(reDirections[i] != NULL){
-            int newFile = open(reDirections[i], reDirectionTypes[i], 0777);
+            int newFile = open(reDirections[i], reDirectionTypes[i], 0644);
             if(newFile == -1){
                 close(newFile);
                 perror("Error opening file");
