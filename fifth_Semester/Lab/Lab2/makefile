@@ -14,4 +14,4 @@ LineParser.o: LineParser.c LineParser.h
 	gcc -c -g -Wall LineParser.c
 
 clean:
-	rm myshell lopper *.o
+	rm  myshell looper *.o
