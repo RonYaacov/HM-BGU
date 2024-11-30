@@ -20,4 +20,4 @@ LineParser.o: LineParser.c LineParser.h
 	gcc -c -g -Wall LineParser.c
 
 clean:
-	rm  myshell looper *.o
+	rm mypipe myshell looper *.o
