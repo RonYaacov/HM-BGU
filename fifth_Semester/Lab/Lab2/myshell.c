@@ -10,6 +10,7 @@
 int execute(cmdLine *pCmdLine);
 void logger(char *msg);
 int cd(cmdLine *pCmdLine);
+int sendSignal(cmdLine *pCmdLine);
 
 
 
@@ -46,8 +47,9 @@ int main(int argc, char *argv[]){
             exit_code = 0;
             break;
         }
-        if(execute(line) == 1){
-            exit_code = 1;
+        int exeResult = execute(line);
+        if(exeResult == 1 || exeResult == -1){
+            exit_code = exeResult;
             break;
         }
     }
@@ -59,17 +61,9 @@ int execute(cmdLine *pCmdLine){
     if(strcmp(pCmdLine->arguments[0],"cd") == 0){
         return cd(pCmdLine);
     }
-    if(strcmp(pCmdLine->arguments[0],"stop") == 0){
-        kill(atoi(pCmdLine->arguments[1]), SIGTSTP);
-        return 0;
-    }
-    else if(strcmp(pCmdLine->arguments[0],"wake") == 0){
-        kill(atoi(pCmdLine->arguments[1]), SIGCONT);
-        return 0;
-    }
-    else if(strcmp(pCmdLine->arguments[0],"term") == 0){
-        kill(atoi(pCmdLine->arguments[1]), SIGINT);
-        return 0;
+    int sendSignalResult = sendSignal(pCmdLine);
+    if(sendSignalResult != 1){
+        return sendSignalResult;
     }
     int pid = fork();
     if(pid == -1){
@@ -106,6 +100,21 @@ int cd(cmdLine *pCmdLine){
     }
     return 0;
 }
+
+int sendSignal(cmdLine *pCmdLine){
+    if(strcmp(pCmdLine->arguments[0],"stop") == 0){
+        return kill(atoi(pCmdLine->arguments[1]), SIGTSTP);
+    }
+    else if(strcmp(pCmdLine->arguments[0],"wake") == 0){
+        return kill(atoi(pCmdLine->arguments[1]), SIGCONT);
+        
+    }
+    else if(strcmp(pCmdLine->arguments[0],"term") == 0){
+        return kill(atoi(pCmdLine->arguments[1]), SIGINT);
+    }
+    return 1;
+}
+
 
 void logger(char *msg){
     if(isDebug){

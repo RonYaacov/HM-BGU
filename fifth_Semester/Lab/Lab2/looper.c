@@ -6,44 +6,32 @@
 
 void handler(int sig)
 {
-	printf("\nRecieved Signal : %s\n", strsignal(sig));
-	if (sig == SIGTSTP)
-	{
-		signal(SIGTSTP, SIG_DFL);
-        raise(SIGTSTP);
-        signal(SIGTSTP, handler);
-	}
-	else if (sig == SIGCONT)
-	{
+    printf("\nReceived Signal: %s\n", strsignal(sig));
+    if (sig == SIGTSTP) {
+        signal(SIGTSTP, SIG_DFL);  
+        raise(SIGTSTP);            
+    
+    } else if (sig == SIGCONT) {
 		signal(SIGCONT, SIG_DFL);
-        raise(SIGCONT);
-        signal(SIGCONT, handler);
-	}
-    else if (sig == SIGINT){
-        signal(SIGINT, SIG_DFL);
-        raise(SIGINT);
-		signal(SIGCONT, handler);
+		raise(SIGCONT);
 
-    }
-    else{
-        signal(sig, SIG_DFL);
-        raise(sig);
+    } else if (sig == SIGINT) {
+        signal(SIGINT, SIG_DFL);   
+        raise(SIGINT);            
     }
 }
 
 int main(int argc, char **argv)
 {
+    printf("Starting the program\n");
 
-	printf("Starting the program\n");
-	signal(SIGINT, handler);
-	signal(SIGTSTP, handler);
-	signal(SIGCONT, handler);
+    while (1) {
+        sleep(1);
+		signal(SIGINT, handler);
+		signal(SIGTSTP, handler);
+		signal(SIGCONT, handler);
 
-	while (1)
-	{
-		sleep(1);
-		
-	}
+    }
 
-	return 0;
+    return 0;
 }
