@@ -1,6 +1,12 @@
 myshell: myshell.o LineParser.o
 	gcc -o myshell myshell.o LineParser.o
 
+mypipe: mypipe.o
+	gcc -o mypipe mypipe.o
+
+mypipe.o: mypipe.c
+	gcc -c -g -Wall mypipe.c
+
 lopper: lopper.o
 	gcc -o lopper lopper.o
 
