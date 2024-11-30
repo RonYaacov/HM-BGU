@@ -10,7 +10,7 @@
 int main(int argc, char *argv[]){
     int pipeChannel[2];
     int pid;
-    char buffer[32];
+    char buffer[256];
     if(pipe(pipeChannel) == -1){
         perror("Error creating pipe");
         exit(1);
