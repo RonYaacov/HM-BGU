@@ -7,6 +7,9 @@
 #include <fcntl.h>
 #include "LineParser.h"
 #include <signal.h>
+#define MAX_LOG_MSG_SIZE 256
+#define MAX_CHILDREN 256
+#define MAX_INPUT_SIZE 2048
 
 int execute(cmdLine *pCmdLine);
 void logger(char *msg);
@@ -15,10 +18,9 @@ int sendSignal(cmdLine *pCmdLine);
 int reDirect(cmdLine *pCmdLine);
 
 
-
 int isDebug = 0;
-char logMsg[256];
-pid_t child_pids[256];
+char logMsg[MAX_LOG_MSG_SIZE];
+pid_t child_pids[MAX_CHILDREN];
 int child_count = 0;
 
 void cleanup() {
@@ -29,8 +31,8 @@ void cleanup() {
 
 
 int main(int argc, char *argv[]){
-    //char path[PATH_MAX];
-    char max_input[2048];
+    char path[PATH_MAX];
+    char max_input[MAX_INPUT_SIZE];
     cmdLine *line;
     int exit_code = 0;
     for(int i = 0; i<argc; i++){
@@ -40,13 +42,13 @@ int main(int argc, char *argv[]){
     }
     atexit(cleanup);
     while(1){
-        // if(getcwd(path, PATH_MAX) == NULL){
-        //     perror("Error getting current working directory");
-        //     exit_code = 1;
-        //     break;
-        // }
-        // printf("Current working directory: %s\n", path);
-        fgets(max_input, 2048, stdin);
+        if(getcwd(path, PATH_MAX) == NULL){
+            perror("Error getting current working directory");
+            exit_code = 1;
+            break;
+        }
+        printf("Current working directory: %s\n", path);
+        fgets(max_input, sizeof(max_input), stdin);
         line = parseCmdLines(max_input);
         if(line == NULL){
            continue;
@@ -57,7 +59,7 @@ int main(int argc, char *argv[]){
         }
         int exeResult = execute(line);
         if(exeResult == 1 || exeResult == -1){
-            exit_code = exeResult;
+            exit_code = 1;
             break;
         }
     }

@@ -22,14 +22,14 @@ void handler(int sig)
 
     } else if (sig == SIGINT) {
         signal(SIGINT, SIG_DFL);   
-        raise(SIGINT);            
+        raise(SIGINT);
+		       
     }
 }
 
 int main(int argc, char **argv)
 {
     logger("Starting the program\n");
-	fflush(stdout);
 
     while (1) {
         sleep(1);
