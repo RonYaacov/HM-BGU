@@ -1,4 +1,10 @@
 
+AntiVirus: AntiVirus.o
+	gcc -o AntiVirus AntiVirus.o
+
+AntiVirus.o: AntiVirus.c
+	gcc -c -g -Wall AntiVirus.c
+
 
 hexaPrint: hexaPrint.o
 	gcc -o hexaPrint hexaPrint.o
