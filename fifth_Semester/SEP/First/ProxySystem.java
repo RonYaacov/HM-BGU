@@ -1,16 +1,17 @@
 class ProxySystem implements BaseSystem{
 
 
-    boolean publishJobPost(String headline, String description){
+    public boolean publishJobPost(String headline, String description){
+        return true;
 
     }
-    boolean retainEnteredDataOnNavigation(String headline, String description){
-
+    public boolean retainEnteredDataOnNavigation(String headline, String description){
+        return true;
     }
-    boolean filterExpiredJobPosts(){
-
+    public boolean filterExpiredJobPosts(){
+        return true;
     }
-    boolean searchWithFilters(String location, String role){
-
+    public boolean searchWithFilters(String location, String role){
+        return true;
     }
 }

@@ -1,12 +1,14 @@
 import org.junit.Test;
+import org.junit.Before;
 import static org.junit.Assert.*;
 
 class TestStstem{
-    
-    @Override
+    BaseSystem system;
+
+    @Before
     public void setUp() {
         SystemBridge bridge = new SystemBridge();
-        BaseSystem system = bridge.getSystem();
+        system = bridge.getSystem();
     }
     @Test
     public void testPublishJobPost() {
