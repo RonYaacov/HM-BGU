@@ -1,8 +1,14 @@
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+package tests;
 
-class TestStstem{
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import src.BaseSystem;
+import src.SystemBridge;
+
+public class TestSystem {
     BaseSystem system;
 
     @Before
@@ -29,5 +35,4 @@ class TestStstem{
     public void testSearchWithFilters() {
         assertTrue(system.searchWithFilters("New York", "Engineer"));
     }
-    
 }
