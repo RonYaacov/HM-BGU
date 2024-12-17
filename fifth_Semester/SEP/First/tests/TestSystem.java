@@ -1,12 +1,20 @@
-import org.junit.Test;
-import static org.junit.Assert.*;
+package tests;
 
-class TestStstem{
-    
-    @Override
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import src.BaseSystem;
+import src.SystemBridge;
+
+public class TestSystem {
+    BaseSystem system;
+
+    @Before
     public void setUp() {
         SystemBridge bridge = new SystemBridge();
-        BaseSystem system = bridge.getSystem();
+        system = bridge.getSystem();
     }
     @Test
     public void testPublishJobPost() {
@@ -27,5 +35,4 @@ class TestStstem{
     public void testSearchWithFilters() {
         assertTrue(system.searchWithFilters("New York", "Engineer"));
     }
-    
 }
