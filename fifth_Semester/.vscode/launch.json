@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/ronyaacov/BGU/HM/HM-BGU/fifth_Semester",
-      "program": "/home/ronyaacov/BGU/HM/HM-BGU/fifth_Semester/build/Debug/outDebug",
+      "cwd": "/home/ronyaacov/BGU/HM/HM-BGU/fifth_Semester/Lab/LabC",
+      "program": "/home/ronyaacov/BGU/HM/HM-BGU/fifth_Semester/Lab/LabC/myshell",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
@@ -19,6 +19,13 @@
           "ignoreFailures": true
         }
       ]
+    },
+    {
+      "name": "CMake: CMake Script",
+      "type": "cmake",
+      "request": "launch",
+      "cmakeDebugType": "script",
+      "scriptPath": "${file}"
     }
   ]
 }
