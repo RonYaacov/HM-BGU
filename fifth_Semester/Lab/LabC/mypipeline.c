@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
         close(pipeChannel[1]);
         close(pipeChannel[0]);
         printf("(child1>going to execute cmd: …)\n");
-        execlp("ls", "ls", "-1", NULL);
+        execlp("ls", "ls", "-l", NULL);
     }
     printf("(parent_process>created process with id: %d)\n", pid1);
     printf("(parent_process>forking…)\n");
