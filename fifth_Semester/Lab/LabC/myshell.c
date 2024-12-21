@@ -7,10 +7,21 @@
 #include <fcntl.h>
 #include "LineParser.h"
 #include <signal.h>
+
 #define MAX_LOG_MSG_SIZE 256
 #define MAX_CHILDREN 256
 #define MAX_INPUT_SIZE 2048
+#define TERMINATED  -1
+#define RUNNING 1
+#define SUSPENDED 0
 
+typedef struct process{
+    cmdLine *cmd;
+    pid_t pid;
+    int status;
+    struct process *next;
+} process;
+    
 int execute(cmdLine *pCmdLine);
 int executePipe(cmdLine *pCmdLine, int pipe_index);
 int execute_single_process(cmdLine *pCmdLine);
@@ -19,23 +30,23 @@ int cd(cmdLine *pCmdLine);
 int sendSignal(cmdLine *pCmdLine);
 int reDirect(cmdLine *pCmdLine);
 int checkRedirect(cmdLine *pCmdLine);
+void addProcess(process** process_list, cmdLine* cmd, pid_t pid);
+void printProcessList(process** process_list);
+void procs(process** process_list);
+int startExecute(cmdLine *pCmdLine);
+
 
 
 int isDebug = 0;
 char logMsg[MAX_LOG_MSG_SIZE];
 pid_t child_pids[MAX_CHILDREN];
 int pipeChannels[MAX_CHILDREN][2];
-int child_count = 0;
+process **process_list = NULL;
 
-void cleanup() {
-    for (int i = 0; i < child_count; i++) {
-        kill(child_pids[i], SIGTERM);
-    }
-}
 
 
 int main(int argc, char *argv[]){
-    char path[PATH_MAX];
+    // char path[PATH_MAX];
     char max_input[MAX_INPUT_SIZE];
     cmdLine *current_line;
     int quit = 0;
@@ -46,14 +57,12 @@ int main(int argc, char *argv[]){
             isDebug = 1;
         }
     }
-    atexit(cleanup);
     while(1){
-        if(getcwd(path, PATH_MAX) == NULL){
-            perror("Error getting current working directory");
-            exit_code = 1;
-            break;
-        }
-        printf("Current working directory: %s\n", path);
+        // if(getcwd(path, PATH_MAX) == NULL){
+        //     perror("Error getting current working directory");
+        //     exit_code = 1;
+        //     break;
+        // }
         fgets(max_input, sizeof(max_input), stdin);
         current_line = parseCmdLines(max_input);
         while(current_line != NULL){
@@ -123,6 +132,7 @@ int executePipe(cmdLine *pCmdLine, int pipe_index){
         }
         return 0;
     }
+    addProcess(process_list, pCmdLine, pid1);
     pid2 = fork();
     if(pid2 == -1){
         perror("Error forking");
@@ -141,10 +151,9 @@ int executePipe(cmdLine *pCmdLine, int pipe_index){
         }
         return 0;
     }
+    addProcess(process_list, pCmdLine->next, pid2);
     close(pipeChannel[0]);
     close(pipeChannel[1]);
-    child_pids[child_count++] = pid1;
-    child_pids[child_count++] = pid2;
     if(pCmdLine->blocking){
         int status;
         waitpid(pid2, &status, 0);
@@ -154,12 +163,8 @@ int executePipe(cmdLine *pCmdLine, int pipe_index){
 }
 
 int execute_single_process(cmdLine *pCmdLine){
-    if(strcmp(pCmdLine->arguments[0],"cd") == 0){
-        return cd(pCmdLine);
-    }
-    int sendSignalResult = sendSignal(pCmdLine);
-    if(sendSignalResult != 1){
-        return sendSignalResult;
+    if(startExecute(pCmdLine) == 0){
+        return 0;
     }
     if(reDirect(pCmdLine) == 1){
         return 1;
@@ -169,22 +174,16 @@ int execute_single_process(cmdLine *pCmdLine){
             return 1;
     }
     return 0;
-
 }
 
 int execute(cmdLine *pCmdLine){
-    if(strcmp(pCmdLine->arguments[0],"cd") == 0){
-        return cd(pCmdLine);
-    }
-    int sendSignalResult = sendSignal(pCmdLine);
-    if(sendSignalResult != 1){
-        return sendSignalResult;
-    }
-    
     int pid = fork();
     if(pid == -1){
         perror("Error forking");
         return 1;
+    }
+    if(startExecute(pCmdLine) == 0){
+        return 0;
     }
     if(pid == 0){
         if(reDirect(pCmdLine) == 1){
@@ -202,9 +201,7 @@ int execute(cmdLine *pCmdLine){
         close(STDOUT_FILENO);
     }
     else{
-        snprintf(logMsg, sizeof(logMsg), "PID: %d\nExecuting command: %s", pid, pCmdLine->arguments[0]);
-        logger(logMsg);
-        child_pids[child_count++] = pid;
+        addProcess(process_list, pCmdLine, pid);
         if(pCmdLine->blocking){
             int status;
             waitpid(pid, &status, 0);
@@ -281,6 +278,60 @@ int checkRedirect(cmdLine *pCmdLine){
     return 1;
 }
 
+void addProcess(process **process_list, cmdLine *cmd, pid_t pid){
+    process *new_process = (process *)malloc(sizeof(process));
+    new_process->cmd = cmd;
+    new_process->pid = pid;
+    new_process->status = RUNNING;
+    if(process_list == NULL){
+        process_list = (process **)malloc(sizeof(process *));
+    }
+    if(*process_list == NULL){
+        new_process->next = NULL;
+        *process_list = new_process;
+        return;
+    }
+    new_process->next = *process_list;
+    *process_list = new_process;
+}
+
+void printProcessList(process **process_list){
+    if(process_list == NULL){
+        printf("No processes to print\n");
+        return;
+    }
+    process *current = *process_list;//point to the first process
+    int i = 0;
+    char *status;
+    while(current != NULL){
+        if(current->status == RUNNING){
+            status = "RUNNING";
+        }
+        else if(current->status == SUSPENDED){
+            status = "SUSPENDED";
+        }
+        else{
+            status = "TERMINATED";
+        }
+        printf("Index: %d, PID: %d, Command: %s, Status: %s\n", i++, current->pid, current->cmd->arguments[0], status);
+        current = current->next;
+    }
+}
+
+int startExecute(cmdLine *pCmdLine){
+    if(strcmp(pCmdLine->arguments[0],"cd") == 0){
+        return cd(pCmdLine);
+    }
+    if(strcmp(pCmdLine->arguments[0],"procs") == 0){
+        printProcessList(process_list);
+        return 0;
+    }
+    int sendSignalResult = sendSignal(pCmdLine);
+    if(sendSignalResult != 1){
+        return 0;
+    }
+    return 1;
+}
 
 void logger(char *msg){
     if(isDebug){
