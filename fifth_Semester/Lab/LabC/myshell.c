@@ -34,24 +34,36 @@ void addProcess(process** process_list, cmdLine* cmd, pid_t pid);
 void printProcessList(process** process_list);
 void procs(process** process_list);
 int startExecute(cmdLine *pCmdLine);
-
+void editProcessList(int pid, int status);
+void freeProcessList(process *process_list);
 
 
 int isDebug = 0;
 char logMsg[MAX_LOG_MSG_SIZE];
 pid_t child_pids[MAX_CHILDREN];
 int pipeChannels[MAX_CHILDREN][2];
-process **process_list = NULL;
+process *process_list = NULL;
+cmdLine *cmdLine_head = NULL;
+
+void clean(){
+    freeProcessList(process_list);
+    for(int i = 0; i<MAX_CHILDREN; i++){
+        close(pipeChannels[i][0]);
+        close(pipeChannels[i][1]);
+    }
+
+}
 
 
 
 int main(int argc, char *argv[]){
     // char path[PATH_MAX];
     char max_input[MAX_INPUT_SIZE];
-    cmdLine *current_line;
+    cmdLine *current_line = NULL;
     int quit = 0;
     int exit_code = 0;
     int current_pipe_index = 0;
+    atexit(clean);
     for(int i = 0; i<argc; i++){
         if(strcmp(argv[i], "-d") == 0){
             isDebug = 1;
@@ -65,6 +77,9 @@ int main(int argc, char *argv[]){
         // }
         fgets(max_input, sizeof(max_input), stdin);
         current_line = parseCmdLines(max_input);
+        if(cmdLine_head == NULL){
+            cmdLine_head = current_line;
+        }
         while(current_line != NULL){
             if(strcmp(current_line->arguments[0], "quit") == 0){
                 exit_code = 0;
@@ -94,13 +109,14 @@ int main(int argc, char *argv[]){
                 current_line = current_line->next;
                 current_pipe_index++;
             }
+            cmdLine *temp = current_line;
             current_line = current_line->next;
+            free(temp);
         }
         if(quit){
             break;
         }
     }
-    freeCmdLines(current_line);
     return exit_code;
 }
 
@@ -132,7 +148,7 @@ int executePipe(cmdLine *pCmdLine, int pipe_index){
         }
         return 0;
     }
-    addProcess(process_list, pCmdLine, pid1);
+    addProcess(&process_list, pCmdLine, pid1);
     pid2 = fork();
     if(pid2 == -1){
         perror("Error forking");
@@ -151,7 +167,7 @@ int executePipe(cmdLine *pCmdLine, int pipe_index){
         }
         return 0;
     }
-    addProcess(process_list, pCmdLine->next, pid2);
+    addProcess(&process_list, pCmdLine->next, pid2);
     close(pipeChannel[0]);
     close(pipeChannel[1]);
     if(pCmdLine->blocking){
@@ -177,14 +193,15 @@ int execute_single_process(cmdLine *pCmdLine){
 }
 
 int execute(cmdLine *pCmdLine){
+    if(startExecute(pCmdLine) == 0){
+            return 0;
+        }
     int pid = fork();
     if(pid == -1){
         perror("Error forking");
         return 1;
     }
-    if(startExecute(pCmdLine) == 0){
-        return 0;
-    }
+    
     if(pid == 0){
         if(reDirect(pCmdLine) == 1){
             _exit(1);
@@ -201,7 +218,7 @@ int execute(cmdLine *pCmdLine){
         close(STDOUT_FILENO);
     }
     else{
-        addProcess(process_list, pCmdLine, pid);
+        addProcess(&process_list, pCmdLine, pid);
         if(pCmdLine->blocking){
             int status;
             waitpid(pid, &status, 0);
@@ -226,13 +243,16 @@ int cd(cmdLine *pCmdLine){
 
 int sendSignal(cmdLine *pCmdLine){
     if(strcmp(pCmdLine->arguments[0],"stop") == 0){
+        editProcessList(atoi(pCmdLine->arguments[1]), SUSPENDED);
         return kill(atoi(pCmdLine->arguments[1]), SIGTSTP);
     }
     else if(strcmp(pCmdLine->arguments[0],"wake") == 0){
+        editProcessList(atoi(pCmdLine->arguments[1]), RUNNING);
         return kill(atoi(pCmdLine->arguments[1]), SIGCONT);
         
     }
     else if(strcmp(pCmdLine->arguments[0],"term") == 0){
+        editProcessList(atoi(pCmdLine->arguments[1]), TERMINATED);
         return kill(atoi(pCmdLine->arguments[1]), SIGINT);
     }
     return 1;
@@ -283,20 +303,12 @@ void addProcess(process **process_list, cmdLine *cmd, pid_t pid){
     new_process->cmd = cmd;
     new_process->pid = pid;
     new_process->status = RUNNING;
-    if(process_list == NULL){
-        process_list = (process **)malloc(sizeof(process *));
-    }
-    if(*process_list == NULL){
-        new_process->next = NULL;
-        *process_list = new_process;
-        return;
-    }
     new_process->next = *process_list;
     *process_list = new_process;
 }
 
 void printProcessList(process **process_list){
-    if(process_list == NULL){
+    if(*process_list == NULL){
         printf("No processes to print\n");
         return;
     }
@@ -313,8 +325,9 @@ void printProcessList(process **process_list){
         else{
             status = "TERMINATED";
         }
-        printf("Index: %d, PID: %d, Command: %s, Status: %s\n", i++, current->pid, current->cmd->arguments[0], status);
+        printf("Index: %d, PID: %d, Command: %s, Status: %s\n", i, current->pid, current->cmd->arguments[0], status);
         current = current->next;
+        i++;
     }
 }
 
@@ -323,14 +336,40 @@ int startExecute(cmdLine *pCmdLine){
         return cd(pCmdLine);
     }
     if(strcmp(pCmdLine->arguments[0],"procs") == 0){
-        printProcessList(process_list);
+        printProcessList(&process_list);
         return 0;
     }
-    int sendSignalResult = sendSignal(pCmdLine);
-    if(sendSignalResult != 1){
+    if(sendSignal(pCmdLine) != 1){
         return 0;
     }
     return 1;
+}
+
+void editProcessList(int pid, int status){
+    process *current = process_list;
+    while(current != NULL){
+        if(current->pid == pid){
+            current->status = status;
+            return;
+        }
+        current = current->next;
+    }
+}
+void freeProcessList(process *process_list){
+    process *current = process_list;
+    process *next = NULL;
+    if(cmdLine_head){
+        freeCmdLines(cmdLine_head);
+    }
+    while(current != NULL){
+        next = current->next;
+        free(current->cmd);
+        free(current);
+        current = next;
+    }
+    free(next);
+    free(current);
+    free(process_list);
 }
 
 void logger(char *msg){
