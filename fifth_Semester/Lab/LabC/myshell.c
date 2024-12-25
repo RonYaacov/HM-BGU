@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include "LineParser.h"
 #include <signal.h>
+#include <ctype.h>
 
 #define MAX_LOG_MSG_SIZE 256
 #define MAX_CHILDREN 256
@@ -14,6 +15,7 @@
 #define TERMINATED  -1
 #define RUNNING 1
 #define SUSPENDED 0
+#define HISTLEN 10
 
 typedef struct process{
     cmdLine *cmd;
@@ -21,6 +23,19 @@ typedef struct process{
     int status;
     struct process *next;
 } process;
+
+typedef struct historyEntry {
+    char *command;
+    struct historyEntry *next;
+} historyEntry;
+
+typedef struct historyList {
+    historyEntry *head;
+    historyEntry *tail;
+    int size;
+} historyList;
+
+historyList *history = NULL;
     
 int execute(cmdLine *pCmdLine);
 int executePipe(cmdLine *pCmdLine, int pipe_index);
@@ -36,6 +51,12 @@ void procs(process** process_list);
 int startExecute(cmdLine *pCmdLine);
 void editProcessList(int pid, int status);
 void freeProcessList(process *process_list);
+void updateProcessList(process **process_list);
+void updateProcessStatus(process* process_list, int pid, int status);
+void initHistory();
+void addHistory(char *command);
+void printHistory();
+char *getHistory(int index);
 
 
 int isDebug = 0;
@@ -44,6 +65,7 @@ pid_t child_pids[MAX_CHILDREN];
 int pipeChannels[MAX_CHILDREN][2];
 process *process_list = NULL;
 cmdLine *cmdLine_head = NULL;
+cmdLine *current_line = NULL;
 
 void clean(){
     freeProcessList(process_list);
@@ -51,7 +73,12 @@ void clean(){
         close(pipeChannels[i][0]);
         close(pipeChannels[i][1]);
     }
-
+    while(history->head != NULL){
+        historyEntry *temp = history->head;
+        history->head = history->head->next;
+        free(temp->command);
+        free(temp);
+    }
 }
 
 
@@ -59,11 +86,11 @@ void clean(){
 int main(int argc, char *argv[]){
     // char path[PATH_MAX];
     char max_input[MAX_INPUT_SIZE];
-    cmdLine *current_line = NULL;
     int quit = 0;
     int exit_code = 0;
     int current_pipe_index = 0;
     atexit(clean);
+    initHistory();
     for(int i = 0; i<argc; i++){
         if(strcmp(argv[i], "-d") == 0){
             isDebug = 1;
@@ -76,6 +103,29 @@ int main(int argc, char *argv[]){
         //     break;
         // }
         fgets(max_input, sizeof(max_input), stdin);
+         max_input[strcspn(max_input, "\n")] = 0;
+
+        if (strcmp(max_input, "history") == 0) {
+            printHistory();
+            continue;
+        } else if (strcmp(max_input, "!!") == 0) {
+            if (history->size == 0) {
+                printf("Error: No commands in history\n");
+                continue;
+            }
+            strcpy(max_input, history->tail->command);
+            printf("%s\n", max_input);
+        } else if (max_input[0] == '!' && isdigit(max_input[1])) {
+            int index = atoi(&max_input[1]);
+            char *command = getHistory(index);
+            if (command == NULL) {
+                continue;
+            }
+            strcpy(max_input, command);
+            printf("%s\n", max_input);
+        }
+        addHistory(max_input);
+
         current_line = parseCmdLines(max_input);
         if(cmdLine_head == NULL){
             cmdLine_head = current_line;
@@ -307,27 +357,34 @@ void addProcess(process **process_list, cmdLine *cmd, pid_t pid){
     *process_list = new_process;
 }
 
-void printProcessList(process **process_list){
-    if(*process_list == NULL){
-        printf("No processes to print\n");
+void printProcessList(process** process_list) {
+    updateProcessList(process_list);
+
+    process *current = *process_list;
+    process *prev = NULL;
+    char *status;
+    
+    if(current == NULL){
+        printf("No processes to display\n");
         return;
     }
-    process *current = *process_list;//point to the first process
-    int i = 0;
-    char *status;
-    while(current != NULL){
-        if(current->status == RUNNING){
-            status = "RUNNING";
+    printf("PID\tCommand\tStatus\n");
+    
+    while (current != NULL) {
+        status = current->status == RUNNING ? "RUNNING" : current->status == SUSPENDED ? "SUSPENDED" : current->status == TERMINATED ? "TERMINATED" : "UNKNOWN";
+        printf("%d\t%s\t%s\n", current->pid, current->cmd->arguments[0], status);
+
+        if (WIFEXITED(current->status) || WIFSIGNALED(current->status)) {
+            if (prev == NULL) {
+                *process_list = current->next;
+            } else {
+                prev->next = current->next;
+            }
+            current = current->next;
+        } else {
+            prev = current;
+            current = current->next;
         }
-        else if(current->status == SUSPENDED){
-            status = "SUSPENDED";
-        }
-        else{
-            status = "TERMINATED";
-        }
-        printf("Index: %d, PID: %d, Command: %s, Status: %s\n", i, current->pid, current->cmd->arguments[0], status);
-        current = current->next;
-        i++;
     }
 }
 
@@ -355,6 +412,47 @@ void editProcessList(int pid, int status){
         current = current->next;
     }
 }
+
+void updateProcessStatus(process* process_list, int pid, int status) {
+    process *current = process_list;
+    while (current != NULL) {
+        if (current->pid == pid) {
+            current->status = status;
+            return;
+        }
+        current = current->next;
+    }
+}
+
+void updateProcessList(process **process_list) {
+    process *current = *process_list;
+    int status;
+    pid_t result;
+
+    while (current != NULL) {
+        result = waitpid(current->pid, &status, WNOHANG);
+        if (result == 0) {
+            current = current->next;
+            continue;
+        } else if (result == -1) {
+            current = current->next;
+            continue;
+        }
+
+        if (WIFEXITED(status)) {
+            current->status = WEXITSTATUS(status);
+        } else if (WIFSIGNALED(status)) {
+            current->status = WTERMSIG(status);
+        } else if (WIFSTOPPED(status)) {
+            current->status = WSTOPSIG(status);
+        } else if (WIFCONTINUED(status)) {
+            current->status = 0; 
+        }
+
+        current = current->next;
+    }
+}
+
 void freeProcessList(process *process_list){
     process *current = process_list;
     process *next = NULL;
@@ -370,6 +468,63 @@ void freeProcessList(process *process_list){
     free(next);
     free(current);
     free(process_list);
+}
+
+
+void initHistory() {
+    history = (historyList *)malloc(sizeof(historyList));
+    history->head = NULL;
+    history->tail = NULL;
+    history->size = 0;
+}
+
+void addHistory(char *command) {
+    historyEntry *newEntry = (historyEntry *)malloc(sizeof(historyEntry));
+    newEntry->command = strdup(command);
+    newEntry->next = NULL;
+
+    if (history->size == HISTLEN) {
+        // Remove the oldest entry
+        historyEntry *oldEntry = history->head;
+        history->head = history->head->next;
+        free(oldEntry->command);
+        free(oldEntry);
+        history->size--;
+    }
+
+    if (history->tail == NULL) {
+        history->head = newEntry;
+        history->tail = newEntry;
+    } else {
+        history->tail->next = newEntry;
+        history->tail = newEntry;
+    }
+
+    history->size++;
+}
+
+void printHistory() {
+    historyEntry *current = history->head;
+    int index = 1;
+    while (current != NULL) {
+        printf("%d %s\n", index, current->command);
+        current = current->next;
+        index++;
+    }
+}
+
+char *getHistory(int index) {
+    if (index < 1 || index > history->size) {
+        printf("Error: Invalid history index\n");
+        return NULL;
+    }
+
+    historyEntry *current = history->head;
+    for (int i = 1; i < index; i++) {
+        current = current->next;
+    }
+
+    return current->command;
 }
 
 void logger(char *msg){
