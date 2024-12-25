@@ -767,9 +767,56 @@ module Tag_Parser : TAG_PARSER = struct
            then ScmLambda(params, Opt opt, expr)
            else raise (X_syntax "duplicate function parameters")
         | _ -> raise (X_syntax "invalid parameter list"))
-    (* add support for let *)
+    
+    |ScmPair (ScmSymbol "let", ScmPair (ribs, exprs)) ->
+      let ribs = (match(scheme_list_to_ocaml ribs) with
+        | ribs, ScmNil -> ribs
+        | _ -> raise (X_syntax "malformed let-ribs")) in
+        let params = unsymbolify_vars (List.map (function 
+        |  ScmPair(var , ScmPair(_, ScmNil)) -> var
+        | _ -> raise (X_syntax "malformed let-ribs")) ribs) in
+        let args =  (List.map (function
+        | ScmPair(_, ScmPair(expr, ScmNil)) -> expr
+        | _ -> raise (X_syntax "malformed let-ribs")) ribs) in
+        let body = tag_parse ( ScmPair(ScmSymbol "begin", exprs)) in
+        ScmApplic(ScmLambda(params, Simple, body), List.map tag_parse args)
+        | ScmPair (ScmSymbol "let", _) ->
+        raise (X_syntax "Malformed let-expression!")
+
     (* add support for let* *)
-    (* add support for letrec *)
+    (* | ScmPair (ScmSymbol "let*", ScmPair(ScmNil, exprs)) -> 
+      tag_parse (ScmPair(ScmSymbol "let", ScmPair(ScmNil, exprs)))
+    | ScmPair (ScmSymbol "let*", ScmPair (ScmPair(param, expr), exprs)) ->
+      tag_parse (ScmPair(ScmSymbol "let", ScmPair(ScmPair(param, expr), exprs)))  *)
+      
+    |ScmPair (ScmSymbol "let*", ScmPair (ribs, exprs)) ->
+      let rec expand_let_star ribs exprs =
+        match ribs with
+        | ScmNil -> (ScmPair(ScmSymbol "let", ScmPair(ScmNil, exprs)))
+        | ScmPair(rib, ScmNil) -> ScmPair(ScmSymbol "let", ScmPair(ScmPair(rib, ScmNil), exprs))
+        | ScmPair(rib, rest) -> ScmPair(ScmSymbol "let", ScmPair(ScmPair(rib, ScmNil), ScmPair(expand_let_star rest exprs, ScmNil)))
+        | _ -> raise (X_syntax "malformed let*-expression")
+
+      in tag_parse (expand_let_star ribs exprs)
+      (* add support for letrec *)
+
+      | ScmPair (ScmSymbol "letrec", ScmPair (ribs, exprs)) ->
+        let ribs = (match(scheme_list_to_ocaml ribs) with
+          | ribs, ScmNil -> ribs
+          | _ -> raise (X_syntax "malformed letrec-ribs")) in
+        let params = List.map (function 
+          | ScmPair(var , ScmPair(_, ScmNil)) -> var
+          | _ -> raise (X_syntax "malformed letrec-ribs")) ribs in
+        let args = List.map (function
+          | ScmPair(_, ScmPair(expr, ScmNil)) -> expr
+          | _ -> raise (X_syntax "malformed letrec-ribs")) ribs in
+        let dummy_ribs = List.map (fun var -> ScmPair(var, ScmPair(ScmVoid, ScmNil))) params in
+        let set_exprs = List.map2 (fun var expr -> ScmPair(ScmSymbol "set!", ScmPair(var, ScmPair(expr, ScmNil)))) params args in
+        let body = List.fold_right (fun set_expr acc -> ScmPair(set_expr, acc)) set_exprs (ScmPair(ScmSymbol "begin", exprs)) in
+        tag_parse (ScmPair(ScmSymbol "let", ScmPair(scheme_sexpr_list_of_sexpr_list dummy_ribs, body)))
+      
+        
+      
     | ScmPair (ScmSymbol "and", ScmNil) -> tag_parse (ScmBoolean true)
     | ScmPair (ScmSymbol "and", exprs) ->
        (match (scheme_list_to_ocaml exprs) with
