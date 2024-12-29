@@ -800,21 +800,23 @@ module Tag_Parser : TAG_PARSER = struct
       in tag_parse (expand_let_star ribs exprs)
       (* add support for letrec *)
 
-      | ScmPair (ScmSymbol "letrec", ScmPair (ribs, exprs)) ->
+      |ScmPair (ScmSymbol "letrec", ScmPair (ribs, exprs)) ->
         let ribs = (match(scheme_list_to_ocaml ribs) with
           | ribs, ScmNil -> ribs
-          | _ -> raise (X_syntax "malformed letrec-ribs")) in
+          | _ -> raise (X_syntax "malformed letrec-ribs 1")) in
         let params = List.map (function 
-          | ScmPair(var , ScmPair(_, ScmNil)) -> var
+          | ScmPair(ScmSymbol var, ScmPair(_, ScmNil)) when not (is_reserved_word var) -> var
+          | ScmPair(ScmSymbol var, ScmPair(ScmPair(ScmSymbol "lambda", _), ScmNil)) -> var
+          | ScmPair(ScmSymbol var, _) when is_reserved_word var -> raise (X_syntax "Variable cannot be a reserved word")
           | _ -> raise (X_syntax "malformed letrec-ribs")) ribs in
         let args = List.map (function
           | ScmPair(_, ScmPair(expr, ScmNil)) -> expr
-          | _ -> raise (X_syntax "malformed letrec-ribs")) ribs in
-        let dummy_ribs = List.map (fun var -> ScmPair(var, ScmPair(ScmVoid, ScmNil))) params in
-        let set_exprs = List.map2 (fun var expr -> ScmPair(ScmSymbol "set!", ScmPair(var, ScmPair(expr, ScmNil)))) params args in
+          | _ -> raise (X_syntax "malformed letrec-ribs 3")) ribs in
+        let dummy_ribs = List.map (fun var -> ScmPair(ScmSymbol var, ScmPair(ScmVoid, ScmNil))) params in
+        let set_exprs = List.map2 (fun var expr -> ScmPair(ScmSymbol "set!", ScmPair(ScmSymbol var, ScmPair(expr, ScmNil)))) params args in
         let body = List.fold_right (fun set_expr acc -> ScmPair(set_expr, acc)) set_exprs (ScmPair(ScmSymbol "begin", exprs)) in
         tag_parse (ScmPair(ScmSymbol "let", ScmPair(scheme_sexpr_list_of_sexpr_list dummy_ribs, body)))
-      
+  
         
       
     | ScmPair (ScmSymbol "and", ScmNil) -> tag_parse (ScmBoolean true)
@@ -1020,9 +1022,21 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
       match expr with
       | ScmConst sexpr -> ScmConst' sexpr
       (* add support for ScmVarGet *)
+      | ScmVarGet(Var v) ->
+         ScmVarGet' (tag_lexical_address_for_var v params env)
       (* add support for if *)
+      |ScmIf(test, dit, dif) ->
+        ScmIf' (run test params env,
+                run dit params env,
+                run dif params env)
+      
       (* add support for sequence *)
+      | ScmSeq exprs ->
+         ScmSeq' (List.map (fun expr -> run expr params env) exprs)
       (* add support for or *)
+      | ScmOr exprs ->
+         ScmOr' (List.map (fun expr -> run expr params env) exprs)
+     
       | ScmVarSet(Var v, expr) ->
          ScmVarSet' ((tag_lexical_address_for_var v params env),
                      run expr params env)
@@ -1032,6 +1046,8 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
       | ScmLambda (params', Simple, expr) ->
          ScmLambda' (params', Simple, run expr params' (params :: env))
       (* add support for lambda-opt *)
+      | ScmLambda (params', Opt opt, expr) ->
+         ScmLambda' (params' @ [opt], Opt opt, run expr params' (params :: env))
       | ScmApplic (proc, args) ->
          ScmApplic' (run proc params env,
                      List.map (fun arg -> run arg params env) args,
@@ -1045,15 +1061,36 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
       | (ScmConst' _) as orig -> orig
       | (ScmVarGet' _) as orig -> orig
       (* add support for if *)
+      | ScmIf' (test, dit, dif) ->
+         ScmIf' (run false test, run in_tail dit, run in_tail dif)
       (* add support for sequences *)
-      (* add support for or *)
+      | ScmSeq' [] -> ScmSeq' []
+      | ScmSeq' [expr] -> run in_tail expr
+      | ScmSeq' (expr :: exprs) ->
+          ScmSeq' (run false expr :: List.map (run false) exprs)
+        | ScmSeq' (expr :: exprs) ->
+           let exprs' = List.map (run false) exprs in
+           (* need to check this functionality *)
+           ScmSeq' (run false expr :: (List.rev (run true (List.hd (List.rev exprs')) :: List.rev (List.tl (List.rev exprs')))))
+        (* add support for or *)
+      | ScmOr' [] -> ScmOr' []
+      | ScmOr' [expr] -> run in_tail expr
+      | ScmOr' (expr :: exprs) ->
+          let exprs' = List.map (run false) exprs in
+           ScmOr' (run false expr :: (List.rev (run true (List.hd (List.rev exprs')) :: List.rev (List.tl (List.rev exprs')))))
       | ScmVarSet' (var', expr') -> ScmVarSet' (var', run false expr')
       | ScmVarDef' (var', expr') -> ScmVarDef' (var', run false expr')
       | (ScmBox' _) as expr' -> expr'
       | (ScmBoxGet' _) as expr' -> expr'
       | ScmBoxSet' (var', expr') -> ScmBoxSet' (var', run false expr')
       (* add support for lambda *)
+      | ScmLambda' (params, kind, expr) ->
+         ScmLambda' (params, kind, run true expr)
       (* add support for applic *)
+      | ScmApplic' (proc, args, app_kind) ->
+         ScmApplic' (run false proc,
+                     List.map (run false) args,
+                     (if in_tail then Tail_Call else Non_Tail_Call))
     and runl in_tail expr = function
       | [] -> [run in_tail expr]
       | expr' :: exprs -> (run false expr) :: (runl in_tail expr' exprs)
@@ -1232,6 +1269,23 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
          | _, _ -> ScmSeq'(new_sets @ [new_body]) in
        ScmLambda' (params, Simple, new_body)
     (* add support for lambda-opt *)
+    | ScmLambda' (params, Opt opt, expr') ->
+       let box_these =
+       List.filter
+         (fun param -> should_box_var param expr' (params @ [opt]))
+         (params @ [opt]) in
+       let new_body = 
+       List.fold_left
+         (fun body name -> box_sets_and_gets name body)
+         (auto_box expr')
+         box_these in
+       let new_sets = make_sets box_these (params @ [opt]) in
+       let new_body = 
+       match box_these, new_body with
+       | [], _ -> new_body
+       | _, ScmSeq' exprs -> ScmSeq' (new_sets @ exprs)
+       | _, _ -> ScmSeq'(new_sets @ [new_body]) in
+       ScmLambda' (params, Opt opt, new_body)
     | ScmApplic' (proc, args, app_kind) ->
        ScmApplic' (auto_box proc, List.map auto_box args, app_kind);;
 
