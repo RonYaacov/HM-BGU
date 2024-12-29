@@ -803,19 +803,17 @@ module Tag_Parser : TAG_PARSER = struct
       |ScmPair (ScmSymbol "letrec", ScmPair (ribs, exprs)) ->
         let ribs = (match(scheme_list_to_ocaml ribs) with
           | ribs, ScmNil -> ribs
-          | _ -> raise (X_syntax "malformed letrec-ribs 1")) in
+          | _ -> raise (X_syntax "malformed letrec-ribs")) in
         let params = List.map (function 
-          | ScmPair(ScmSymbol var, ScmPair(_, ScmNil)) when not (is_reserved_word var) -> var
-          | ScmPair(ScmSymbol var, ScmPair(ScmPair(ScmSymbol "lambda", _), ScmNil)) -> var
-          | ScmPair(ScmSymbol var, _) when is_reserved_word var -> raise (X_syntax "Variable cannot be a reserved word")
-          | _ -> raise (X_syntax "malformed letrec-ribs")) ribs in
-        let args = List.map (function
-          | ScmPair(_, ScmPair(expr, ScmNil)) -> expr
-          | _ -> raise (X_syntax "malformed letrec-ribs 3")) ribs in
-        let dummy_ribs = List.map (fun var -> ScmPair(ScmSymbol var, ScmPair(ScmVoid, ScmNil))) params in
-        let set_exprs = List.map2 (fun var expr -> ScmPair(ScmSymbol "set!", ScmPair(ScmSymbol var, ScmPair(expr, ScmNil)))) params args in
-        let body = List.fold_right (fun set_expr acc -> ScmPair(set_expr, acc)) set_exprs (ScmPair(ScmSymbol "begin", exprs)) in
-        tag_parse (ScmPair(ScmSymbol "let", ScmPair(scheme_sexpr_list_of_sexpr_list dummy_ribs, body)))
+          | ScmPair (var, _) -> var
+          | _ -> raise (X_syntax "malformed letrec-binding"))
+        ribs in
+        let dummy_params = scheme_sexpr_list_of_sexpr_list (List.map (fun var -> ScmPair(var, ScmPair(ScmSymbol "whatever", ScmNil))) params) in
+        let set_exprs = List.map (fun (ScmPair(var, expr)) -> ScmPair(ScmSymbol "set!", ScmPair( var, expr))) ribs in
+        let buttom_body = ScmPair (ScmSymbol "let", ScmPair (ScmNil, exprs)) in
+        let body = set_exprs@[buttom_body] in
+        let body = scheme_sexpr_list_of_sexpr_list body in
+        tag_parse (ScmPair (ScmSymbol "let", ScmPair(dummy_params,body)))
   
         
       
