@@ -159,9 +159,7 @@ int main(int argc, char *argv[]){
                 current_line = current_line->next;
                 current_pipe_index++;
             }
-            cmdLine *temp = current_line;
             current_line = current_line->next;
-            free(temp);
         }
         if(quit){
             break;
@@ -460,14 +458,12 @@ void freeProcessList(process *process_list){
         freeCmdLines(cmdLine_head);
     }
     while(current != NULL){
-        next = current->next;
-        free(current->cmd);
+        next = current->next;        
         free(current);
         current = next;
     }
     free(next);
     free(current);
-    free(process_list);
 }
 
 
