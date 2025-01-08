@@ -743,6 +743,12 @@ module Tag_Parser : TAG_PARSER = struct
        else ScmVarSet(Var var, tag_parse expr)
     | ScmPair (ScmSymbol "set!", _) ->
        raise (X_syntax "Malformed set!-expression!")
+    | ScmPair(ScmSymbol "define", 
+              ScmPair(ScmPair(ScmSymbol var, params), expr)) ->
+        let expr = tag_parse (ScmPair(ScmSymbol "lambda", ScmPair(params, expr))) in
+        if (is_reserved_word var)
+        then raise (X_syntax "cannot define a reserved word")
+        else ScmVarDef(Var var, expr)
     | ScmPair(ScmSymbol "define",
               ScmPair(ScmSymbol var,
                       ScmPair(expr, ScmNil))) ->
@@ -782,7 +788,7 @@ module Tag_Parser : TAG_PARSER = struct
         ScmApplic(ScmLambda(params, Simple, body), List.map tag_parse args)
         | ScmPair (ScmSymbol "let", _) ->
         raise (X_syntax "Malformed let-expression!")
-      
+
     |ScmPair (ScmSymbol "let*", ScmPair (ribs, exprs)) ->
       let rec expand_let_star ribs exprs =
         match ribs with
@@ -790,27 +796,22 @@ module Tag_Parser : TAG_PARSER = struct
         | ScmPair(rib, ScmNil) -> ScmPair(ScmSymbol "let", ScmPair(ScmPair(rib, ScmNil), exprs))
         | ScmPair(rib, rest) -> ScmPair(ScmSymbol "let", ScmPair(ScmPair(rib, ScmNil), ScmPair(expand_let_star rest exprs, ScmNil)))
         | _ -> raise (X_syntax "malformed let*-expression")
-
       in tag_parse (expand_let_star ribs exprs)
       (* add support for letrec *)
-
       |ScmPair (ScmSymbol "letrec", ScmPair (ribs, exprs)) ->
         let ribs = (match(scheme_list_to_ocaml ribs) with
-          | ribs, ScmNil -> ribs
+          | ribs, ScmNil -> 
+            List.map (function
+            | ScmPair (ScmSymbol var, ScmPair (expr, ScmNil)) -> (var, expr)
+            | _ -> raise (X_syntax "Malformed binding in letrec expression"))
+            ribs
           | _ -> raise (X_syntax "malformed letrec-ribs")) in
-        let params = List.map (function 
-          | ScmPair (var, _) -> var
-          | _ -> raise (X_syntax "malformed letrec-binding"))
-        ribs in
-        let dummy_params = scheme_sexpr_list_of_sexpr_list (List.map (fun var -> ScmPair(var, ScmPair(ScmSymbol "whatever", ScmNil))) params) in
-        let set_exprs = List.map (fun (ScmPair(var, expr)) -> ScmPair(ScmSymbol "set!", ScmPair( var, expr))) ribs in
-        let buttom_body = ScmPair (ScmSymbol "let", ScmPair (ScmNil, exprs)) in
-        let body = set_exprs@[buttom_body] in
-        let body = scheme_sexpr_list_of_sexpr_list body in
+        let dummy_params = scheme_sexpr_list_of_sexpr_list (List.map (fun (var, _) -> ScmPair (ScmSymbol var, ScmPair (ScmPair (ScmSymbol "quote", ScmPair (ScmSymbol "whatever", ScmNil)), ScmNil)))
+        ribs) in
+        let set_exprs = List.map (fun (var, expr) -> ScmPair(ScmSymbol "set!", ScmPair (ScmSymbol var, ScmPair (expr, ScmNil)))) ribs in
+        let body = List.fold_right(fun car cdr -> ScmPair(car,cdr)) set_exprs exprs in
         tag_parse (ScmPair (ScmSymbol "let", ScmPair(dummy_params,body)))
-  
         
-      
     | ScmPair (ScmSymbol "and", ScmNil) -> tag_parse (ScmBoolean true)
     | ScmPair (ScmSymbol "and", exprs) ->
        (match (scheme_list_to_ocaml exprs) with
@@ -1058,18 +1059,19 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
       (* add support for sequences *)
       | ScmSeq' [] -> ScmSeq' []
       | ScmSeq' [expr] -> run in_tail expr
-      | ScmSeq' (expr :: exprs) ->
-          ScmSeq' (run false expr :: List.map (run false) exprs)
-        | ScmSeq' (expr :: exprs) ->
-           let exprs' = List.map (run false) exprs in
-           (* need to check this functionality *)
-           ScmSeq' (run false expr :: (List.rev (run true (List.hd (List.rev exprs')) :: List.rev (List.tl (List.rev exprs')))))
-        (* add support for or *)
+      | ScmSeq' (exprs) ->
+        let exprs' = List.rev exprs in
+        let last = run in_tail (List.hd exprs') in
+        let rest = List.rev (List.map (fun exp -> run false exp) (List.tl exprs')) in
+        ScmSeq' (rest @ [last])
+      (* add support for or *)
       | ScmOr' [] -> ScmOr' []
       | ScmOr' [expr] -> run in_tail expr
-      | ScmOr' (expr :: exprs) ->
-          let exprs' = List.map (run false) exprs in
-           ScmOr' (run false expr :: (List.rev (run true (List.hd (List.rev exprs')) :: List.rev (List.tl (List.rev exprs')))))
+      | ScmOr' (exprs) ->
+        let exprs' = List.rev exprs in
+        let last = run in_tail (List.hd exprs') in
+        let rest = List.rev (List.map (fun exp -> run false exp) (List.tl exprs')) in
+        ScmOr' (rest @ [last])
       | ScmVarSet' (var', expr') -> ScmVarSet' (var', run false expr')
       | ScmVarDef' (var', expr') -> ScmVarDef' (var', run false expr')
       | (ScmBox' _) as expr' -> expr'
@@ -1081,7 +1083,7 @@ module Semantic_Analysis : SEMANTIC_ANALYSIS = struct
       (* add support for applic *)
       | ScmApplic' (proc, args, app_kind) ->
          ScmApplic' (run false proc,
-                     List.map (run false) args,
+                     List.map (fun arg -> run false arg) args,
                      (if in_tail then Tail_Call else Non_Tail_Call))
     and runl in_tail expr = function
       | [] -> [run in_tail expr]
