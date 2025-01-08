@@ -18,5 +18,11 @@ myshell.o: myshell.c LineParser.h
 LineParser.o: LineParser.c LineParser.h
 	gcc -c -g -Wall LineParser.c
 
+lopper: lopper.o
+	gcc -o lopper lopper.o
+
+lopper.o: lopper.c
+	gcc -c -g -Wall lopper.c
+
 clean:
 	rm mypipeline myshell  *.o
