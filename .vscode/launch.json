@@ -53,6 +53,27 @@
           "ignoreFailures": true
         }
       ]
-    }
+    },
+    
+      {
+          "name": "C/C++ Runner: Debug Session2",
+          "type": "cppdbg",
+          "request": "launch",
+          "args": [],
+          "stopAtEntry": false,
+          "externalConsole": false,
+          "cwd": "/home/ronyaacov/BGU/HM/HM-BGU/fifth_Semester/Lab/LabC",
+          "program": "/home/ronyaacov/BGU/HM/HM-BGU/fifth_Semester/Lab/LabC/myshell",
+          "MIMode": "gdb",
+          "miDebuggerPath": "gdb",
+          "setupCommands": [
+            {
+              "description": "Enable pretty-printing for gdb",
+              "text": "-enable-pretty-printing",
+              "ignoreFailures": true
+            }
+          ]
+        }
+          
   ]
 }

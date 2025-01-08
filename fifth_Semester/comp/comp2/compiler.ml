@@ -782,12 +782,6 @@ module Tag_Parser : TAG_PARSER = struct
         ScmApplic(ScmLambda(params, Simple, body), List.map tag_parse args)
         | ScmPair (ScmSymbol "let", _) ->
         raise (X_syntax "Malformed let-expression!")
-
-    (* add support for let* *)
-    (* | ScmPair (ScmSymbol "let*", ScmPair(ScmNil, exprs)) -> 
-      tag_parse (ScmPair(ScmSymbol "let", ScmPair(ScmNil, exprs)))
-    | ScmPair (ScmSymbol "let*", ScmPair (ScmPair(param, expr), exprs)) ->
-      tag_parse (ScmPair(ScmSymbol "let", ScmPair(ScmPair(param, expr), exprs)))  *)
       
     |ScmPair (ScmSymbol "let*", ScmPair (ribs, exprs)) ->
       let rec expand_let_star ribs exprs =
