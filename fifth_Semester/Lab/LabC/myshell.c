@@ -84,7 +84,7 @@ void clean(){
 
 
 int main(int argc, char *argv[]){
-    // char path[PATH_MAX];
+    char path[PATH_MAX];
     char max_input[MAX_INPUT_SIZE];
     int quit = 0;
     int exit_code = 0;
@@ -97,11 +97,12 @@ int main(int argc, char *argv[]){
         }
     }
     while(1){
-        // if(getcwd(path, PATH_MAX) == NULL){
-        //     perror("Error getting current working directory");
-        //     exit_code = 1;
-        //     break;
-        // }
+        if(getcwd(path, PATH_MAX) == NULL){
+            perror("Error getting current working directory");
+            exit_code = 1;
+            break;
+        }
+        printf("%s\n", path);
         fgets(max_input, sizeof(max_input), stdin);
          max_input[strcspn(max_input, "\n")] = 0;
 
@@ -369,17 +370,18 @@ void printProcessList(process** process_list) {
     printf("PID\tCommand\tStatus\n");
     
     while (current != NULL) {
-        status = current->status == RUNNING ? "RUNNING" : current->status == SUSPENDED ? "SUSPENDED" : current->status == TERMINATED ? "TERMINATED" : "UNKNOWN";
+        status = current->status == RUNNING ? "RUNNING" : current->status == SUSPENDED ? "SUSPENDED" : current->status == TERMINATED ? "TERMINATED" : "TERMINATED";
         printf("%d\t%s\t%s\n", current->pid, current->cmd->arguments[0], status);
 
-        if (WIFEXITED(current->status) || WIFSIGNALED(current->status)) {
+        if (current->status != RUNNING && current->status != SUSPENDED) {
             if (prev == NULL) {
                 *process_list = current->next;
             } else {
                 prev->next = current->next;
             }
             current = current->next;
-        } else {
+        } 
+        else {
             prev = current;
             current = current->next;
         }
