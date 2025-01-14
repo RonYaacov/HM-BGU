@@ -37,7 +37,7 @@ main:
         add esp, 12 ;clean the stack
         popa
         add edx, 4 ;move to the next argument
-        inc eax
+        inc eax ;increment the argument index
         jmp .print_loop
         
     .end_print_loop:
