@@ -6,10 +6,13 @@ extern stdin
 section .data
 format_byte db "%02hhx", 10, 0
 format_word db "%04hx", 0
-end_of_line db 10, 0
-debug_msg_string db "Debug: %s", 10, 0
-debug_msg_int db "Debug: %d", 10, 0
+end_of_line_to_print db 10, 0
+debug_msg_string db "Debug string: %s", 10, 0
+debug_msg_int db "Debug int: %d", 10, 0
+debug_msg_hex db "Debug hex: %02x", 10, 0
 x_struct dw 0
+end_of_line db 0
+
 
 section .bss
 x_num resb 600
@@ -20,32 +23,72 @@ section .text
 main:
     pusha
     call get_multi
-    ;mov eax, [x_struct]
-    ;and eax, 0xFFFF ; Zero-extend the word to dword
-    ;push x_num
-    ;push eax
-    ;call print_multi 
-    ;add esp, 8 ;clean the stack
+    mov eax, [x_struct]
+    and eax, 0xFFFF ; Zero-extend the word to dword
+    push x_num
+    push eax
+    call print_multi 
+    add esp, 8 ;clean the stack
     popa
     ret
 
 get_multi:
-    push ebp
-    mov ebp, esp
-    pusha
-    push dword [stdin]
-    push dword 600
-    push dword x_buffer
-    call fgets
-    add esp, 12 ;clean the stack
-    push x_buffer
-    push 1
-    call print_multi
-    add esp, 8 ;clean the stack
-    popa
-    pop ebp
-    ret
+    push ebp              ; Save base pointer
+    mov ebp, esp          ; Set up stack frame
+    pusha                 ; Save all registers
 
+    ; Read input using fgets
+    lea eax, [x_buffer]   ; Address of input buffer
+    push dword [stdin]    ; Push stdin
+    push dword 600        ; Maximum size of input
+    push eax              ; Push buffer address
+    call fgets            ; Call fgets
+    add esp, 12           ; Clean up stack (3 args)
+
+    ; Initialize pointers
+    xor ecx, ecx          ; Word counter
+    xor esi, esi          ; Input index
+    lea edi, [x_num]      ; Start of output array (x_num)
+    .process_loop:
+        movzx eax, byte [x_buffer + esi] ; Load a byte from the input buffer
+        cmp eax, 0 ; Check if we reached the end of the string
+        je .end_process_loop
+        push eax
+        call hex_to_byte ; Convert the byte to a number
+        add esp, 4 ; Clean up stack
+        
+        movzx ebx, byte [x_buffer + esi + 1] ; Load the next byte
+        cmp ebx, 0 ; Check if we reached the end of the string
+        je .end_process_loop_odd
+        cmp ebx, 10 ; Check if the next byte is a newline
+        je .end_process_loop_odd
+        push eax
+        push ebx
+        call hex_to_byte ; Convert the byte to a number
+        mov ebx, eax ; Store the result in ebx
+        add esp, 4
+        pop eax ; Restore the first byte
+        
+        shl eax, 4 ; Shift the first byte to the left
+        add eax, ebx ; Combine the two bytes
+        mov [edi + ecx ], ax ; Store the word in the output array
+        inc ecx ; Increment the word counter
+        add esi, 2 ; Move to the next byte
+        jmp .process_loop
+    
+    .end_process_loop_odd:
+        mov [edi + ecx], ax ; Store the word in the output array
+        inc ecx ; Increment the word counter
+        inc esi ; Move to the next byte
+       
+        
+    .end_process_loop:
+        lea eax, [x_struct] ; Address of x_struct
+        inc ecx ; Increment the word counter
+        mov [eax], cx ; Store the number of words in x_struct
+        popa
+        pop ebp
+        ret
 
 
 print_multi: ;(x_size, x_num_array address)
@@ -69,9 +112,86 @@ print_multi: ;(x_size, x_num_array address)
         jmp .print_loop
     
     .end_print_loop:
-    push end_of_line
+    push end_of_line_to_print
     call printf
     add esp, 4 ;clean the stack for end_of_line
     popa
     pop ebp
     ret
+
+
+print_debug_string:
+    push ebp
+    mov ebp, esp
+    pusha
+    push dword [ebp + 8]
+    push debug_msg_string
+    call printf
+    add esp, 8 ;clean the stack
+    popa
+    pop ebp
+    ret
+
+print_debug_int:
+    push ebp
+    mov ebp, esp
+    pusha
+    push dword [ebp + 8]
+    push debug_msg_int
+    call printf
+    add esp, 8 ;clean the stack
+    popa
+    pop ebp
+    ret
+
+print_debug_hex:
+    push ebp
+    mov ebp, esp
+    pusha
+    push dword [ebp + 8]
+    push debug_msg_hex
+    call printf
+    add esp, 8 ;clean the stack
+    popa
+    pop ebp
+    ret
+
+    hex_to_byte:
+        push ebp
+        mov ebp, esp
+    
+        mov al, [ebp + 8] ; Load the input character
+        cmp al, '0'
+        jl .invalid_input
+        cmp al, '9'
+        jle .is_digit
+        cmp al, 'A'
+        jl .invalid_input
+        cmp al, 'F'
+        jle .is_uppercase
+        cmp al, 'a'
+        jl .invalid_input
+        cmp al, 'f'
+        jle .is_lowercase
+        jmp .invalid_input
+    
+    .is_digit:
+        sub al, '0'
+        jmp .done
+    
+    .is_uppercase:
+        sub al, 'A'
+        add al, 10
+        jmp .done
+    
+    .is_lowercase:
+        sub al, 'a'
+        add al, 10
+        jmp .done
+    
+    .invalid_input:
+        xor eax, eax ; Return 0 for invalid input
+    
+    .done:
+        pop ebp
+        ret
