@@ -10,8 +10,9 @@ end_of_line_to_print db 10, 0
 debug_msg_string db "Debug string: %s", 10, 0
 debug_msg_int db "Debug int: %d", 10, 0
 debug_msg_hex db "Debug hex: %02x", 10, 0
-x_struct dw 0
 end_of_line db 0
+
+x_struct dw 0
 
 y_struct: dw 5
 y_num: dw 0xaa, 1,2,0x44,0x4f
@@ -23,6 +24,8 @@ section .bss
 x_num resb 600
 x_buffer resb 600
 
+
+
 section .text
 
 main:
@@ -30,19 +33,96 @@ main:
     mov eax, y_struct
     mov ebx, z_struct
     call MaxMin
-    ;call get_multi
+    ;print the max number
     push ecx
     mov ecx, [eax - 4]
     
     and ecx, 0xFFFF ; Zero-extend the word to dword
     push eax
     push ecx
-
     call print_multi 
     add esp, 8 ;clean the stack
     pop ecx
+    
+    ;print the min number
+    push ecx
+    mov ecx, [ebx - 4]
+    
+    and ecx, 0xFFFF ; Zero-extend the word to dword
+    push ebx
+    push ecx
+    call print_multi 
+    add esp, 8 ;clean the stack
+    pop ecx
+
+    ;print the addition result
+    push ebx
+    push eax
+    call add_multi
+    add esp, 8 ;clean the stack
+    
+    push eax
+    mov ebx, [eax - 4] 
+    and ebx, 0xFFFF 
+    push ebx
+    call print_multi
+    add esp, 8 ;clean the stack
+
     popa
     ret
+
+add_multi:
+    push ebp
+    mov ebp, esp
+    push ebx
+    push ecx
+    push edx
+    push esi
+    push edi
+    
+    mov eax, [ebp + 8] ; the bigger number
+    mov ecx, [eax - 4] ; the size of the bigger number
+    and ecx, 0xFFFF 
+
+    mov ebx, [ebp + 8 + 4 ] ; the smaller number
+    mov edx, [ebx - 4] ; the size of the smaller number
+    and edx, 0xFFFF 
+
+    .add_smaller_loop:
+        cmp edx, 0
+        je .add_bigger_loop
+       
+        movzx esi, byte [eax + ecx*2 - 4]
+       
+        movzx edi, byte [ebx + edx*2 - 4]
+        add esi, edi
+        adc esi, 0 ; Add the carry
+        mov word [eax + ecx*2 - 4], si ; Store the result
+        dec ecx
+        dec edx
+        
+        jmp .add_smaller_loop
+
+    .add_bigger_loop:
+        xor edi, edi ; the carry
+        cmp ecx, 0
+        je .end_add_loop
+        
+        movzx edi, word [eax + ecx*2 - 4]
+        add edi, esi
+        add edi, 0 ; Add the carry
+        mov word [eax + ecx*2 - 4], di ; Store the result
+        dec ecx
+        jmp .add_bigger_loop
+    .end_add_loop:
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        pop ebp
+        ret
+
 
 get_multi:
     push ebp              ; Save base pointer
@@ -132,41 +212,7 @@ print_multi: ;(x_size, x_num_array address)
     ret
 
 
-print_debug_string:
-    push ebp
-    mov ebp, esp
-    pusha
-    push dword [ebp + 8]
-    push debug_msg_string
-    call printf
-    add esp, 8 ;clean the stack
-    popa
-    pop ebp
-    ret
 
-print_debug_int:
-    push ebp
-    mov ebp, esp
-    pusha
-    push dword [ebp + 8]
-    push debug_msg_int
-    call printf
-    add esp, 8 ;clean the stack
-    popa
-    pop ebp
-    ret
-
-print_debug_hex:
-    push ebp
-    mov ebp, esp
-    pusha
-    push dword [ebp + 8]
-    push debug_msg_hex
-    call printf
-    add esp, 8 ;clean the stack
-    popa
-    pop ebp
-    ret
 
 
 MaxMin:
@@ -230,3 +276,41 @@ hex_to_byte:
 .done:
     pop ebp
     ret
+
+
+print_debug_string:
+    push ebp
+    mov ebp, esp
+    pusha
+    push dword [ebp + 8]
+    push debug_msg_string
+    call printf
+    add esp, 8 ;clean the stack
+    popa
+    pop ebp
+    ret
+
+print_debug_int:
+    push ebp
+    mov ebp, esp
+    pusha
+    push dword [ebp + 8]
+    push debug_msg_int
+    call printf
+    add esp, 8 ;clean the stack
+    popa
+    pop ebp
+    ret
+
+print_debug_hex:
+    push ebp
+    mov ebp, esp
+    pusha
+    push dword [ebp + 8]
+    push debug_msg_hex
+    call printf
+    add esp, 8 ;clean the stack
+    popa
+    pop ebp
+    ret
+
