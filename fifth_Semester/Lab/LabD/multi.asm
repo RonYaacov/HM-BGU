@@ -13,6 +13,11 @@ debug_msg_hex db "Debug hex: %02x", 10, 0
 x_struct dw 0
 end_of_line db 0
 
+y_struct: dw 5
+y_num: dw 0xaa, 1,2,0x44,0x4f
+z_struct: dw 6
+z_num: dw 0xaa, 1,2,3,0x44,0x4f
+
 
 section .bss
 x_num resb 600
@@ -22,13 +27,20 @@ section .text
 
 main:
     pusha
-    call get_multi
-    mov eax, [x_struct]
-    and eax, 0xFFFF ; Zero-extend the word to dword
-    push x_num
+    mov eax, y_struct
+    mov ebx, z_struct
+    call MaxMin
+    ;call get_multi
+    push ecx
+    mov ecx, [eax - 4]
+    
+    and ecx, 0xFFFF ; Zero-extend the word to dword
     push eax
+    push ecx
+
     call print_multi 
     add esp, 8 ;clean the stack
+    pop ecx
     popa
     ret
 
@@ -69,7 +81,7 @@ get_multi:
         add esp, 4
         pop eax ; Restore the first byte
         
-        shl eax, 4 ; Shift the first byte to the left
+        shl ebx, 4 ; Shift the second byte to the left
         add eax, ebx ; Combine the two bytes
         mov [edi + ecx ], ax ; Store the word in the output array
         inc ecx ; Increment the word counter
@@ -101,7 +113,7 @@ print_multi: ;(x_size, x_num_array address)
         cmp eax, 0 ;check if we reached the end of the struct
         je .end_print_loop ;if so, end the loop
         ;print the argument
-        mov esi, [ebx + 2*eax - 2]; get the word from the array x_num
+        mov esi, [ebx + 2*eax - 4]; get the word from the array x_num
         pusha
         push esi
         push format_word
@@ -156,42 +168,65 @@ print_debug_hex:
     pop ebp
     ret
 
-    hex_to_byte:
-        push ebp
-        mov ebp, esp
-    
-        mov al, [ebp + 8] ; Load the input character
-        cmp al, '0'
-        jl .invalid_input
-        cmp al, '9'
-        jle .is_digit
-        cmp al, 'A'
-        jl .invalid_input
-        cmp al, 'F'
-        jle .is_uppercase
-        cmp al, 'a'
-        jl .invalid_input
-        cmp al, 'f'
-        jle .is_lowercase
-        jmp .invalid_input
-    
-    .is_digit:
-        sub al, '0'
-        jmp .done
-    
-    .is_uppercase:
-        sub al, 'A'
-        add al, 10
-        jmp .done
-    
-    .is_lowercase:
-        sub al, 'a'
-        add al, 10
-        jmp .done
-    
-    .invalid_input:
-        xor eax, eax ; Return 0 for invalid input
-    
-    .done:
+
+MaxMin:
+    push ebp
+    mov ebp, esp
+    push edx
+    push ecx
+    mov edx, [eax]
+    mov ecx, [ebx]
+    cmp edx, ecx
+    jg .end_MaxMin ; If [eax] > [ebx], return
+    pop ecx
+    push ecx
+    mov ecx, eax ; Swap eax and ebx
+    mov eax, ebx
+    mov ebx, ecx
+    .end_MaxMin:
+        pop ecx
+        pop edx
+        add eax, 4
+        add ebx, 4
         pop ebp
         ret
+
+hex_to_byte:
+    push ebp
+    mov ebp, esp
+
+    mov al, [ebp + 8] ; Load the input character
+    cmp al, '0'
+    jl .invalid_input
+    cmp al, '9'
+    jle .is_digit
+    cmp al, 'A'
+    jl .invalid_input
+    cmp al, 'F'
+    jle .is_uppercase
+    cmp al, 'a'
+    jl .invalid_input
+    cmp al, 'f'
+    jle .is_lowercase
+    jmp .invalid_input
+
+.is_digit:
+    sub al, '0'
+    jmp .done
+
+.is_uppercase:
+    sub al, 'A'
+    add al, 10
+    jmp .done
+
+.is_lowercase:
+    sub al, 'a'
+    add al, 10
+    jmp .done
+
+.invalid_input:
+    xor eax, eax ; Return 0 for invalid input
+
+.done:
+    pop ebp
+    ret
