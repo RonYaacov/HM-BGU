@@ -4,6 +4,11 @@ extern fgets
 extern stdin
 
 section .data
+
+STATE dw 0xace1
+MASK dw 0xb400
+
+
 format_byte db "%02hhx", 10, 0
 format_word db "%04hx", 0
 end_of_line_to_print db 10, 0
@@ -30,6 +35,8 @@ section .text
 
 main:
     pusha
+    
+
     mov eax, y_struct
     mov ebx, z_struct
     call MaxMin
@@ -70,6 +77,31 @@ main:
 
     popa
     ret
+
+rand_num:
+    push ebp
+    mov ebp, esp
+    pusha
+    mov ax, [STATE]     ; Load the current STATE
+    mov bx, [MASK]      ; Load the MASK
+    and ax, bx          ; Isolate the relevant bits using MASK
+
+    xor ah, al          ; XOR high byte and low byte of AX
+    shr ax, 1           ; Shift STATE one bit to the right
+    jc .set_msb         ; If the carry flag (CF) is set, set the MSB to 1
+
+    mov [STATE], ax     ; Save the updated STATE
+    popa
+    pop ebp
+    ret                 ; Return the new STATE
+
+.set_msb:
+    or ax, 0x8000       ; Set the most significant bit (MSB) to 1
+    mov [STATE], ax     ; Save the updated STATE
+    popa
+    pop ebp
+    ret                 ; Return the new STATE
+
 
 add_multi:
     push ebp
