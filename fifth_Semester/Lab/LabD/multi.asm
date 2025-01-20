@@ -83,37 +83,47 @@ add_multi:
     mov eax, [ebp + 8] ; the bigger number
     mov ecx, [eax - 4] ; the size of the bigger number
     and ecx, 0xFFFF 
+    push ecx
+    xor ecx, ecx ; the index of the addition loop
 
     mov ebx, [ebp + 8 + 4 ] ; the smaller number
     mov edx, [ebx - 4] ; the size of the smaller number
     and edx, 0xFFFF 
 
     .add_smaller_loop:
-        cmp edx, 0
+        cmp ecx, edx
         je .add_bigger_loop
        
-        movzx esi, byte [eax + ecx*2 - 4]
+        movzx esi, byte [eax + ecx*2 -2]
        
-        movzx edi, byte [ebx + edx*2 - 4]
+       
+        movzx edi, byte [ebx + ecx*2 - 2] 
+        
+     
+
         add esi, edi
         adc esi, 0 ; Add the carry
-        mov word [eax + ecx*2 - 4], si ; Store the result
-        dec ecx
-        dec edx
+        mov word [eax + ecx*2 - 2], si ; Store the result
+        inc ecx
         
         jmp .add_smaller_loop
 
     .add_bigger_loop:
         xor edi, edi ; the carry
-        cmp ecx, 0
+        pop ecx
+        cmp ecx, edx
         je .end_add_loop
         
-        movzx edi, word [eax + ecx*2 - 4]
+        movzx edi, word [eax + edx*2 - 2]
+
         add edi, esi
-        add edi, 0 ; Add the carry
-        mov word [eax + ecx*2 - 4], di ; Store the result
-        dec ecx
+        adc edi, 0 ; Add the carry
+        mov word [eax + edx*2 - 2], di ; Store the result
+        inc edx
+       
+        push ecx
         jmp .add_bigger_loop
+
     .end_add_loop:
         pop edi
         pop esi
