@@ -116,7 +116,8 @@ add_multi:
         
         movzx edi, word [eax + edx*2 - 2]
 
-        add edi, esi
+  
+
         adc edi, 0 ; Add the carry
         mov word [eax + edx*2 - 2], di ; Store the result
         inc edx
