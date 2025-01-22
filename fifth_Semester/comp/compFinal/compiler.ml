@@ -1543,18 +1543,26 @@ module Code_Generation (* : CODE_GENERATION *) = struct
     ];;  
 
   let collect_constants =
-    let rec run = function
-      | ScmConst' expr -> [expr]
-      
-       
-    and runs exprs' =
-      List.fold_left (fun consts expr' -> consts @ (run expr')) [] exprs'
-    in
-    fun exprs' ->
-    (List.map
-       (fun (scm_name, _) -> ScmString scm_name)
-       global_bindings_table)
-    @ (runs exprs');;
+      let rec run = function
+        | ScmConst' expr -> [expr]
+        | ScmIf' (test, dit, dif) -> (run test) @ (run dit) @ (run dif)
+        | ScmSeq' exprs -> List.flatten (List.map run exprs)
+        | ScmOr' exprs -> List.flatten (List.map run exprs)
+        | ScmVarGet' (Var' (v, Free)) -> run (ScmConst'(ScmString v))
+        | ScmVarSet' (_, expr) -> run expr
+        | ScmVarDef' (_, expr) -> run expr
+        | ScmBoxSet' (_, expr) -> run expr
+        | ScmLambda' (args, _, expr) -> List.map (fun arg -> ScmSymbol arg) args @ (run expr)
+        | ScmApplic' (proc, args, _) -> (run proc) @ (List.flatten (List.map run args))
+        | _ -> []
+      and runs exprs' =
+        List.fold_left (fun consts expr' -> consts @ (run expr')) [] exprs'
+      in
+      fun exprs' ->
+      (List.map
+         (fun (scm_name, _) -> ScmString scm_name)
+         global_bindings_table)
+      @(runs exprs');;
 
   let add_sub_constants =
     let rec run sexpr = match sexpr with
