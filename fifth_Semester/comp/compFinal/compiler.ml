@@ -1546,14 +1546,19 @@ module Code_Generation (* : CODE_GENERATION *) = struct
       let rec run = function
         | ScmConst' expr -> [expr]
         | ScmIf' (test, dit, dif) -> (run test) @ (run dit) @ (run dif)
-        | ScmSeq' exprs -> List.flatten (List.map run exprs)
-        | ScmOr' exprs -> List.flatten (List.map run exprs)
-        | ScmVarGet' (Var' (v, Free)) -> run (ScmConst'(ScmString v))
-        | ScmVarSet' (_, expr) -> run expr
-        | ScmVarDef' (_, expr) -> run expr
-        | ScmBoxSet' (_, expr) -> run expr
-        | ScmLambda' (args, _, expr) -> List.map (fun arg -> ScmSymbol arg) args @ (run expr)
-        | ScmApplic' (proc, args, _) -> (run proc) @ (List.flatten (List.map run args))
+        | ScmSeq' expr' -> runs expr'
+        | ScmOr' expr' -> runs expr'
+        | ScmVarGet' (Var' (v, Free)) -> [ScmString v]
+        | ScmVarGet' _ -> []
+        | ScmVarSet' (Var' (v, Free), expr') -> [ScmString v] @ (run expr')
+        | ScmVarSet' (_, expr') -> run expr'
+        | ScmVarDef' (Var' (v, Free), expr') -> [ScmString v] @ (run expr')
+        | ScmVarDef' (_, expr') -> run expr'
+        | ScmBox' _ -> []
+        | ScmBoxGet' _ -> []
+        | ScmBoxSet' (_, expr') -> run expr'
+        | ScmLambda' (_, _, expr') -> run expr'
+        | ScmApplic' (expr1', expr2', _) -> (run expr1') @ (runs expr2')
         | _ -> []
       and runs exprs' =
         List.fold_left (fun consts expr' -> consts @ (run expr')) [] exprs'
