@@ -2044,7 +2044,7 @@ module Code_Generation (* : CODE_GENERATION *) = struct
          ^ "push rcx\n"
          (* rcx will hold the number of optional arguments *)
           ^ "mov rcx, [rbp + 8*2]\n"
-         ^ (Printf.sprintf "mov rbx , %d\n", (List.length params'))
+         ^ (Printf.sprintf "mov rbx , %d\n" (List.length params'))
          ^ "sub rcx, rbx\n"
          ^ "inc rbx\n"
          ^ "mov [rbp + 8*2], rbx\n"
@@ -2106,8 +2106,49 @@ module Code_Generation (* : CODE_GENERATION *) = struct
          ^ "\tjne L_error_non_closure\n"
          ^ "\tpush SOB_CLOSURE_ENV(rax)\n"
          ^ "\tcall SOB_CLOSURE_CODE(rax)\n"
+      
+      
+      
+      
       | ScmApplic' (proc, args, Tail_Call) -> 
-         raise (X_not_yet_implemented "final project")
+        let args_code =
+          String.concat ""
+            (List.map
+               (fun arg ->
+                 let arg_code = run params env arg in
+                 arg_code
+                 ^ "\tpush rax\n")
+               (List.rev args)) in
+        let proc_code = run params env proc in
+        "\t; preparing a tail-call\n"
+        ^ args_code
+        ^ (Printf.sprintf "\tpush %d\t; arg count\n" (List.length args))
+        ^ proc_code
+        ^ "\tcmp byte [rax], T_closure\n"
+        ^ "\tjne L_error_non_closure\n"
+        ^ "\tpush SOB_CLOSURE_ENV(rax)\n"
+        ^"\tpush qword [rbp + 8 * 1]\n ; old ret addr"
+        ^"\tpop rbp\n; restore the old rbp"
+        (* now at rbx we have the number of arguments (m) *)
+        ^ (Printf.sprintf "\tmov rbx, %d\n" (List.length args))
+        (* now at rbx we have the number of items to push to the stack (m + 1(argc) + 1(env) + 1(ret addr)) *)
+        ^ "\tadd rbx, 3\n"
+        (* rdi will gold the number of arguments in the old frame *)
+        ^"\tmov rdi, dword [rbp + 8*2]\n"
+        ^"\t.copy_stack_loop:\n"
+        ^"\tcmp rbx, 0\n"
+        ^"\tje .copy_stack_end\n"
+        (* rcx will now hold the rbx element of B *)
+        
+        ^"\tmov rcx, qword [rsp + 8 * rbx]\n"
+        ^"\tmov [rbp + 3*8 + 8 * rdi], rcx\n"
+        ^"\tdec rdi\n"
+        ^"\tdec rbx\n"
+        ^"\tjmp copy_stack_loop\n"
+        ^"\t.copy_stack_end:\n"
+        ^"\tjmp SOB_CLOSURE_CODE(rax)\n"
+
+
     and runs params env exprs' =
       List.map (fun expr' -> run params env expr') exprs' in
     let codes = runs 0 0 exprs' in
@@ -2159,5 +2200,5 @@ end;; (* end of Code_Generation struct *)
 
 (* end-of-input *)
 
-let test = Code_Generation.compile_and_run_scheme_string "testing/goo";;
+let test =  Code_Generation.compile_and_run_scheme_string "testing/goo";;
 

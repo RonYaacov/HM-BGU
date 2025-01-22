@@ -884,6 +884,26 @@ L_code_ptr_lognot:
 
 L_code_ptr_bin_apply:
 ;;; fill in for final project!
+enter 0, 0
+cmp COUNT, 3
+jne L_error_arg_count_3
+mov rdi, PARAM(0)
+assert_closure(rdi)
+mov rsi, PARAM(1)
+assert_integer(rsi)
+mov rdx, PARAM(2)
+assert_vector(rdx)
+mov rcx, qword [rsi + 1]
+cmp rcx, 0
+jl L_error_integer_range
+mov r8, qword [rdx + 1]
+cmp rcx, r8
+jge L_error_integer_range
+mov r9, qword [rdx + 1 + 8 + 8 * rcx]
+mov rdi, qword [rdi + 1 + 8]
+call rdi
+leave
+ret AND_KILL_FRAME(3)
 
 L_code_ptr_is_null:
         enter 0, 0
