@@ -464,6 +464,18 @@ L_constants:
 	db T_string	; "return"
 	dq 6
 	db 0x72, 0x65, 0x74, 0x75, 0x72, 0x6E
+	; L_constants + 1501:
+	db T_string	; "a"
+	dq 1
+	db 0x61
+	; L_constants + 1511:
+	db T_integer	; 5
+	dq 5
+free_var_0:	; location of a
+	dq .undefined_object
+.undefined_object:
+	db T_undefined
+	dq L_constants + 1501
 
 
 extern printf, fprintf, stdout, stderr, fwrite, exit, putchar, getchar
@@ -476,7 +488,9 @@ main:
         push Lend
         enter 0, 0
 
-	mov rax, L_constants + 3
+	mov rax, L_constants + 1511
+	mov qword [free_var_0], rax
+	mov rax, sob_void
 Lend:
 	mov rdi, rax
 	call print_sexpr_if_not_void
