@@ -2041,24 +2041,34 @@ module Code_Generation (* : CODE_GENERATION *) = struct
          ^ (Printf.sprintf "%s:\n" label_arity_more)
          (* rbx is will hold the number of positional arguments *)
          ^ "push rbx\n" 
-         (* rcx will hold the number of optional arguments *)
          ^ "push rcx\n"
-          ^ "mov rcx, [rsp + 8*2]\n"
+         (* rcx will hold the number of optional arguments *)
+          ^ "mov rcx, [rbp + 8*2]\n"
          ^ (Printf.sprintf "mov rbx , %d\n", (List.length params'))
          ^ "sub rcx, rbx\n"
          ^ "inc rbx\n"
-         ^ "mov [rsp + 8*2], rbx\n"
+         ^ "mov [rbp + 8*2], rbx\n"
          ^"\tmov rdi, rcx*8 \n"
          ^ "\tcall malloc\n"
+         (* save on the stack the pointer to the list of optional args *)
+         ^ "\tpush rax\n"
+         ^ "\tmov rax, [rbp + 8*2 + rbx*8 + 8]"
+         ^ "xor rdi, rdi\n"
+         ^ (Printf.sprintf "%s:\n" label_loop)
+         ^ "\tcmp rdi, rcx\n"
+         ^ "\tje " ^ label_loop_exit ^ "\n"
+         ^ "mov [rsp + rdi*8], rax\n"
+         ^ "\tinc rdi\n"
+         ^ "mov rax,[rbp + 8*2 + rbx*8 + rdi*8 + 8] \n"
+         ^ "jmp " ^ label_loop ^ "\n"
+         ^ (Printf.sprintf "%s:\n" label_loop_exit)
          (* now at the first optional arg with have a pointer tot a list *)
-         ^ "\tmov [rsp + 8*2 + rbx*8], rax\n"
-         
-         
+         ^ "\tpop [rbp + 8*2 + rbx*8 + 8]\n"
+                  
          ^ "pop rbx\n"
          ^ "push rbx\n"
-         ^ (run params env (ScmConst' ScmNil)) 
+         ^ "jmp " ^ label_stack_ok ^ "\n"
          
-
          
          ^ (Printf.sprintf "%s:\n" label_arity_exact)
          (* add pointer to empty list to the last arg, replacing the magic arg *)
@@ -2067,6 +2077,8 @@ module Code_Generation (* : CODE_GENERATION *) = struct
          ^ "mov rbx , [rsp + 8*2]"
          ^ "mov [rsp + 8 * rbx + 8 * 2], rax\n"
          ^ "pop rbx\n"
+         ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_stack_ok)
+
          ^ "\tenter 0, 0\n"
          ^ (run (List.length params') (env + 1) body)
          ^ "\tleave\n"
