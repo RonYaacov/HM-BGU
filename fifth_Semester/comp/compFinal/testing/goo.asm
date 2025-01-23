@@ -465,17 +465,49 @@ L_constants:
 	dq 6
 	db 0x72, 0x65, 0x74, 0x75, 0x72, 0x6E
 	; L_constants + 1501:
-	db T_string	; "a"
+	db T_string	; "fact"
+	dq 4
+	db 0x66, 0x61, 0x63, 0x74
+	; L_constants + 1514:
+	db T_string	; "+"
 	dq 1
-	db 0x61
-	; L_constants + 1511:
+	db 0x2B
+	; L_constants + 1524:
+	db T_integer	; 1
+	dq 1
+	; L_constants + 1533:
+	db T_integer	; 0
+	dq 0
+	; L_constants + 1542:
+	db T_string	; "-"
+	dq 1
+	db 0x2D
+	; L_constants + 1552:
 	db T_integer	; 5
 	dq 5
-free_var_0:	; location of a
+free_var_0:	; location of +
+	dq .undefined_object
+.undefined_object:
+	db T_undefined
+	dq L_constants + 1514
+
+free_var_1:	; location of -
+	dq .undefined_object
+.undefined_object:
+	db T_undefined
+	dq L_constants + 1542
+
+free_var_2:	; location of fact
 	dq .undefined_object
 .undefined_object:
 	db T_undefined
 	dq L_constants + 1501
+
+free_var_3:	; location of zero?
+	dq .undefined_object
+.undefined_object:
+	db T_undefined
+	dq L_constants + 482
 
 
 extern printf, fprintf, stdout, stderr, fwrite, exit, putchar, getchar
@@ -487,10 +519,8869 @@ main:
         push 0
         push Lend
         enter 0, 0
+	; building closure for zero?
+	mov rdi, free_var_3
+	mov rsi, L_code_ptr_is_zero
+	call bind_primitive
 
-	mov rax, L_constants + 1511
-	mov qword [free_var_0], rax
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0001:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_0001
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0001
+.L_lambda_simple_env_end_0001:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0001:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_0001
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0001
+.L_lambda_simple_params_end_0001:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0001
+	jmp .L_lambda_simple_end_0001
+.L_lambda_simple_code_0001:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0001
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0001:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0002:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_0002
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0002
+.L_lambda_simple_env_end_0002:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0002:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0002
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0002
+.L_lambda_simple_params_end_0002:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0002
+	jmp .L_lambda_simple_end_0002
+.L_lambda_simple_code_0002:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0002
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0002:
+	enter 0, 0
+	; preparing a non-tail-call
+	mov rax, PARAM(0)	; param n
+	push rax
+	push 1	; arg count
+	mov rax, qword [free_var_3]	; free var zero?
+	cmp byte [rax], T_undefined
+	je L_error_fvar_undefined
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp rax, sob_boolean_false
+	je .L_if_else_0001
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 3	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0003:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 2
+	je .L_lambda_simple_env_end_0003
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0003
+.L_lambda_simple_env_end_0003:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0003:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0003
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0003
+.L_lambda_simple_params_end_0003:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0003
+	jmp .L_lambda_simple_end_0003
+.L_lambda_simple_code_0003:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0003
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0003:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 4	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0004:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 3
+	je .L_lambda_simple_env_end_0004
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0004
+.L_lambda_simple_env_end_0004:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0004:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0004
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0004
+.L_lambda_simple_params_end_0004:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0004
+	jmp .L_lambda_simple_end_0004
+.L_lambda_simple_code_0004:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0004
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0004:
+	enter 0, 0
+	mov rax, PARAM(0)	; param y
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0004:	; new closure is in rax
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0003:	; new closure is in rax
+	jmp .L_if_end_0001
+.L_if_else_0001:
+	; preparing a tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, L_constants + 1524
+	push rax
+	mov rax, PARAM(0)	; param n
+	push rax
+	push 2	; arg count
+	mov rax, qword [free_var_1]	; free var -
+	cmp byte [rax], T_undefined
+	je L_error_fvar_undefined
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var ->
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var ->
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 3	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0005:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 2
+	je .L_lambda_simple_env_end_0005
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0005
+.L_lambda_simple_env_end_0005:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0005:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0005
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0005
+.L_lambda_simple_params_end_0005:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0005
+	jmp .L_lambda_simple_end_0005
+.L_lambda_simple_code_0005:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0005
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0005:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 4	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0006:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 3
+	je .L_lambda_simple_env_end_0006
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0006
+.L_lambda_simple_env_end_0006:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0006:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0006
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0006
+.L_lambda_simple_params_end_0006:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0006
+	jmp .L_lambda_simple_end_0006
+.L_lambda_simple_code_0006:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0006
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0006:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 5	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0007:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 4
+	je .L_lambda_simple_env_end_0007
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0007
+.L_lambda_simple_env_end_0007:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0007:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0007
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0007
+.L_lambda_simple_params_end_0007:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0007
+	jmp .L_lambda_simple_end_0007
+.L_lambda_simple_code_0007:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0007
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0007:
+	enter 0, 0
+	; preparing a tail-call
+	; preparing a non-tail-call
+	mov rax, PARAM(0)	; param y
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 1]
+	mov rax, qword [rax + 8 * 0]	; bound var z
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	push qword [rbp + 8 * 1]
+ ; old ret addr	pop rbp
+; restore the old rbp	mov rbx, 1
+	add rbx, 3
+	mov rdi, dword [rbp + 8*2]
+.L_tc_recycle_frame_loop_0002:
+	cmp rbx, 0
+je .L_tc_recycle_frame_done_0002
+	mov rcx, qword [rsp + 8 * rbx]
+	mov [rbp + 3*8 + 8 * rdi], rcx
+	dec rdi
+	dec rbx
+jmp .L_tc_recycle_frame_loop_0002
+.L_tc_recycle_frame_done_0002:
+	jmp SOB_CLOSURE_CODE(rax)
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0007:	; new closure is in rax
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0006:	; new closure is in rax
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0005:	; new closure is in rax
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	push qword [rbp + 8 * 1]
+ ; old ret addr	pop rbp
+; restore the old rbp	mov rbx, 1
+	add rbx, 3
+	mov rdi, dword [rbp + 8*2]
+.L_tc_recycle_frame_loop_0001:
+	cmp rbx, 0
+je .L_tc_recycle_frame_done_0001
+	mov rcx, qword [rsp + 8 * rbx]
+	mov [rbp + 3*8 + 8 * rdi], rcx
+	dec rdi
+	dec rbx
+jmp .L_tc_recycle_frame_loop_0001
+.L_tc_recycle_frame_done_0001:
+	jmp SOB_CLOSURE_CODE(rax)
+.L_if_end_0001:
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0002:	; new closure is in rax
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0001:	; new closure is in rax
+	push rax
+	push 1	; arg count
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0008:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_0008
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0008
+.L_lambda_simple_env_end_0008:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0008:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_0008
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0008
+.L_lambda_simple_params_end_0008:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0008
+	jmp .L_lambda_simple_end_0008
+.L_lambda_simple_code_0008:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0008
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0008:
+	enter 0, 0
+	; preparing a tail-call
+	mov rax, PARAM(0)	; param x
+	push rax
+	push 1	; arg count
+	mov rax, PARAM(0)	; param x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	push qword [rbp + 8 * 1]
+ ; old ret addr	pop rbp
+; restore the old rbp	mov rbx, 1
+	add rbx, 3
+	mov rdi, dword [rbp + 8*2]
+.L_tc_recycle_frame_loop_0003:
+	cmp rbx, 0
+je .L_tc_recycle_frame_done_0003
+	mov rcx, qword [rsp + 8 * rbx]
+	mov [rbp + 3*8 + 8 * rdi], rcx
+	dec rdi
+	dec rbx
+jmp .L_tc_recycle_frame_loop_0003
+.L_tc_recycle_frame_done_0003:
+	jmp SOB_CLOSURE_CODE(rax)
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0008:	; new closure is in rax
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0009:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_0009
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0009
+.L_lambda_simple_env_end_0009:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0009:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_0009
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0009
+.L_lambda_simple_params_end_0009:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0009
+	jmp .L_lambda_simple_end_0009
+.L_lambda_simple_code_0009:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0009
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0009:
+	enter 0, 0
+	; preparing a tail-call
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_000a:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_000a
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_000a
+.L_lambda_simple_env_end_000a:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_000a:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_000a
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_000a
+.L_lambda_simple_params_end_000a:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_000a
+	jmp .L_lambda_simple_end_000a
+.L_lambda_simple_code_000a:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_000a
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_000a:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 3	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_000b:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 2
+	je .L_lambda_simple_env_end_000b
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_000b
+.L_lambda_simple_env_end_000b:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_000b:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_000b
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_000b
+.L_lambda_simple_params_end_000b:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_000b
+	jmp .L_lambda_simple_end_000b
+.L_lambda_simple_code_000b:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_000b
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_000b:
+	enter 0, 0
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_000b:	; new closure is in rax
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_000a:	; new closure is in rax
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_000c:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_000c
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_000c
+.L_lambda_simple_env_end_000c:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_000c:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_000c
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_000c
+.L_lambda_simple_params_end_000c:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_000c
+	jmp .L_lambda_simple_end_000c
+.L_lambda_simple_code_000c:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_000c
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_000c:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 3	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_000d:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 2
+	je .L_lambda_simple_env_end_000d
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_000d
+.L_lambda_simple_env_end_000d:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_000d:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_000d
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_000d
+.L_lambda_simple_params_end_000d:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_000d
+	jmp .L_lambda_simple_end_000d
+.L_lambda_simple_code_000d:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_000d
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_000d:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 4	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_000e:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 3
+	je .L_lambda_simple_env_end_000e
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_000e
+.L_lambda_simple_env_end_000e:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_000e:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_000e
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_000e
+.L_lambda_simple_params_end_000e:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_000e
+	jmp .L_lambda_simple_end_000e
+.L_lambda_simple_code_000e:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_000e
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_000e:
+	enter 0, 0
+	; preparing a tail-call
+	; preparing a non-tail-call
+	mov rax, PARAM(0)	; param z
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var y
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	mov rax, PARAM(0)	; param z
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 1]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	push qword [rbp + 8 * 1]
+ ; old ret addr	pop rbp
+; restore the old rbp	mov rbx, 1
+	add rbx, 3
+	mov rdi, dword [rbp + 8*2]
+.L_tc_recycle_frame_loop_0005:
+	cmp rbx, 0
+je .L_tc_recycle_frame_done_0005
+	mov rcx, qword [rsp + 8 * rbx]
+	mov [rbp + 3*8 + 8 * rdi], rcx
+	dec rdi
+	dec rbx
+jmp .L_tc_recycle_frame_loop_0005
+.L_tc_recycle_frame_done_0005:
+	jmp SOB_CLOSURE_CODE(rax)
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_000e:	; new closure is in rax
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_000d:	; new closure is in rax
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_000c:	; new closure is in rax
+	push rax
+	push 1	; arg count
+	mov rax, PARAM(0)	; param x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	push qword [rbp + 8 * 1]
+ ; old ret addr	pop rbp
+; restore the old rbp	mov rbx, 1
+	add rbx, 3
+	mov rdi, dword [rbp + 8*2]
+.L_tc_recycle_frame_loop_0004:
+	cmp rbx, 0
+je .L_tc_recycle_frame_done_0004
+	mov rcx, qword [rsp + 8 * rbx]
+	mov [rbp + 3*8 + 8 * rdi], rcx
+	dec rdi
+	dec rbx
+jmp .L_tc_recycle_frame_loop_0004
+.L_tc_recycle_frame_done_0004:
+	jmp SOB_CLOSURE_CODE(rax)
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0009:	; new closure is in rax
+	push rax
+	push 2	; arg count
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 0	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_000f:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 0
+	je .L_lambda_simple_env_end_000f
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_000f
+.L_lambda_simple_env_end_000f:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_000f:	; copy params
+	cmp rsi, 0
+	je .L_lambda_simple_params_end_000f
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_000f
+.L_lambda_simple_params_end_000f:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_000f
+	jmp .L_lambda_simple_end_000f
+.L_lambda_simple_code_000f:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 2
+	je .L_lambda_simple_arity_check_ok_000f
+	push qword [rsp + 8 * 2]
+	push 2
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_000f:
+	enter 0, 0
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 2	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0010:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 1
+	je .L_lambda_simple_env_end_0010
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0010
+.L_lambda_simple_env_end_0010:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0010:	; copy params
+	cmp rsi, 2
+	je .L_lambda_simple_params_end_0010
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0010
+.L_lambda_simple_params_end_0010:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0010
+	jmp .L_lambda_simple_end_0010
+.L_lambda_simple_code_0010:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0010
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0010:
+	enter 0, 0
+	; preparing a tail-call
+	mov rax, L_constants + 1533
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	mov rdi, (1 + 8 + 8)	; sob closure
+	call malloc
+	push rax
+	mov rdi, 8 * 1	; new rib
+	call malloc
+	push rax
+	mov rdi, 8 * 3	; extended env
+	call malloc
+	mov rdi, ENV
+	mov rsi, 0
+	mov rdx, 1
+.L_lambda_simple_env_loop_0011:	; ext_env[i + 1] <-- env[i]
+	cmp rsi, 2
+	je .L_lambda_simple_env_end_0011
+	mov rcx, qword [rdi + 8 * rsi]
+	mov qword [rax + 8 * rdx], rcx
+	inc rsi
+	inc rdx
+	jmp .L_lambda_simple_env_loop_0011
+.L_lambda_simple_env_end_0011:
+	pop rbx
+	mov rsi, 0
+.L_lambda_simple_params_loop_0011:	; copy params
+	cmp rsi, 1
+	je .L_lambda_simple_params_end_0011
+	mov rdx, qword [rbp + 8 * rsi + 8 * 4]
+	mov qword [rbx + 8 * rsi], rdx
+	inc rsi
+	jmp .L_lambda_simple_params_loop_0011
+.L_lambda_simple_params_end_0011:
+	mov qword [rax], rbx	; ext_env[0] <-- new_rib 
+	mov rbx, rax
+	pop rax
+	mov byte [rax], T_closure
+	mov SOB_CLOSURE_ENV(rax), rbx
+	mov SOB_CLOSURE_CODE(rax), .L_lambda_simple_code_0011
+	jmp .L_lambda_simple_end_0011
+.L_lambda_simple_code_0011:	; lambda-simple body
+	cmp qword [rsp + 8 * 2], 1
+	je .L_lambda_simple_arity_check_ok_0011
+	push qword [rsp + 8 * 2]
+	push 1
+	jmp L_error_incorrect_arity_simple
+.L_lambda_simple_arity_check_ok_0011:
+	enter 0, 0
+	; preparing a tail-call
+	mov rax, L_constants + 1524
+	push rax
+	mov rax, PARAM(0)	; param x
+	push rax
+	push 2	; arg count
+	mov rax, qword [free_var_0]	; free var +
+	cmp byte [rax], T_undefined
+	je L_error_fvar_undefined
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	push qword [rbp + 8 * 1]
+ ; old ret addr	pop rbp
+; restore the old rbp	mov rbx, 2
+	add rbx, 3
+	mov rdi, dword [rbp + 8*2]
+.L_tc_recycle_frame_loop_0007:
+	cmp rbx, 0
+je .L_tc_recycle_frame_done_0007
+	mov rcx, qword [rsp + 8 * rbx]
+	mov [rbp + 3*8 + 8 * rdi], rcx
+	dec rdi
+	dec rbx
+jmp .L_tc_recycle_frame_loop_0007
+.L_tc_recycle_frame_done_0007:
+	jmp SOB_CLOSURE_CODE(rax)
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0011:	; new closure is in rax
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, PARAM(0)	; param n
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 1]	; bound var ->
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	; preparing a non-tail-call
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	push rax
+	push 1	; arg count
+	mov rax, ENV
+	mov rax, qword [rax + 8 * 0]
+	mov rax, qword [rax + 8 * 0]	; bound var x
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	push qword [rbp + 8 * 1]
+ ; old ret addr	pop rbp
+; restore the old rbp	mov rbx, 1
+	add rbx, 3
+	mov rdi, dword [rbp + 8*2]
+.L_tc_recycle_frame_loop_0006:
+	cmp rbx, 0
+je .L_tc_recycle_frame_done_0006
+	mov rcx, qword [rsp + 8 * rbx]
+	mov [rbp + 3*8 + 8 * rdi], rcx
+	dec rdi
+	dec rbx
+jmp .L_tc_recycle_frame_loop_0006
+.L_tc_recycle_frame_done_0006:
+	jmp SOB_CLOSURE_CODE(rax)
+	leave
+	ret AND_KILL_FRAME(1)
+.L_lambda_simple_end_0010:	; new closure is in rax
+	leave
+	ret AND_KILL_FRAME(2)
+.L_lambda_simple_end_000f:	; new closure is in rax
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
+	mov qword [free_var_2], rax
 	mov rax, sob_void
+
+	mov rdi, rax
+	call print_sexpr_if_not_void
+	; preparing a non-tail-call
+	mov rax, L_constants + 1552
+	push rax
+	push 1	; arg count
+	mov rax, qword [free_var_2]	; free var fact
+	cmp byte [rax], T_undefined
+	je L_error_fvar_undefined
+	cmp byte [rax], T_closure
+	jne L_error_non_closure
+	push SOB_CLOSURE_ENV(rax)
+	call SOB_CLOSURE_CODE(rax)
 Lend:
 	mov rdi, rax
 	call print_sexpr_if_not_void

@@ -1806,6 +1806,7 @@ module Code_Generation (* : CODE_GENERATION *) = struct
   let make_lambda_simple_arity_ok =
     make_make_label ".L_lambda_simple_arity_check_ok";;
 
+    
   let make_lambda_opt_loop_env =
     make_make_label ".L_lambda_opt_env_loop";;
   let make_lambda_opt_loop_env_end =
@@ -2124,6 +2125,9 @@ module Code_Generation (* : CODE_GENERATION *) = struct
       
       
       | ScmApplic' (proc, args, Tail_Call) -> 
+        let label_loop_copy = make_tc_applic_recycle_frame_loop () in
+        let label_loop_copy_end = make_tc_applic_recycle_frame_done () in
+
         let args_code =
           String.concat ""
             (List.map
@@ -2148,17 +2152,21 @@ module Code_Generation (* : CODE_GENERATION *) = struct
         ^ "\tadd rbx, 3\n"
         (* rdi will gold the number of arguments in the old frame *)
         ^"\tmov rdi, dword [rbp + 8*2]\n"
-        ^"\t.copy_stack_loop:\n"
+        ^ (Printf.sprintf "%s:\n" label_loop_copy)
+        (* ^"\t.copy_stack_loop:\n" *)
         ^"\tcmp rbx, 0\n"
-        ^"\tje .copy_stack_end\n"
+        ^ (Printf.sprintf "je %s\n" label_loop_copy_end)
+        (* ^"\tje .copy_stack_end\n" *)
         (* rcx will now hold the rbx element of B *)
-        
         ^"\tmov rcx, qword [rsp + 8 * rbx]\n"
         ^"\tmov [rbp + 3*8 + 8 * rdi], rcx\n"
         ^"\tdec rdi\n"
         ^"\tdec rbx\n"
-        ^"\tjmp copy_stack_loop\n"
-        ^"\t.copy_stack_end:\n"
+        ^ (Printf.sprintf "jmp %s\n" label_loop_copy)
+        (* ^"\tjmp copy_stack_loop\n" *)
+        ^ (Printf.sprintf "%s:\n" label_loop_copy_end)
+
+        (* ^"\t.copy_stack_end:\n" *)
         ^"\tjmp SOB_CLOSURE_CODE(rax)\n"
 
 
@@ -2213,5 +2221,5 @@ end;; (* end of Code_Generation struct *)
 
 (* end-of-input *)
 
-let test =  Code_Generation.compile_and_run_scheme_string "testing/goo";;
+let test =  Code_Generation.compile_and_run_scheme_string "testing/goo" (file_to_string "testing/fact-x.scm");;
 
