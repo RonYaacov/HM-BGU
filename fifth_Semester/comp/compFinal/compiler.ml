@@ -1884,12 +1884,17 @@ module Code_Generation (* : CODE_GENERATION *) = struct
       | ScmVarSet' (Var' (v, Free), expr') ->
         let lable = search_free_var_table v free_vars in
          (run params env expr')
+
          ^ (Printf.sprintf "\tmov qword [%s], rax\n" lable)
          ^ "\tmov rax, sob_void\n"
       | ScmVarSet' (Var' (v, Param minor), ScmBox' _) ->
         let label = search_free_var_table v free_vars in
           (run params env (ScmBox' (Var' (v, Param minor))))
-          ^ (Printf.sprintf "\tmov qword [%s], rax\n" label)
+         ^ "\tmov rdi, 8*1\n"
+         ^ "\tcall malloc\n"
+         ^ (Printf.sprintf "\tmov rbx, PARAM(%d)\n" minor)
+          ^ "\tmov qword [rax], rbx\n"
+          ^ (Printf.sprintf "\tmov PARAM(%d), rax\n" minor)
           ^ "\tmov rax, sob_void\n"
          
       | ScmVarSet' (Var' (v, Param minor), expr') ->
@@ -2144,14 +2149,14 @@ module Code_Generation (* : CODE_GENERATION *) = struct
         ^ "\tcmp byte [rax], T_closure\n"
         ^ "\tjne L_error_non_closure\n"
         ^ "\tpush SOB_CLOSURE_ENV(rax)\n"
-        ^"\tpush qword [rbp + 8 * 1]\n ; old ret addr"
-        ^"\tpop rbp\n; restore the old rbp"
+        ^"\tpush qword [rbp + 8 * 1]\n ; old ret addr\n"
+        ^"\tpop rbp\n; restore the old rbp\n"
         (* now at rbx we have the number of arguments (m) *)
         ^ (Printf.sprintf "\tmov rbx, %d\n" (List.length args))
         (* now at rbx we have the number of items to push to the stack (m + 1(argc) + 1(env) + 1(ret addr)) *)
         ^ "\tadd rbx, 3\n"
         (* rdi will gold the number of arguments in the old frame *)
-        ^"\tmov rdi, dword [rbp + 8*2]\n"
+        ^"\tmov rdi, qword [rbp + 8*2]\n"
         ^ (Printf.sprintf "%s:\n" label_loop_copy)
         (* ^"\t.copy_stack_loop:\n" *)
         ^"\tcmp rbx, 0\n"

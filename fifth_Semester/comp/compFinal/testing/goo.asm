@@ -627,10 +627,12 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0001:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0001
@@ -772,10 +774,12 @@ jmp .L_tc_recycle_frame_loop_0001
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0002:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0002
@@ -907,10 +911,12 @@ jmp .L_tc_recycle_frame_loop_0002
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0003:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0003
@@ -1050,10 +1056,12 @@ jmp .L_tc_recycle_frame_loop_0003
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0004:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0004
@@ -1529,10 +1537,12 @@ jmp .L_tc_recycle_frame_loop_0004
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0007:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0007
@@ -1565,10 +1575,12 @@ jmp .L_tc_recycle_frame_loop_0007
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0006:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0006
@@ -1605,10 +1617,12 @@ jmp .L_tc_recycle_frame_loop_0006
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0005:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0005
@@ -2088,10 +2102,12 @@ jmp .L_tc_recycle_frame_loop_0005
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_000a:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_000a
@@ -2124,10 +2140,12 @@ jmp .L_tc_recycle_frame_loop_000a
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0009:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0009
@@ -2164,10 +2182,12 @@ jmp .L_tc_recycle_frame_loop_0009
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0008:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0008
@@ -2337,10 +2357,12 @@ jmp .L_tc_recycle_frame_loop_0008
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_000b:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_000b
@@ -2666,10 +2688,12 @@ jmp .L_tc_recycle_frame_loop_000b
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_000d:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_000d
@@ -2901,10 +2925,12 @@ jmp .L_tc_recycle_frame_loop_000d
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_000f:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_000f
@@ -3081,10 +3107,12 @@ jmp .L_tc_recycle_frame_loop_000f
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0010:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0010
@@ -3557,10 +3585,12 @@ jmp .L_tc_recycle_frame_loop_0010
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0013:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0013
@@ -3593,10 +3623,12 @@ jmp .L_tc_recycle_frame_loop_0013
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0012:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0012
@@ -3633,10 +3665,12 @@ jmp .L_tc_recycle_frame_loop_0012
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0011:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0011
@@ -3821,10 +3855,12 @@ jmp .L_tc_recycle_frame_loop_0011
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0014:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0014
@@ -4010,10 +4046,12 @@ jmp .L_tc_recycle_frame_loop_0014
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0015:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0015
@@ -4195,10 +4233,12 @@ jmp .L_tc_recycle_frame_loop_0015
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0016:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0016
@@ -4226,10 +4266,12 @@ jmp .L_tc_recycle_frame_loop_0016
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_000e:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_000e
@@ -4406,10 +4448,12 @@ jmp .L_tc_recycle_frame_loop_000e
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0017:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0017
@@ -4427,10 +4471,12 @@ jmp .L_tc_recycle_frame_loop_0017
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_000c:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_000c
@@ -5052,10 +5098,12 @@ jmp .L_tc_recycle_frame_loop_000c
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_001b:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_001b
@@ -5288,10 +5336,12 @@ jmp .L_tc_recycle_frame_loop_001b
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_001d:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_001d
@@ -5469,10 +5519,12 @@ jmp .L_tc_recycle_frame_loop_001d
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_001e:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_001e
@@ -5658,10 +5710,12 @@ jmp .L_tc_recycle_frame_loop_001e
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_001f:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_001f
@@ -5843,10 +5897,12 @@ jmp .L_tc_recycle_frame_loop_001f
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0020:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0020
@@ -5874,10 +5930,12 @@ jmp .L_tc_recycle_frame_loop_0020
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_001c:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_001c
@@ -6054,10 +6112,12 @@ jmp .L_tc_recycle_frame_loop_001c
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0021:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0021
@@ -6075,10 +6135,12 @@ jmp .L_tc_recycle_frame_loop_0021
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_001a:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_001a
@@ -6103,10 +6165,12 @@ jmp .L_tc_recycle_frame_loop_001a
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0019:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0019
@@ -6437,10 +6501,12 @@ jmp .L_tc_recycle_frame_loop_0019
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0022:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0022
@@ -6972,10 +7038,12 @@ jmp .L_tc_recycle_frame_loop_0022
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0025:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0025
@@ -7208,10 +7276,12 @@ jmp .L_tc_recycle_frame_loop_0025
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0027:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0027
@@ -7389,10 +7459,12 @@ jmp .L_tc_recycle_frame_loop_0027
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0028:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0028
@@ -7578,10 +7650,12 @@ jmp .L_tc_recycle_frame_loop_0028
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0029:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0029
@@ -7763,10 +7837,12 @@ jmp .L_tc_recycle_frame_loop_0029
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_002a:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_002a
@@ -7794,10 +7870,12 @@ jmp .L_tc_recycle_frame_loop_002a
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0026:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0026
@@ -7974,10 +8052,12 @@ jmp .L_tc_recycle_frame_loop_0026
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_002b:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_002b
@@ -7995,10 +8075,12 @@ jmp .L_tc_recycle_frame_loop_002b
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0024:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0024
@@ -8023,10 +8105,12 @@ jmp .L_tc_recycle_frame_loop_0024
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0023:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0023
@@ -8357,10 +8441,12 @@ jmp .L_tc_recycle_frame_loop_0023
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_002c:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_002c
@@ -8585,10 +8671,12 @@ jmp .L_tc_recycle_frame_loop_002c
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_002d:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_002d
@@ -8613,10 +8701,12 @@ jmp .L_tc_recycle_frame_loop_002d
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	push qword [rbp + 8 * 1]
- ; old ret addr	pop rbp
-; restore the old rbp	mov rbx, 1
+ ; old ret addr
+	pop rbp
+; restore the old rbp
+	mov rbx, 1
 	add rbx, 3
-	mov rdi, dword [rbp + 8*2]
+	mov rdi, qword [rbp + 8*2]
 .L_tc_recycle_frame_loop_0018:
 	cmp rbx, 0
 je .L_tc_recycle_frame_done_0018
