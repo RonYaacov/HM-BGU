@@ -8,10 +8,4 @@
 )
 
 (define free_var_lambda (lambda () free_var))
-
-(define free_fact (letrec ((factorial 
-          (lambda (n)
-            (if (= n 0)
-                1
-                (* n (factorial (- n 1)))))))
-  (factorial 5)))
+ (free_var_lambda)
