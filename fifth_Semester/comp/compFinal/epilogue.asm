@@ -883,27 +883,48 @@ L_code_ptr_lognot:
         ret AND_KILL_FRAME(1)
 
 L_code_ptr_bin_apply:
-;;; fill in for final project!
-enter 0, 0
-cmp COUNT, 3
-jne L_error_arg_count_3
-mov rdi, PARAM(0)
-assert_closure(rdi)
-mov rsi, PARAM(1)
-assert_integer(rsi)
-mov rdx, PARAM(2)
-assert_vector(rdx)
-mov rcx, qword [rsi + 1]
-cmp rcx, 0
-jl L_error_integer_range
-mov r8, qword [rdx + 1]
-cmp rcx, r8
-jge L_error_integer_range
-mov r9, qword [rdx + 1 + 8 + 8 * rcx]
-mov rdi, qword [rdi + 1 + 8]
-call rdi
-leave
-ret AND_KILL_FRAME(3)
+        enter 0, 0        
+        mov rsi, PARAM(1)
+	mov rdi, rsi
+	mov rcx, 0
+.L_bin_apply_calc_new_argc_loop:
+	cmp rdi, sob_nil
+	je .L_bin_apply_end_calc_loop
+	assert_pair(rdi)
+	mov rdi, SOB_PAIR_CDR(rdi)
+	inc rcx
+	jmp .L_bin_apply_calc_new_argc_loop
+.L_bin_apply_end_calc_loop:
+        
+        lea r11, [8*(rcx - 3)]
+        sub rsp, r11
+
+        mov r10, RET_ADDR
+        mov qword [rsp], r10
+
+        mov r10, PARAM(0)
+        assert_closure(r10)
+        mov rax, SOB_CLOSURE_ENV(r10)
+        mov qword [rsp + 8 * 1], rax
+
+        mov qword [rsp + 8 * 2], rcx
+        
+        lea r9, [rsp + 8 * 3]
+	mov rdi, rsi
+
+
+        
+.L_bin_apply_recycle_frame_loop:
+	cmp rdi, sob_nil
+	je .L_bin_apply_recycle_frame_done
+        mov rax, SOB_PAIR_CAR(rdi)
+        mov qword [r9], rax
+        add r9, 8
+        mov rdi, SOB_PAIR_CDR(rdi)
+	jmp .L_bin_apply_recycle_frame_loop
+.L_bin_apply_recycle_frame_done:
+        mov  rbp, r8
+        jmp SOB_CLOSURE_CODE(r10)
 
 L_code_ptr_is_null:
         enter 0, 0
