@@ -8,4 +8,8 @@
 )
 
 (define free_var_lambda (lambda () free_var))
- (free_var_lambda)
+
+(tail_lambda 5 arg_lambda)
+
+(+ 6 3)
+
