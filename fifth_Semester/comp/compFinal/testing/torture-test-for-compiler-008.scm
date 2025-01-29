@@ -32,3 +32,5 @@
 			  (* n r))))))
     (lambda (n)
       (fact-1 n 1))))
+
+(with '(5) fact)

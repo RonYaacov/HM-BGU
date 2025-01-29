@@ -13,4 +13,9 @@
 
 (define test_+ (lambda (x y) (+ x y)))
 
-(test_+ 1 5)
+(define function_for_map  (lambda (x) x ))
+(map function_for_map '(1 2 3))
+(apply list '(1 2 3 4))
+(or #t #f)
+(+ 9 1)
+

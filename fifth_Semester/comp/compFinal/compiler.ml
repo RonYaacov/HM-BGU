@@ -1887,16 +1887,27 @@ module Code_Generation (* : CODE_GENERATION *) = struct
       | ScmSeq' exprs' ->
          String.concat "\n"
            (List.map (run params env) exprs')
-      | ScmOr' exprs' ->
-        let label_end = make_or_end () in
-          String.concat "\n"
-            (List.map
-                (fun expr' ->
-                  (run params env expr')
-                  ^ "\tcmp rax, sob_boolean_false\n"
-                  ^ (Printf.sprintf "\tje %s\n" label_end))
-                exprs')
-          ^ (Printf.sprintf "%s:\n" label_end)
+           | ScmOr' exprs' ->
+            let label_end = make_or_end () in
+            let asm_code = 
+              (match (list_and_last exprs') with
+               | Some (exprs', last_expr') ->
+                  let exprs_code =
+                    String.concat ""
+                      (List.map
+                         (fun expr' ->
+                           let expr_code = run params env expr' in
+                           expr_code
+                           ^ "\tcmp rax, sob_boolean_false\n"
+                           ^ (Printf.sprintf "\tjne %s\n" label_end))
+                         exprs') in
+                  let last_expr_code = run params env last_expr' in
+                  exprs_code
+                  ^ last_expr_code
+                  ^ (Printf.sprintf "%s:\n" label_end)
+               (* and just in case someone messed up the tag-parser: *)
+               | None -> run params env (ScmConst' (ScmBoolean false)))
+            in asm_code
       | ScmVarSet' (Var' (v, Free), expr') ->
         let lable = search_free_var_table v free_vars in
          (run params env expr')
@@ -2269,5 +2280,5 @@ end;; (* end of Code_Generation struct *)
 
 (* end-of-input *)
 
-let test =  Code_Generation.compile_and_run_scheme_string "testing/goo" (file_to_string "testing/our_test.scm");;
+let test =  Code_Generation.compile_and_run_scheme_string "testing/goo" (file_to_string "testing/torture-test-for-compiler-unsorted.scm");;
 
