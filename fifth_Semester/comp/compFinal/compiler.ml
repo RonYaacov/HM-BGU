@@ -1547,18 +1547,18 @@ module Code_Generation (* : CODE_GENERATION *) = struct
   let collect_constants =
       let rec run = function
         | ScmConst' expr -> [expr]
-        | ScmIf' (test, dit, dif) -> (run test) @ (run dit) @ (run dif)
-        | ScmSeq' expr' -> runs expr'
-        | ScmOr' expr' -> runs expr'
         | ScmVarGet' (Var' (v, Free)) -> [ScmString v]
         | ScmVarGet' _ -> []
-        | ScmVarSet' (Var' (v, Free), expr') -> [ScmString v] @ (run expr')
         | ScmVarSet' (_, expr') -> run expr'
+        | ScmVarSet' (Var' (v, Free), expr') -> [ScmString v] @ (run expr')
         | ScmVarDef' (Var' (v, Free), expr') -> [ScmString v] @ (run expr')
         | ScmVarDef' (_, expr') -> run expr'
         | ScmBox' _ -> []
         | ScmBoxGet' _ -> []
         | ScmBoxSet' (_, expr') -> run expr'
+        | ScmIf' (test, dit, dif) -> (run test) @ (run dit) @ (run dif)
+        | ScmSeq' expr' -> runs expr'
+        | ScmOr' expr' -> runs expr'
         | ScmLambda' (_, _, expr') -> run expr'
         | ScmApplic' (expr1', expr2', _) -> (run expr1') @ (runs expr2')
         | _ -> []
@@ -1718,9 +1718,6 @@ module Code_Generation (* : CODE_GENERATION *) = struct
           | ScmConst' _ -> []
           | ScmVarGet' (Var' (v, Free)) -> [v]
           | ScmVarGet' _ -> []
-          | ScmIf' (test, dit, dif) -> (run test) @ (run dit) @ (run dif)
-          | ScmSeq' exprs' -> runs exprs'
-          | ScmOr' exprs' -> runs exprs'
           | ScmVarSet' (Var' (v, Free), expr') -> [v] @ (run expr')
           | ScmVarSet' (_, expr') -> run expr'
           | ScmVarDef' (Var' (v, Free), expr') -> [v] @ (run expr')
@@ -1731,6 +1728,9 @@ module Code_Generation (* : CODE_GENERATION *) = struct
           | ScmBoxGet' _ -> []
           | ScmBoxSet' (Var' (v, Free), expr') -> [v] @ (run expr')
           | ScmBoxSet' (_, expr') -> run expr'
+          | ScmIf' (test, dit, dif) -> (run test) @ (run dit) @ (run dif)
+          | ScmSeq' exprs' -> runs exprs'
+          | ScmOr' exprs' -> runs exprs'
           | ScmLambda' (_, _, expr') -> run expr'
           | ScmApplic' (expr', exprs', _) -> (run expr') @  (runs exprs')
         
@@ -1887,27 +1887,29 @@ module Code_Generation (* : CODE_GENERATION *) = struct
       | ScmSeq' exprs' ->
          String.concat "\n"
            (List.map (run params env) exprs')
-           | ScmOr' exprs' ->
-            let label_end = make_or_end () in
-            let asm_code = 
-              (match (list_and_last exprs') with
-               | Some (exprs', last_expr') ->
-                  let exprs_code =
-                    String.concat ""
-                      (List.map
-                         (fun expr' ->
-                           let expr_code = run params env expr' in
-                           expr_code
-                           ^ "\tcmp rax, sob_boolean_false\n"
-                           ^ (Printf.sprintf "\tjne %s\n" label_end))
-                         exprs') in
-                  let last_expr_code = run params env last_expr' in
-                  exprs_code
-                  ^ last_expr_code
-                  ^ (Printf.sprintf "%s:\n" label_end)
-               (* and just in case someone messed up the tag-parser: *)
-               | None -> run params env (ScmConst' (ScmBoolean false)))
-            in asm_code
+      | ScmOr' exprs' ->
+      let label_end = make_or_end () in
+      let code' = 
+        (match (list_and_last exprs') with
+          | Some (exprs', last_expr') ->
+            let elements_string_asm_code =
+              (* concat with "" so it will be one string *)
+              String.concat ""
+                (List.map
+                    (fun expr' ->
+                      let current_element_string_asm_code = run params env expr' in
+                      current_element_string_asm_code
+                      ^ "\tcmp rax, sob_boolean_false ;check if the current element that was eval is false\n"
+                      ^ (Printf.sprintf "\tjne %s; if its not false (true) then we need to return it and not the last element\n" label_end))
+                    exprs') in
+            let last_element_string_asm_code = run params env last_expr' in
+            elements_string_asm_code
+            ^ last_element_string_asm_code
+            (* this is the end lable it will return the last element or the first true element statement *)
+            ^ (Printf.sprintf "%s:\n" label_end)
+            (* if list_and_last returns None then we want to return a false statement as or is iml in scm *)
+          | None -> run params env (ScmConst' (ScmBoolean false)))
+      in code'
       | ScmVarSet' (Var' (v, Free), expr') ->
         let lable = search_free_var_table v free_vars in
          (run params env expr')
@@ -2013,8 +2015,10 @@ module Code_Generation (* : CODE_GENERATION *) = struct
          ^ "\tleave\n"
          ^ (Printf.sprintf "\tret AND_KILL_FRAME(%d)\n" (List.length params'))
          ^ (Printf.sprintf "%s:\t; new closure is in rax\n" label_end)
+
+        
       
-      | ScmLambda' (params', Opt opt, body) ->
+         | ScmLambda' (params', Opt opt, body) ->
           let label_loop_env = make_lambda_opt_loop_env ()
           and label_loop_env_end = make_lambda_opt_loop_env_end ()
           and label_loop_params = make_lambda_opt_loop_params ()
@@ -2042,7 +2046,7 @@ module Code_Generation (* : CODE_GENERATION *) = struct
           ^ "\t xor rsi, rsi\n"
           ^ "\t xor rdx, rdx\n"
           ^ "\tinc rdx\n"
-          ^ (Printf.sprintf "%s:\t; \n" label_loop_env)
+          ^ (Printf.sprintf "%s:\t; ext_env[i + 1] <-- env[i]\n" label_loop_env)
           ^ (Printf.sprintf "\tcmp rsi, %d\n" env)
           ^ (Printf.sprintf "\tje %s\n" label_loop_env_end)
           ^ "\tmov rcx, qword [rdi + 8 * rsi]\n"
@@ -2070,25 +2074,25 @@ module Code_Generation (* : CODE_GENERATION *) = struct
           ^ "\tmov SOB_CLOSURE_ENV(rax), rbx\n"
           ^ (Printf.sprintf "\tmov SOB_CLOSURE_CODE(rax), %s\n" label_code)
           ^ (Printf.sprintf "\tjmp %s\n" label_end)
-          ^ (Printf.sprintf "%s:\n" label_code) 
-          ^ "\tmov r15, qword [rsp + 8 * 2]\n" 
-          ^ (Printf.sprintf "\tcmp r15, %d\n" (List.length params'))
+          (* this is the code for the lambda body *)
+          ^ (Printf.sprintf "%s:; lambda opt body\n" label_code) 
+          ^ (Printf.sprintf "\tcmp qword [rsp + 8 * 2], %d\n" (List.length params'))
           ^ (Printf.sprintf "\tje %s\n" label_arity_exact)
           ^ (Printf.sprintf "\tjg %s\n" label_arity_more)
           
           ^ (Printf.sprintf "\tpush %d\n" (List.length params'))
           ^ "\tjmp L_error_incorrect_arity_opt\n"
- 
-          ^(Printf.sprintf "%s: ;Exact case\n" label_arity_exact)
-          ^(Printf.sprintf "\tmov r8, qword [rsp -%d * 0]\n" word_size)
-          ^(Printf.sprintf "\tmov qword [rsp -%d], r8\n" word_size)
-          ^(Printf.sprintf "\tmov r8, qword [rsp +%d]\n" word_size)
-          ^(Printf.sprintf "\tmov qword [rsp +%d * 0], r8\n" word_size)
-          ^(Printf.sprintf "\tmov r8, qword [rsp +%d * 2]\n" word_size)
+          (* arity is exact in this case *)
+          ^(Printf.sprintf "%s:\n" label_arity_exact)
+          ^"\tmov r9, qword [rsp -8 * 0]\n"
+          ^"\tmov qword [rsp -8], r9\n"
+          ^"\tmov r9, qword [rsp +8]\n"
+          ^"\tmov qword [rsp +8 * 0], r9\n"
+          ^"\tmov r9, qword [rsp +8 * 2]\n"
           (* rcx will now hold the new argc *)
-          ^"\tmov rcx, r8\n"
-          ^"\tinc r8\n"
-          ^(Printf.sprintf "\tmov qword [rsp +%d], r8\n" word_size)
+          ^"\tmov rcx, r9\n"
+          ^"\tinc r9\n"
+          ^"\tmov qword [rsp +8], r9\n"
           ^ "\tmov rdx, rsp\n"
           ^"\tadd rdx, 24\n"
           ^(Printf.sprintf "%s:\n" label_loop_copy_exact)
@@ -2111,47 +2115,47 @@ module Code_Generation (* : CODE_GENERATION *) = struct
           (* now we copy the old argc *)
           ^ "\tmov r12, r8\n" 
           ^ "\tmov rcx, r8\n"
-          ^ "\tlea r13, [r8 + 2] \n" 
+          ^ "\tlea r10, [r8 + 2] \n" 
           ^ (Printf.sprintf "\tsub rcx, %d\n" (List.length params')) 
          
           
-          ^ (Printf.sprintf "\tlea r11, qword [rsp + r8 * 8 + %d]\n" (word_size * 2))
-          ^ "\tmov r14, sob_nil\n"
+          ^ "\tlea r11, qword [rsp + r8 * 8 + 8*2]\n"
+          ^ "\tmov r9, sob_nil\n"
           ^ (Printf.sprintf"%s:\n" label_create_list_opt)
           ^ "\tcmp rcx, 0\n"
           ^ (Printf.sprintf"\tje %s\n" label_create_list_opt_end)
-          ^(Printf.sprintf "\tmov rdi, %d\n" (1 + word_size + word_size))
+          ^(Printf.sprintf "\tmov rdi, %d\n" (1 + 8*2))
           ^ "\tcall malloc\n"
           ^ "\tmov byte [rax], T_pair\n"
           (* now we copy the old argc *)
           ^"\tmov rbx, qword [r11]\n"
           ^ "\tmov qword [rax +1], rbx\n" 
-          ^ "\tmov qword [rax + 1 + 8], r14\n"
-          ^ "\tmov r14, rax\n"
+          ^ "\tmov qword [rax + 1 + 8], r9\n"
+          ^ "\tmov r9, rax\n"
           ^ "\tdec rcx\n"
           ^ "\tsub r11, 8\n"
           
           ^(Printf.sprintf "\tjmp %s\n" label_create_list_opt)
           ^(Printf.sprintf"%s:\n" label_create_list_opt_end)
-          ^(Printf.sprintf "\tlea r10, [rsp + %d*8 + 8*3]\n" (List.length params'))
-          ^"\tmov qword [r10], r14\n"
-          ^ "\tlea r13, [8 * r13]\n"
-          ^ "\tadd r13, rsp\n"
+          ^(Printf.sprintf "\tlea r8, [rsp + %d*8 + 8*3]\n" (List.length params'))
+          ^"\tmov qword [r8], r9\n"
+          ^ "\tlea r10, [8 * r10]\n"
+          ^ "\tadd r10, rsp\n"
           ^ (Printf.sprintf "\tmov rcx, 4 + %d\n" (List.length params'))
           ^ (Printf.sprintf "%s:\n" label_loop_fix_stack_more)
           ^"\tcmp rcx, 0\n"
           ^ (Printf.sprintf "\tje %s\n" label_loop_fix_stack_more_exit)
-          ^ "\tmov r11, qword [r10]\n"
-          ^ "\tmov qword [r13], r11\n"
-          ^ (Printf.sprintf "\tsub r10, %d\n" word_size)
-          ^ (Printf.sprintf "\tsub r13, %d\n" word_size)
+          ^ "\tmov r11, qword [r8]\n"
+          ^ "\tmov qword [r10], r11\n"
+          ^ "\tsub r8, 8\n"
+          ^ "\tsub r10, 8\n"
           ^ "\tdec rcx\n"
           ^ (Printf.sprintf "\tjmp %s\n" label_loop_fix_stack_more)
           ^ (Printf.sprintf "%s:\n" label_loop_fix_stack_more_exit)
-          ^ (Printf.sprintf "\tadd r13, %d\n" word_size)
-          ^ "\tmov rsp, r13\n"
+          ^ "\tadd r10, 8\n"
+          ^ "\tmov rsp, r10\n"
           (* now we can continue with the code *)
-          ^ (Printf.sprintf "%s:\n" label_stack_ok)
+          ^ (Printf.sprintf "%s:;continue with the code, the stack is ok\n" label_stack_ok)
           ^ (Printf.sprintf "\tmov qword [rsp + 8*2], %d\n" (List.length params' + 1))
           ^ "\tenter 0, 0\n"
           ^ (run (List.length params' +1) (env + 1) body)
@@ -2203,13 +2207,13 @@ module Code_Generation (* : CODE_GENERATION *) = struct
           ^ "\tpush SOB_CLOSURE_ENV(rax)\n"
           ^ "\tpush qword [rbp + 8 * 1]\n ; old ret addr\n"
           ^ "\tpush qword [rbp]\n ; restore the old rbp\n"
-          (* now at rbx we have the number of arguments (m) *)
+          (* now at rbx we have the number of arguments *)
           ^ (Printf.sprintf "\tmov rbx, %d\n" (List.length args))
           (* now at rbx we have the number of items to push to the stack (m + 1(argc) + 1(env) + 1(ret addr)) *)
           ^ "\tadd rbx, 3\n"
+          ^ "\tmov r9, qword [rbp + 8 * 3]\n"
           (* r8 will hold the address of An-1 in the old frame *)
-          ^ "\tmov r8, qword [rbp + 8 * 3]\n"
-          ^ "\tlea r8, [rbp + 8 * 3 + 8 * r8]\n"
+          ^ "\tlea r8, [rbp + 8 * 3 + 8 * r9]\n"
           (* r9 will hold the address of Bm-1 in the new frame *)
           ^ "\tlea r9, [rbp - 8]\n"
           (* rcx will hold the total number of elements to copy *)

@@ -2244,8 +2244,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0001:
@@ -2340,8 +2340,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0002:
@@ -2436,8 +2436,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0003:
@@ -2532,8 +2532,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0004:
@@ -2628,8 +2628,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0005:
@@ -2724,8 +2724,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0006:
@@ -2820,8 +2820,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0007:
@@ -2916,8 +2916,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0008:
@@ -3012,8 +3012,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0009:
@@ -3108,8 +3108,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_000a:
@@ -3204,8 +3204,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_000b:
@@ -3300,8 +3300,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_000c:
@@ -3396,8 +3396,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_000d:
@@ -3492,8 +3492,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_000e:
@@ -3588,8 +3588,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_000f:
@@ -3684,8 +3684,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0010:
@@ -3780,8 +3780,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0011:
@@ -3876,8 +3876,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0012:
@@ -3972,8 +3972,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0013:
@@ -4068,8 +4068,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0014:
@@ -4164,8 +4164,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0015:
@@ -4260,8 +4260,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0016:
@@ -4356,8 +4356,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0017:
@@ -4452,8 +4452,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0018:
@@ -4548,8 +4548,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0019:
@@ -4644,8 +4644,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_001a:
@@ -4740,8 +4740,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_001b:
@@ -4836,8 +4836,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_001c:
@@ -4917,8 +4917,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0001
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0001; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	mov rax, PARAM(0)	; param e
 	push rax
@@ -4958,8 +4958,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_001d:
@@ -5000,7 +5000,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0001:	; 
+.L_lambda_opt_env_loop_0001:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_opt_env_end_0001
 	mov rcx, qword [rdi + 8 * rsi]
@@ -5026,22 +5026,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0001
 	jmp .L_lambda_opt_end_0001
-.L_lambda_opt_code_0001:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_0001:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_0001
 	jg .L_lambda_opt_arity_check_more_0001
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0001: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0001:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0001:
@@ -5060,10 +5059,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0001:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0001
@@ -5072,30 +5071,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0001
 .L_lambda_opt_create_list_of_opt_params_end_0001:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_0001:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0001
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0001
 .L_lambda_opt_stack_shrink_loop_exit_0001:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0001:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0001:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	mov rax, PARAM(0)	; param args
@@ -5224,8 +5223,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0002
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0002; if its not false (true) then we need to return it and not the last element
 	; preparing a tail-call
 	mov rax, PARAM(0)	; param q
 	push rax
@@ -5242,8 +5241,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_001e:
@@ -5436,8 +5435,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_001f:
@@ -5474,7 +5473,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0002:	; 
+.L_lambda_opt_env_loop_0002:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0002
 	mov rcx, qword [rdi + 8 * rsi]
@@ -5500,22 +5499,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0002
 	jmp .L_lambda_opt_end_0002
-.L_lambda_opt_code_0002:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0002:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0002
 	jg .L_lambda_opt_arity_check_more_0002
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0002: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0002:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0002:
@@ -5534,10 +5532,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0002:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0002
@@ -5546,30 +5544,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0002
 .L_lambda_opt_create_list_of_opt_params_end_0002:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0002:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0002
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0002
 .L_lambda_opt_stack_shrink_loop_exit_0002:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0002:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0002:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -5591,8 +5589,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0020:
@@ -5788,8 +5786,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0021:
@@ -5829,7 +5827,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0003:	; 
+.L_lambda_opt_env_loop_0003:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0003
 	mov rcx, qword [rdi + 8 * rsi]
@@ -5855,22 +5853,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0003
 	jmp .L_lambda_opt_end_0003
-.L_lambda_opt_code_0003:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0003:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0003
 	jg .L_lambda_opt_arity_check_more_0003
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0003: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0003:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0003:
@@ -5889,10 +5886,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0003:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0003
@@ -5901,30 +5898,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0003
 .L_lambda_opt_create_list_of_opt_params_end_0003:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0003:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0003
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0003
 .L_lambda_opt_stack_shrink_loop_exit_0003:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0003:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0003:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -5978,8 +5975,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0022:
@@ -6022,7 +6019,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0004:	; 
+.L_lambda_opt_env_loop_0004:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_opt_env_end_0004
 	mov rcx, qword [rdi + 8 * rsi]
@@ -6048,22 +6045,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0004
 	jmp .L_lambda_opt_end_0004
-.L_lambda_opt_code_0004:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0004:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0004
 	jg .L_lambda_opt_arity_check_more_0004
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0004: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0004:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0004:
@@ -6082,10 +6078,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0004:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0004
@@ -6094,30 +6090,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0004
 .L_lambda_opt_create_list_of_opt_params_end_0004:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0004:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0004
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0004
 .L_lambda_opt_stack_shrink_loop_exit_0004:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0004:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0004:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -6273,8 +6269,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0003
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0003; if its not false (true) then we need to return it and not the last element
 	; preparing a tail-call
 	; preparing a non-tail-call
 	mov rax, PARAM(0)	; param s
@@ -6306,8 +6302,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0024:
@@ -6368,8 +6364,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0025:
@@ -6401,8 +6397,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0023:
@@ -6438,7 +6434,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0005:	; 
+.L_lambda_opt_env_loop_0005:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_opt_env_end_0005
 	mov rcx, qword [rdi + 8 * rsi]
@@ -6464,22 +6460,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0005
 	jmp .L_lambda_opt_end_0005
-.L_lambda_opt_code_0005:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0005:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0005
 	jg .L_lambda_opt_arity_check_more_0005
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0005: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0005:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0005:
@@ -6498,10 +6493,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0005:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0005
@@ -6510,30 +6505,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0005
 .L_lambda_opt_create_list_of_opt_params_end_0005:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0005:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0005
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0005
 .L_lambda_opt_stack_shrink_loop_exit_0005:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0005:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0005:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -6658,8 +6653,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0004
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0004; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	; preparing a non-tail-call
 	mov rax, PARAM(0)	; param s
@@ -6722,8 +6717,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0027:
@@ -6765,8 +6760,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0005
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0005; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	mov rax, ENV
 	mov rax, qword [rax + 8 * 0]
@@ -6799,8 +6794,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0028:
@@ -6833,8 +6828,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0026:
@@ -7043,8 +7038,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0029:
@@ -7213,8 +7208,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_002a:
@@ -7251,7 +7246,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0006:	; 
+.L_lambda_opt_env_loop_0006:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0006
 	mov rcx, qword [rdi + 8 * rsi]
@@ -7277,22 +7272,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0006
 	jmp .L_lambda_opt_end_0006
-.L_lambda_opt_code_0006:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0006:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0006
 	jg .L_lambda_opt_arity_check_more_0006
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0006: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0006:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0006:
@@ -7311,10 +7305,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0006:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0006
@@ -7323,30 +7317,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0006
 .L_lambda_opt_create_list_of_opt_params_end_0006:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0006:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0006
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0006
 .L_lambda_opt_stack_shrink_loop_exit_0006:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0006:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0006:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a non-tail-call
@@ -7384,8 +7378,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_002b:
@@ -7530,8 +7524,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_002d:
@@ -7564,8 +7558,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_002c:
@@ -7767,8 +7761,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_002e:
@@ -7905,8 +7899,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_002f:
@@ -7943,7 +7937,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0007:	; 
+.L_lambda_opt_env_loop_0007:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0007
 	mov rcx, qword [rdi + 8 * rsi]
@@ -7969,22 +7963,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0007
 	jmp .L_lambda_opt_end_0007
-.L_lambda_opt_code_0007:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_0007:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_0007
 	jg .L_lambda_opt_arity_check_more_0007
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0007: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0007:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0007:
@@ -8003,10 +7996,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0007:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0007
@@ -8015,30 +8008,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0007
 .L_lambda_opt_create_list_of_opt_params_end_0007:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_0007:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0007
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0007
 .L_lambda_opt_stack_shrink_loop_exit_0007:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0007:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0007:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	; preparing a non-tail-call
@@ -8096,8 +8089,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0030:
@@ -8313,8 +8306,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_0031:
@@ -8351,7 +8344,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0008:	; 
+.L_lambda_opt_env_loop_0008:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0008
 	mov rcx, qword [rdi + 8 * rsi]
@@ -8377,22 +8370,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0008
 	jmp .L_lambda_opt_end_0008
-.L_lambda_opt_code_0008:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 2
+.L_lambda_opt_code_0008:; lambda opt body
+	cmp qword [rsp + 8 * 2], 2
 	je .L_lambda_opt_arity_check_exact_0008
 	jg .L_lambda_opt_arity_check_more_0008
 	push 2
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0008: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0008:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0008:
@@ -8411,10 +8403,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 2
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0008:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0008
@@ -8423,30 +8415,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0008
 .L_lambda_opt_create_list_of_opt_params_end_0008:
-	lea r10, [rsp + 2*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 2*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 2
 .L_lambda_opt_stack_shrink_loop_0008:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0008
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0008
 .L_lambda_opt_stack_shrink_loop_exit_0008:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0008:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0008:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 3
 	enter 0, 0
 	; preparing a tail-call
@@ -8470,8 +8462,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_0032:
@@ -8708,8 +8700,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0033:
@@ -8746,7 +8738,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0009:	; 
+.L_lambda_opt_env_loop_0009:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0009
 	mov rcx, qword [rdi + 8 * rsi]
@@ -8772,22 +8764,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0009
 	jmp .L_lambda_opt_end_0009
-.L_lambda_opt_code_0009:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 2
+.L_lambda_opt_code_0009:; lambda opt body
+	cmp qword [rsp + 8 * 2], 2
 	je .L_lambda_opt_arity_check_exact_0009
 	jg .L_lambda_opt_arity_check_more_0009
 	push 2
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0009: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0009:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0009:
@@ -8806,10 +8797,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 2
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0009:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0009
@@ -8818,30 +8809,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0009
 .L_lambda_opt_create_list_of_opt_params_end_0009:
-	lea r10, [rsp + 2*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 2*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 2
 .L_lambda_opt_stack_shrink_loop_0009:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0009
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0009
 .L_lambda_opt_stack_shrink_loop_exit_0009:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0009:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0009:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 3
 	enter 0, 0
 	; preparing a tail-call
@@ -8865,8 +8856,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_0034:
@@ -8961,8 +8952,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0035:
@@ -9118,8 +9109,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0037:
@@ -9178,8 +9169,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0038:
@@ -9238,8 +9229,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0039:
@@ -9271,8 +9262,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_003a:
@@ -9347,8 +9338,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_003b:
@@ -9397,8 +9388,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_003c:
@@ -9457,8 +9448,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_003d:
@@ -9490,8 +9481,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_003e:
@@ -9566,8 +9557,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_003f:
@@ -9626,8 +9617,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0040:
@@ -9676,8 +9667,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0041:
@@ -9709,8 +9700,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0042:
@@ -9745,8 +9736,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0043:
@@ -9827,7 +9818,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_000a:	; 
+.L_lambda_opt_env_loop_000a:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_opt_env_end_000a
 	mov rcx, qword [rdi + 8 * rsi]
@@ -9853,22 +9844,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_000a
 	jmp .L_lambda_opt_end_000a
-.L_lambda_opt_code_000a:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_000a:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_000a
 	jg .L_lambda_opt_arity_check_more_000a
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_000a: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_000a:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_000a:
@@ -9887,10 +9877,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_000a:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_000a
@@ -9899,30 +9889,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_000a
 .L_lambda_opt_create_list_of_opt_params_end_000a:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_000a:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_000a
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_000a
 .L_lambda_opt_stack_shrink_loop_exit_000a:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_000a:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_000a:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	; preparing a tail-call
@@ -9947,8 +9937,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_0044:
@@ -9979,8 +9969,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0036:
@@ -10072,8 +10062,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0045:
@@ -10229,8 +10219,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0047:
@@ -10289,8 +10279,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0048:
@@ -10349,8 +10339,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0049:
@@ -10382,8 +10372,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_004a:
@@ -10458,8 +10448,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_004b:
@@ -10508,8 +10498,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_004c:
@@ -10568,8 +10558,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_004d:
@@ -10601,8 +10591,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_004e:
@@ -10677,8 +10667,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_004f:
@@ -10737,8 +10727,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0050:
@@ -10787,8 +10777,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0051:
@@ -10820,8 +10810,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0052:
@@ -10856,8 +10846,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0053:
@@ -10938,7 +10928,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_000b:	; 
+.L_lambda_opt_env_loop_000b:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_opt_env_end_000b
 	mov rcx, qword [rdi + 8 * rsi]
@@ -10964,22 +10954,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_000b
 	jmp .L_lambda_opt_end_000b
-.L_lambda_opt_code_000b:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_000b:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_000b
 	jg .L_lambda_opt_arity_check_more_000b
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_000b: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_000b:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_000b:
@@ -10998,10 +10987,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_000b:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_000b
@@ -11010,30 +10999,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_000b
 .L_lambda_opt_create_list_of_opt_params_end_000b:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_000b:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_000b
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_000b
 .L_lambda_opt_stack_shrink_loop_exit_000b:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_000b:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_000b:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a non-tail-call
@@ -11067,8 +11056,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0054:
@@ -11171,8 +11160,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0056:
@@ -11200,8 +11189,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0055:
@@ -11233,8 +11222,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0046:
@@ -11326,8 +11315,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0057:
@@ -11483,8 +11472,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0059:
@@ -11543,8 +11532,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_005a:
@@ -11603,8 +11592,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_005b:
@@ -11636,8 +11625,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_005c:
@@ -11712,8 +11701,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_005d:
@@ -11762,8 +11751,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_005e:
@@ -11822,8 +11811,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_005f:
@@ -11855,8 +11844,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0060:
@@ -11931,8 +11920,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0061:
@@ -11991,8 +11980,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0062:
@@ -12041,8 +12030,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0063:
@@ -12074,8 +12063,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0064:
@@ -12110,8 +12099,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0065:
@@ -12192,7 +12181,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_000c:	; 
+.L_lambda_opt_env_loop_000c:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_opt_env_end_000c
 	mov rcx, qword [rdi + 8 * rsi]
@@ -12218,22 +12207,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_000c
 	jmp .L_lambda_opt_end_000c
-.L_lambda_opt_code_000c:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_000c:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_000c
 	jg .L_lambda_opt_arity_check_more_000c
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_000c: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_000c:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_000c:
@@ -12252,10 +12240,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_000c:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_000c
@@ -12264,30 +12252,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_000c
 .L_lambda_opt_create_list_of_opt_params_end_000c:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_000c:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_000c
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_000c
 .L_lambda_opt_stack_shrink_loop_exit_000c:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_000c:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_000c:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	; preparing a tail-call
@@ -12312,8 +12300,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_0066:
@@ -12344,8 +12332,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0058:
@@ -12437,8 +12425,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0067:
@@ -12594,8 +12582,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0069:
@@ -12654,8 +12642,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_006a:
@@ -12714,8 +12702,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_006b:
@@ -12747,8 +12735,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_006c:
@@ -12823,8 +12811,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_006d:
@@ -12873,8 +12861,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_006e:
@@ -12933,8 +12921,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_006f:
@@ -12966,8 +12954,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0070:
@@ -13042,8 +13030,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0071:
@@ -13102,8 +13090,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0072:
@@ -13152,8 +13140,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0073:
@@ -13185,8 +13173,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0074:
@@ -13221,8 +13209,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0075:
@@ -13303,7 +13291,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_000d:	; 
+.L_lambda_opt_env_loop_000d:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 2
 	je .L_lambda_opt_env_end_000d
 	mov rcx, qword [rdi + 8 * rsi]
@@ -13329,22 +13317,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_000d
 	jmp .L_lambda_opt_end_000d
-.L_lambda_opt_code_000d:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_000d:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_000d
 	jg .L_lambda_opt_arity_check_more_000d
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_000d: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_000d:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_000d:
@@ -13363,10 +13350,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_000d:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_000d
@@ -13375,30 +13362,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_000d
 .L_lambda_opt_create_list_of_opt_params_end_000d:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_000d:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_000d
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_000d
 .L_lambda_opt_stack_shrink_loop_exit_000d:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_000d:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_000d:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a non-tail-call
@@ -13432,8 +13419,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0076:
@@ -13536,8 +13523,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0078:
@@ -13565,8 +13552,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0077:
@@ -13598,8 +13585,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0068:
@@ -13728,8 +13715,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0079:
@@ -13848,8 +13835,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_007a:
@@ -14050,8 +14037,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_007c:
@@ -14110,8 +14097,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_007d:
@@ -14170,8 +14157,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_007e:
@@ -14203,8 +14190,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_007f:
@@ -14279,8 +14266,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0080:
@@ -14329,8 +14316,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0081:
@@ -14389,8 +14376,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0082:
@@ -14422,8 +14409,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0083:
@@ -14498,8 +14485,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0084:
@@ -14558,8 +14545,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0085:
@@ -14608,8 +14595,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0086:
@@ -14641,8 +14628,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0087:
@@ -14677,8 +14664,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_0088:
@@ -14960,8 +14947,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_008c:
@@ -15091,8 +15078,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_008e:
@@ -15232,8 +15219,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0090:
@@ -15457,8 +15444,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0006
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0006; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	; preparing a non-tail-call
 	mov rax, PARAM(1)	; param s
@@ -15523,8 +15510,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0093:
@@ -15565,7 +15552,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_000e:	; 
+.L_lambda_opt_env_loop_000e:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 9
 	je .L_lambda_opt_env_end_000e
 	mov rcx, qword [rdi + 8 * rsi]
@@ -15591,22 +15578,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_000e
 	jmp .L_lambda_opt_end_000e
-.L_lambda_opt_code_000e:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_000e:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_000e
 	jg .L_lambda_opt_arity_check_more_000e
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_000e: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_000e:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_000e:
@@ -15625,10 +15611,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_000e:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_000e
@@ -15637,30 +15623,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_000e
 .L_lambda_opt_create_list_of_opt_params_end_000e:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_000e:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_000e
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_000e
 .L_lambda_opt_stack_shrink_loop_exit_000e:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_000e:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_000e:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -15682,8 +15668,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0094:
@@ -15714,8 +15700,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0092:
@@ -15862,8 +15848,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0091:
@@ -15891,8 +15877,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_008f:
@@ -15920,8 +15906,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_008d:
@@ -15949,8 +15935,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_008b:
@@ -15978,8 +15964,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_008a:
@@ -16007,8 +15993,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0089:
@@ -16036,8 +16022,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_007b:
@@ -16151,7 +16137,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_000f:	; 
+.L_lambda_opt_env_loop_000f:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_000f
 	mov rcx, qword [rdi + 8 * rsi]
@@ -16177,22 +16163,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_000f
 	jmp .L_lambda_opt_end_000f
-.L_lambda_opt_code_000f:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_000f:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_000f
 	jg .L_lambda_opt_arity_check_more_000f
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_000f: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_000f:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_000f:
@@ -16211,10 +16196,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_000f:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_000f
@@ -16223,30 +16208,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_000f
 .L_lambda_opt_create_list_of_opt_params_end_000f:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_000f:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_000f
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_000f
 .L_lambda_opt_stack_shrink_loop_exit_000f:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_000f:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_000f:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	; preparing a tail-call
@@ -16283,8 +16268,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0095:
@@ -16627,8 +16612,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0096:
@@ -16756,8 +16741,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0097:
@@ -16880,7 +16865,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0010:	; 
+.L_lambda_opt_env_loop_0010:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0010
 	mov rcx, qword [rdi + 8 * rsi]
@@ -16906,22 +16891,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0010
 	jmp .L_lambda_opt_end_0010
-.L_lambda_opt_code_0010:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_0010:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_0010
 	jg .L_lambda_opt_arity_check_more_0010
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0010: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0010:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0010:
@@ -16940,10 +16924,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0010:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0010
@@ -16952,30 +16936,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0010
 .L_lambda_opt_create_list_of_opt_params_end_0010:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_0010:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0010
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0010
 .L_lambda_opt_stack_shrink_loop_exit_0010:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0010:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0010:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	; preparing a tail-call
@@ -17053,8 +17037,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0099:
@@ -17100,8 +17084,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0098:
@@ -17392,8 +17376,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_009a:
@@ -17738,8 +17722,8 @@ main:
 .L_if_else_0053:
 	mov rax, L_constants + 2
 .L_if_end_0053:
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0007
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0007; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	mov rax, PARAM(2)	; param len1
 	push rax
@@ -17792,8 +17776,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0008
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0008; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	; preparing a non-tail-call
 	mov rax, PARAM(0)	; param i
@@ -17870,8 +17854,8 @@ main:
  ; restore the old rbp
 	mov rbx, 5
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 9
 .L_tc_recycle_frame_loop_009c:
@@ -18066,8 +18050,8 @@ main:
  ; restore the old rbp
 	mov rbx, 5
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 9
 .L_tc_recycle_frame_loop_009f:
@@ -18114,8 +18098,8 @@ main:
  ; restore the old rbp
 	mov rbx, 5
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 9
 .L_tc_recycle_frame_loop_00a0:
@@ -18144,8 +18128,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_009e:
@@ -18323,8 +18307,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_0009
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_0009; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	; preparing a non-tail-call
 	mov rax, PARAM(1)	; param strs
@@ -18389,8 +18373,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00a2:
@@ -18431,7 +18415,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0011:	; 
+.L_lambda_opt_env_loop_0011:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_opt_env_end_0011
 	mov rcx, qword [rdi + 8 * rsi]
@@ -18457,22 +18441,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0011
 	jmp .L_lambda_opt_end_0011
-.L_lambda_opt_code_0011:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0011:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0011
 	jg .L_lambda_opt_arity_check_more_0011
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0011: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0011:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0011:
@@ -18491,10 +18474,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0011:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0011
@@ -18503,30 +18486,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0011
 .L_lambda_opt_create_list_of_opt_params_end_0011:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0011:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0011
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0011
 .L_lambda_opt_stack_shrink_loop_exit_0011:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0011:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0011:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -18548,8 +18531,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00a3:
@@ -18580,8 +18563,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00a1:
@@ -18609,8 +18592,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_009d:
@@ -18638,8 +18621,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_009b:
@@ -18946,8 +18929,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_000a
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_000a; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	; preparing a non-tail-call
 	mov rax, PARAM(0)	; param i
@@ -18985,8 +18968,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_000a
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_000a; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	mov rax, PARAM(2)	; param len1
 	push rax
@@ -19078,8 +19061,8 @@ main:
  ; restore the old rbp
 	mov rbx, 5
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 9
 .L_tc_recycle_frame_loop_00a5:
@@ -19273,8 +19256,8 @@ main:
  ; restore the old rbp
 	mov rbx, 5
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 9
 .L_tc_recycle_frame_loop_00a8:
@@ -19321,8 +19304,8 @@ main:
  ; restore the old rbp
 	mov rbx, 5
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 9
 .L_tc_recycle_frame_loop_00a9:
@@ -19351,8 +19334,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00a7:
@@ -19530,8 +19513,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_000b
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_000b; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	; preparing a non-tail-call
 	mov rax, PARAM(1)	; param strs
@@ -19596,8 +19579,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00ab:
@@ -19638,7 +19621,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0012:	; 
+.L_lambda_opt_env_loop_0012:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_opt_env_end_0012
 	mov rcx, qword [rdi + 8 * rsi]
@@ -19664,22 +19647,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0012
 	jmp .L_lambda_opt_end_0012
-.L_lambda_opt_code_0012:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0012:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0012
 	jg .L_lambda_opt_arity_check_more_0012
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0012: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0012:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0012:
@@ -19698,10 +19680,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0012:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0012
@@ -19710,30 +19692,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0012
 .L_lambda_opt_create_list_of_opt_params_end_0012:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0012:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0012
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0012
 .L_lambda_opt_stack_shrink_loop_exit_0012:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0012:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0012:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -19755,8 +19737,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00ac:
@@ -19787,8 +19769,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00aa:
@@ -19816,8 +19798,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00a6:
@@ -19845,8 +19827,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00a4:
@@ -20153,8 +20135,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_000c
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_000c; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	mov rax, PARAM(3)	; param len
 	push rax
@@ -20244,8 +20226,8 @@ main:
  ; restore the old rbp
 	mov rbx, 4
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 8
 .L_tc_recycle_frame_loop_00ae:
@@ -20437,8 +20419,8 @@ main:
  ; restore the old rbp
 	mov rbx, 4
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 8
 .L_tc_recycle_frame_loop_00b1:
@@ -20470,8 +20452,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00b0:
@@ -20649,8 +20631,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_000d
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_000d; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	; preparing a non-tail-call
 	mov rax, PARAM(1)	; param strs
@@ -20715,8 +20697,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00b3:
@@ -20757,7 +20739,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0013:	; 
+.L_lambda_opt_env_loop_0013:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 4
 	je .L_lambda_opt_env_end_0013
 	mov rcx, qword [rdi + 8 * rsi]
@@ -20783,22 +20765,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0013
 	jmp .L_lambda_opt_end_0013
-.L_lambda_opt_code_0013:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0013:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0013
 	jg .L_lambda_opt_arity_check_more_0013
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0013: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0013:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0013:
@@ -20817,10 +20798,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0013:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0013
@@ -20829,30 +20810,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0013
 .L_lambda_opt_create_list_of_opt_params_end_0013:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0013:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0013
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0013
 .L_lambda_opt_stack_shrink_loop_exit_0013:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0013:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0013:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -20874,8 +20855,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00b4:
@@ -20906,8 +20887,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00b2:
@@ -20935,8 +20916,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00af:
@@ -20964,8 +20945,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00ad:
@@ -21124,8 +21105,8 @@ main:
 	jne L_error_non_closure
 	push SOB_CLOSURE_ENV(rax)
 	call SOB_CLOSURE_CODE(rax)
-	cmp rax, sob_boolean_false
-	jne .L_or_end_000e
+	cmp rax, sob_boolean_false ;check if the current element that was eval is false
+	jne .L_or_end_000e; if its not false (true) then we need to return it and not the last element
 	; preparing a non-tail-call
 	mov rax, PARAM(0)	; param e
 	push rax
@@ -21165,8 +21146,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00b5:
@@ -21258,7 +21239,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0014:	; 
+.L_lambda_opt_env_loop_0014:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0014
 	mov rcx, qword [rdi + 8 * rsi]
@@ -21284,22 +21265,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0014
 	jmp .L_lambda_opt_end_0014
-.L_lambda_opt_code_0014:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0014:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0014
 	jg .L_lambda_opt_arity_check_more_0014
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0014: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0014:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0014:
@@ -21318,10 +21298,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0014:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0014
@@ -21330,30 +21310,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0014
 .L_lambda_opt_create_list_of_opt_params_end_0014:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0014:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0014
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0014
 .L_lambda_opt_stack_shrink_loop_exit_0014:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0014:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0014:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -21508,8 +21488,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00b7:
@@ -21537,8 +21517,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00b6:
@@ -21632,7 +21612,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0015:	; 
+.L_lambda_opt_env_loop_0015:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0015
 	mov rcx, qword [rdi + 8 * rsi]
@@ -21658,22 +21638,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0015
 	jmp .L_lambda_opt_end_0015
-.L_lambda_opt_code_0015:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 1
+.L_lambda_opt_code_0015:; lambda opt body
+	cmp qword [rsp + 8 * 2], 1
 	je .L_lambda_opt_arity_check_exact_0015
 	jg .L_lambda_opt_arity_check_more_0015
 	push 1
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0015: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0015:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0015:
@@ -21692,10 +21671,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 1
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0015:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0015
@@ -21704,30 +21683,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0015
 .L_lambda_opt_create_list_of_opt_params_end_0015:
-	lea r10, [rsp + 1*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 1*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 1
 .L_lambda_opt_stack_shrink_loop_0015:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0015
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0015
 .L_lambda_opt_stack_shrink_loop_exit_0015:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0015:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0015:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 2
 	enter 0, 0
 	; preparing a tail-call
@@ -21882,8 +21861,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00b9:
@@ -21911,8 +21890,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00b8:
@@ -22075,8 +22054,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00ba:
@@ -22221,8 +22200,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00bb:
@@ -22311,8 +22290,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00bc:
@@ -22475,8 +22454,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00bd:
@@ -22621,8 +22600,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00be:
@@ -22711,8 +22690,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00bf:
@@ -22755,7 +22734,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0016:	; 
+.L_lambda_opt_env_loop_0016:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 0
 	je .L_lambda_opt_env_end_0016
 	mov rcx, qword [rdi + 8 * rsi]
@@ -22781,22 +22760,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0016
 	jmp .L_lambda_opt_end_0016
-.L_lambda_opt_code_0016:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_0016:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_0016
 	jg .L_lambda_opt_arity_check_more_0016
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0016: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0016:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0016:
@@ -22815,10 +22793,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0016:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0016
@@ -22827,30 +22805,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0016
 .L_lambda_opt_create_list_of_opt_params_end_0016:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_0016:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0016
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0016
 .L_lambda_opt_stack_shrink_loop_exit_0016:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0016:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0016:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	; preparing a tail-call
@@ -22869,8 +22847,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00c0:
@@ -23067,8 +23045,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00c1:
@@ -23172,8 +23150,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00c2:
@@ -23377,8 +23355,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00c3:
@@ -23482,8 +23460,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00c4:
@@ -23585,8 +23563,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00c5:
@@ -23673,8 +23651,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00c6:
@@ -23761,8 +23739,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00c7:
@@ -23859,8 +23837,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00c8:
@@ -23955,8 +23933,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00c9:
@@ -24054,8 +24032,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00ca:
@@ -24231,8 +24209,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00cb:
@@ -24361,8 +24339,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00cc:
@@ -24467,8 +24445,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00cd:
@@ -24534,8 +24512,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00ce:
@@ -24601,8 +24579,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00cf:
@@ -24638,8 +24616,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00d0:
@@ -24770,8 +24748,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00d1:
@@ -24817,8 +24795,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00d2:
@@ -25103,8 +25081,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00d4:
@@ -25132,8 +25110,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00d3:
@@ -25295,8 +25273,8 @@ main:
  ; restore the old rbp
 	mov rbx, 5
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 9
 .L_tc_recycle_frame_loop_00d5:
@@ -25336,7 +25314,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0017:	; 
+.L_lambda_opt_env_loop_0017:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0017
 	mov rcx, qword [rdi + 8 * rsi]
@@ -25362,22 +25340,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0017
 	jmp .L_lambda_opt_end_0017
-.L_lambda_opt_code_0017:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_0017:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_0017
 	jg .L_lambda_opt_arity_check_more_0017
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0017: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0017:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0017:
@@ -25396,10 +25373,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0017:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0017
@@ -25408,30 +25385,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0017
 .L_lambda_opt_create_list_of_opt_params_end_0017:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_0017:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0017
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0017
 .L_lambda_opt_stack_shrink_loop_exit_0017:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0017:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0017:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	; preparing a tail-call
@@ -25493,8 +25470,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00d6:
@@ -25784,8 +25761,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00d8:
@@ -25813,8 +25790,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00d7:
@@ -25976,8 +25953,8 @@ main:
  ; restore the old rbp
 	mov rbx, 5
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 9
 .L_tc_recycle_frame_loop_00d9:
@@ -26017,7 +25994,7 @@ main:
 	 xor rsi, rsi
 	 xor rdx, rdx
 	inc rdx
-.L_lambda_opt_env_loop_0018:	; 
+.L_lambda_opt_env_loop_0018:	; ext_env[i + 1] <-- env[i]
 	cmp rsi, 1
 	je .L_lambda_opt_env_end_0018
 	mov rcx, qword [rdi + 8 * rsi]
@@ -26043,22 +26020,21 @@ main:
 	mov SOB_CLOSURE_ENV(rax), rbx
 	mov SOB_CLOSURE_CODE(rax), .L_lambda_opt_code_0018
 	jmp .L_lambda_opt_end_0018
-.L_lambda_opt_code_0018:
-	mov r15, qword [rsp + 8 * 2]
-	cmp r15, 0
+.L_lambda_opt_code_0018:; lambda opt body
+	cmp qword [rsp + 8 * 2], 0
 	je .L_lambda_opt_arity_check_exact_0018
 	jg .L_lambda_opt_arity_check_more_0018
 	push 0
 	jmp L_error_incorrect_arity_opt
-.L_lambda_opt_arity_check_exact_0018: ;Exact case
-	mov r8, qword [rsp -8 * 0]
-	mov qword [rsp -8], r8
-	mov r8, qword [rsp +8]
-	mov qword [rsp +8 * 0], r8
-	mov r8, qword [rsp +8 * 2]
-	mov rcx, r8
-	inc r8
-	mov qword [rsp +8], r8
+.L_lambda_opt_arity_check_exact_0018:
+	mov r9, qword [rsp -8 * 0]
+	mov qword [rsp -8], r9
+	mov r9, qword [rsp +8]
+	mov qword [rsp +8 * 0], r9
+	mov r9, qword [rsp +8 * 2]
+	mov rcx, r9
+	inc r9
+	mov qword [rsp +8], r9
 	mov rdx, rsp
 	add rdx, 24
 .L_lambda_opt_loop_copy_to_new_frame_exact_0018:
@@ -26077,10 +26053,10 @@ main:
 	mov r8, qword [rsp + 8 * 2]
 	mov r12, r8
 	mov rcx, r8
-	lea r13, [r8 + 2] 
+	lea r10, [r8 + 2] 
 	sub rcx, 0
-	lea r11, qword [rsp + r8 * 8 + 16]
-	mov r14, sob_nil
+	lea r11, qword [rsp + r8 * 8 + 8*2]
+	mov r9, sob_nil
 .L_lambda_opt_create_list_of_opt_params_0018:
 	cmp rcx, 0
 	je .L_lambda_opt_create_list_of_opt_params_end_0018
@@ -26089,30 +26065,30 @@ main:
 	mov byte [rax], T_pair
 	mov rbx, qword [r11]
 	mov qword [rax +1], rbx
-	mov qword [rax + 1 + 8], r14
-	mov r14, rax
+	mov qword [rax + 1 + 8], r9
+	mov r9, rax
 	dec rcx
 	sub r11, 8
 	jmp .L_lambda_opt_create_list_of_opt_params_0018
 .L_lambda_opt_create_list_of_opt_params_end_0018:
-	lea r10, [rsp + 0*8 + 8*3]
-	mov qword [r10], r14
-	lea r13, [8 * r13]
-	add r13, rsp
+	lea r8, [rsp + 0*8 + 8*3]
+	mov qword [r8], r9
+	lea r10, [8 * r10]
+	add r10, rsp
 	mov rcx, 4 + 0
 .L_lambda_opt_stack_shrink_loop_0018:
 	cmp rcx, 0
 	je .L_lambda_opt_stack_shrink_loop_exit_0018
-	mov r11, qword [r10]
-	mov qword [r13], r11
+	mov r11, qword [r8]
+	mov qword [r10], r11
+	sub r8, 8
 	sub r10, 8
-	sub r13, 8
 	dec rcx
 	jmp .L_lambda_opt_stack_shrink_loop_0018
 .L_lambda_opt_stack_shrink_loop_exit_0018:
-	add r13, 8
-	mov rsp, r13
-.L_lambda_opt_stack_adjusted_0018:
+	add r10, 8
+	mov rsp, r10
+.L_lambda_opt_stack_adjusted_0018:;continue with the code, the stack is ok
 	mov qword [rsp + 8*2], 1
 	enter 0, 0
 	; preparing a tail-call
@@ -26174,8 +26150,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00da:
@@ -26287,8 +26263,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00db:
@@ -26393,8 +26369,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00dc:
@@ -26702,8 +26678,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00de:
@@ -26731,8 +26707,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00dd:
@@ -26917,8 +26893,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00e0:
@@ -26947,8 +26923,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00df:
@@ -27263,8 +27239,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00e2:
@@ -27292,8 +27268,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00e1:
@@ -27478,8 +27454,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00e4:
@@ -27508,8 +27484,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00e3:
@@ -27754,8 +27730,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00e6:
@@ -27798,8 +27774,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00e7:
@@ -27827,8 +27803,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00e5:
@@ -28131,8 +28107,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00ea:
@@ -28177,8 +28153,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00eb:
@@ -28206,8 +28182,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00e9:
@@ -28235,8 +28211,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00e8:
@@ -28539,8 +28515,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00ee:
@@ -28585,8 +28561,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00ef:
@@ -28614,8 +28590,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00ed:
@@ -28643,8 +28619,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00ec:
@@ -28788,8 +28764,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00f0:
@@ -28869,8 +28845,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00f1:
@@ -28958,8 +28934,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00f2:
@@ -29148,8 +29124,8 @@ main:
  ; restore the old rbp
 	mov rbx, 0
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 4
 .L_tc_recycle_frame_loop_00f3:
@@ -29394,8 +29370,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00f6:
@@ -29423,8 +29399,8 @@ main:
  ; restore the old rbp
 	mov rbx, 3
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 7
 .L_tc_recycle_frame_loop_00f5:
@@ -29452,8 +29428,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00f4:
@@ -29593,8 +29569,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00f7:
@@ -29772,8 +29748,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00f9:
@@ -29807,8 +29783,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00f8:
@@ -30055,8 +30031,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00fa:
@@ -30234,8 +30210,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00fc:
@@ -30269,8 +30245,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00fb:
@@ -30397,8 +30373,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00fd:
@@ -30549,8 +30525,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_00fe:
@@ -30728,8 +30704,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0100:
@@ -30763,8 +30739,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_00ff:
@@ -30901,8 +30877,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0101:
@@ -31053,8 +31029,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0102:
@@ -31232,8 +31208,8 @@ main:
  ; restore the old rbp
 	mov rbx, 2
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 6
 .L_tc_recycle_frame_loop_0104:
@@ -31267,8 +31243,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0103:
@@ -31406,8 +31382,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0105:
@@ -31506,8 +31482,8 @@ main:
  ; restore the old rbp
 	mov rbx, 1
 	add rbx, 3
-	mov r8, qword [rbp + 8 * 3]
-	lea r8, [rbp + 8 * 3 + 8 * r8]
+	mov r9, qword [rbp + 8 * 3]
+	lea r8, [rbp + 8 * 3 + 8 * r9]
 	lea r9, [rbp - 8]
 	mov rcx, 5
 .L_tc_recycle_frame_loop_0106:
