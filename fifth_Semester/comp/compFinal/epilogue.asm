@@ -882,49 +882,57 @@ L_code_ptr_lognot:
         leave
         ret AND_KILL_FRAME(1)
 
+;;; fill in for final project!
 L_code_ptr_bin_apply:
-        enter 0, 0        
-        mov rsi, PARAM(1)
-	mov rdi, rsi
-	mov rcx, 0
-.L_bin_apply_calc_new_argc_loop:
-	cmp rdi, sob_nil
-	je .L_bin_apply_end_calc_loop
-	assert_pair(rdi)
-	mov rdi, SOB_PAIR_CDR(rdi)
-	inc rcx
-	jmp .L_bin_apply_calc_new_argc_loop
-.L_bin_apply_end_calc_loop:
-        
-        lea r11, [8*(rcx - 3)]
-        sub rsp, r11
+mov r8, rbp
+push  qword [rbp]
+mov rbp, rsp
 
-        mov r10, RET_ADDR
-        mov qword [rsp], r10
+;calc args
+mov r9, PARAM(1) ; save for later start of the params
+mov r10, r9 
+mov rcx, 0 ;args count
 
-        mov r10, PARAM(0)
-        assert_closure(r10)
-        mov rax, SOB_CLOSURE_ENV(r10)
-        mov qword [rsp + 8 * 1], rax
+.L_args_loop:
+cmp r10, sob_nil
+je .L_args_end
+assert_pair(r10)
+mov r10, SOB_PAIR_CDR(r10)
+inc rcx
+jmp .L_args_loop
 
-        mov qword [rsp + 8 * 2], rcx
-        
-        lea r9, [rsp + 8 * 3]
-	mov rdi, rsi
+.L_args_end:
+;set place in the stack
+lea r10, [8*(rcx -3)]
+sub rsp, r10
 
+;save ret afddress
+mov r10, RET_ADDR
+mov qword [rsp], r10
 
-        
-.L_bin_apply_recycle_frame_loop:
-	cmp rdi, sob_nil
-	je .L_bin_apply_recycle_frame_done
-        mov rax, SOB_PAIR_CAR(rdi)
-        mov qword [r9], rax
-        add r9, 8
-        mov rdi, SOB_PAIR_CDR(rdi)
-	jmp .L_bin_apply_recycle_frame_loop
-.L_bin_apply_recycle_frame_done:
-        mov  rbp, r8
-        jmp SOB_CLOSURE_CODE(r10)
+;save lexical env
+mov rsi, PARAM(0)
+assert_closure(rsi)
+mov r10, SOB_CLOSURE_ENV(rsi)
+mov qword [rsp + 8], r10
+
+;save argc
+mov qword [rsp + 2*8], rcx
+
+;save params
+lea r10, [rsp + 3*8]
+mov r11, r9
+.L_params_loop:
+        cmp r11, sob_nil
+        je .L_params_end
+        mov r12, SOB_PAIR_CAR(r11)
+        mov qword [r10], r12
+        mov r11, SOB_PAIR_CDR(r11)
+        add r10, 8
+        jmp .L_params_loop
+.L_params_end:
+        mov rbp, r8
+        jmp SOB_CLOSURE_CODE(rsi)
 
 L_code_ptr_is_null:
         enter 0, 0

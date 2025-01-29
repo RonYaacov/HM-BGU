@@ -11,5 +11,4 @@
 
 (tail_lambda 5 arg_lambda)
 
-(+ 6 3)
 
