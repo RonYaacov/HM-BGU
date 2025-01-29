@@ -2284,5 +2284,4 @@ end;; (* end of Code_Generation struct *)
 
 (* end-of-input *)
 
-let test =  Code_Generation.compile_and_run_scheme_string "testing/goo" (file_to_string "testing/torture-test-for-compiler-unsorted.scm");;
-
+let test = Code_Generation.compile_and_run_scheme_string "testing/goo";;
