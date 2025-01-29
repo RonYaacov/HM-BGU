@@ -890,47 +890,47 @@ mov rbp, rsp
 
 ;calc args
 mov r9, PARAM(1) ; save for later start of the params
-mov r10, r9 
-mov rcx, 0 ;args count
+mov r11, r9 
+xor rcx, rcx ;args counter
 
-.L_args_loop:
-        cmp r10, sob_nil
-        je .L_args_end
-        assert_pair(r10)
-        mov r10, SOB_PAIR_CDR(r10)
+.count_args_loop:
+        cmp r11, sob_nil
+        je .count_args_loop_end
+        assert_pair(r11)
+        mov r11, SOB_PAIR_CDR(r11)
         inc rcx
-        jmp .L_args_loop
+        jmp .count_args_loop
 
-.L_args_end:
+.count_args_loop_end:
         ;set place in the stack
-        lea r10, [8*(rcx -3)]
-        sub rsp, r10
+        lea r11, [(8*rcx) - (3*8)]
+        sub rsp, r11
 
-        ;save ret afddress
-        mov r10, RET_ADDR
-        mov qword [rsp], r10
+        ;save ret afddress on the stack
+        mov r11, RET_ADDR
+        mov qword [rsp], r11
 
-        ;save lexical env
+        ;save lexical env address on the stack
         mov rsi, PARAM(0)
         assert_closure(rsi)
-        mov r10, SOB_CLOSURE_ENV(rsi)
-        mov qword [rsp + 8], r10
+        mov r11, SOB_CLOSURE_ENV(rsi)
+        mov qword [rsp + 8], r11
 
-        ;save argc
+        ;save argc on the stack
         mov qword [rsp + 2*8], rcx
 
-        ;save params
+        ;save params on the stack
         lea r10, [rsp + 3*8]
         mov r11, r9
-        .L_params_loop:
+        .save_params_loop:
                 cmp r11, sob_nil
-                je .L_params_end
+                je .save_params_loop_end
                 mov r12, SOB_PAIR_CAR(r11)
                 mov qword [r10], r12
                 mov r11, SOB_PAIR_CDR(r11)
                 add r10, 8
-                jmp .L_params_loop
-        .L_params_end:
+                jmp .save_params_loop
+        .save_params_loop_end:
                 mov rbp, r8
                 jmp SOB_CLOSURE_CODE(rsi)
 
