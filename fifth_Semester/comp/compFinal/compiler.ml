@@ -2068,7 +2068,7 @@ module Code_Generation (* : CODE_GENERATION *) = struct
           ^ (Printf.sprintf "\tpush %d\n" (List.length params'))
           ^ "\tjmp L_error_incorrect_arity_opt\n"
  
-          ^ (Printf.sprintf "%s: ;Exact case\n" label_arity_exact)
+          ^(Printf.sprintf "%s: ;Exact case\n" label_arity_exact)
           ^(Printf.sprintf "\tmov r8, qword [rsp -%d * 0]\n" word_size)
           ^(Printf.sprintf "\tmov qword [rsp -%d], r8\n" word_size)
           ^(Printf.sprintf "\tmov r8, qword [rsp +%d]\n" word_size)

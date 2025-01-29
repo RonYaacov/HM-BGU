@@ -11,4 +11,6 @@
 
 (tail_lambda 5 arg_lambda)
 
+(define test_+ (lambda (x y) (+ x y)))
 
+(test_+ 1 5)
